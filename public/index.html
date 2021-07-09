@@ -95,6 +95,7 @@
       <h1 class="site-title">游戏人生</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">这就是最好的时代</p>
   </div>
 
   <div class="site-nav-right">
@@ -115,17 +116,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a>
 
   </li>
   </ul>
@@ -155,7 +151,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/04/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/09/%E6%9B%B42021-07-09-C++STL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -169,25 +165,460 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/04/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">搭建个人博客自我总结</a>
+            <a href="/2021/07/09/%E6%9B%B42021-07-09-C++STL/" class="post-title-link" itemprop="url">C++STL</a>
         </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
+                <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-04 18:00:56" itemprop="dateCreated datePublished" datetime="2021-07-04T18:00:56+08:00">2021-07-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
                 </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-05 21:11:23" itemprop="dateModified" datetime="2021-07-05T21:11:23+08:00">2021-07-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、STL初识"><a href="#始、STL初识" class="headerlink" title="始、STL初识"></a>始、STL初识</h3><p>STL(standard template library)标准模板库</p>
+<p>广义上分为容器、算法、迭代器（容器和算法之间通过迭代器无缝连接）</p>
+<p>六大组件：容器、算法、迭代器、仿函数、适配器、空间配置器</p>
+<p>​    <strong>容器</strong>：vector、list、deque、set、map等</p>
+<p>​    <strong>算法</strong>(Algorithms)：sort、find、copy、for_each等</p>
+<p>​    <strong>迭代器</strong>：扮演容器与算法之间的胶合剂（每个容器都有自己专属的迭代器），迭代器可以理解成<strong>指针</strong></p>
+<p>​    <strong>仿函数</strong>：类似函数，可作为算法的某种策略</p>
+<!---more--->
+
+<hr>
+<h3 id="一、vector容器"><a href="#一、vector容器" class="headerlink" title="一、vector容器"></a>一、vector容器</h3><p>vector容器可以理解成<strong>数组</strong></p>
+<p>初始化：<code>vector&lt;数据类型&gt; 容器名 (容器大小)</code></p>
+<p>容器输入：<code>容器名. push_back(数据)</code>，尾插法插入数据</p>
+<p>起始迭代器：<code>容器名. begin()</code>，指向第一个元素</p>
+<p>结束迭代器：<code>容器名. end()</code>，指向最后一个元素的下一个位置</p>
+<p>自定义专属迭代器：<code>vector&lt;数据类型&gt; : : iterator 迭代器名</code></p>
+<p>遍历算法：<code>for_each</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for_each(InputIterator beg, InputIterator end, Function f) &#123;</span><br><span class="line">  while(beg != end) </span><br><span class="line">    f(*beg++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="二、map-multimap容器"><a href="#二、map-multimap容器" class="headerlink" title="二、map/multimap容器"></a>二、map/multimap容器</h3><p>map容器可以理解成<strong>哈希表</strong></p>
+<p><strong>map中每个元素都是pair(对组元素)</strong></p>
+<p>pair中第一个元素为key(键值)，第二个元素为value(实值)</p>
+<p>所有元素会根据键值自动排序</p>
+<p>map不允许容器中有重复的key值</p>
+<p>multimap允许容器中有重复的key值</p>
+<p>默认构造：<code>map&lt;key类型, value类型&gt; 容器名</code></p>
+<p>拷贝构造：<code>map&lt;key类型, value类型&gt; 容器名 (拷贝容器名)</code></p>
+<p>赋值：<code>容器名 = 目标容器名</code></p>
+<p>插入数据：<code>容器名. insert(pair&lt;key类型, value类型&gt;(key, value))</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/08/2021-07-08-%E5%86%8D%E4%B8%B4Unity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/08/2021-07-08-%E5%86%8D%E4%B8%B4Unity/" class="post-title-link" itemprop="url">再临Unity</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="淦！"><a href="#淦！" class="headerlink" title="淦！"></a>淦！</h1><h3 id="始、整理"><a href="#始、整理" class="headerlink" title="始、整理"></a>始、整理</h3><p>​    闲来无事，想捣鼓一下unity，打开界面一脸懵逼。明明大学玩过一段时间的，这知识咋就不进脑子呢，又得重新学习</p>
+<!---more--->
+
+<hr>
+<h3 id="一、Unity快速入门"><a href="#一、Unity快速入门" class="headerlink" title="一、Unity快速入门"></a>一、Unity快速入门</h3><p>​    unity的布局和一些用过的工具多少有些联系，搞懂界面还是不难的，先从常用操作入手吧！正好找到一个最近的精简unity入门视频：</p>
+<p><a href="ttps://www.bilibili.com/video/BV1Yh411h7zk?p=2">游戏开发-Unity 光速入门</a></p>
+<hr>
+<h3 id="二、C"><a href="#二、C" class="headerlink" title="二、C#"></a>二、C#</h3><p>​    unity脚本编写用到c#，这语言光说入门还是比较轻松的：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1sy4y1u7cw">快速学完C#编程</a></p>
+<hr>
+<h3 id="三、像素画资源"><a href="#三、像素画资源" class="headerlink" title="三、像素画资源"></a>三、像素画资源</h3><p>​    做点2D像素风练练手，资源就用PS自己画吧：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1o4411V7dv">使用Photoshop绘制像素画</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/08/2021-07-08-%E5%92%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E4%BA%8C%E5%85%83%E5%AD%90%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/08/2021-07-08-%E5%92%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E4%BA%8C%E5%85%83%E5%AD%90%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">和相同的二元子数组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：和相同的二元子数组（力扣）"><a href="#题目：和相同的二元子数组（力扣）" class="headerlink" title="题目：和相同的二元子数组（力扣）"></a>题目：和相同的二元子数组（力扣）</h3><p>​    给你一个二元数组 <code>nums</code> ，和一个整数 <code>goal</code> ，请你统计并返回有多少个和为 <code>goal</code> 的 <strong>非空</strong> 子数组。</p>
+<p>​    <strong>子数组</strong> 是数组的一段连续部分。</p>
+<p>示例 1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,0,1,0,1], goal = 2</span><br><span class="line">输出：4</span><br><span class="line">解释：</span><br><span class="line">有 4 个满足题目要求的子数组：[1,0,1]、[1,0,1,0]、[0,1,0,1]、[1,0,1]</span><br></pre></td></tr></table></figure>
+
+<!---more--->
+
+<p>示例 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [0,0,0,0,0], goal = 0</span><br><span class="line">输出：15</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 3 * 104</code></p>
+</li>
+<li><p><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></p>
+</li>
+<li><p><code>0 &lt;= goal &lt;= nums.length</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    //滑动窗口法</span><br><span class="line">    //右指针逐渐向右，左一指针找到第一个符合的位置，左二指针找到最后一个符合的位置</span><br><span class="line">    int numSubarraysWithSum(vector&lt;int&gt;&amp; nums, int goal) &#123;</span><br><span class="line">        int left1 = 0, left2 = 0;</span><br><span class="line">        int n = nums.size();</span><br><span class="line">        int sum1 = 0, sum2 = 0;</span><br><span class="line">        int ret = 0;</span><br><span class="line"></span><br><span class="line">        for(int right = 0; right &lt; n; right++)&#123;</span><br><span class="line">            sum2 += nums[right];</span><br><span class="line">            sum1 += nums[right];</span><br><span class="line">            while(left2 &lt;= right &amp;&amp; sum2 &gt;= goal)&#123;</span><br><span class="line">                sum2 -= nums[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            while(left1 &lt; left2 &amp;&amp; sum1 &gt; goal)&#123;</span><br><span class="line">                sum1 -= nums[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ret += left2 - left1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="易错点："><a href="#易错点：" class="headerlink" title="易错点："></a>易错点：</h3><p>1.提示2<code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code>，所以不用判断相等的情况<code>if(sum == goal)</code></p>
+<p>2.三个只指针对应的大小关系，其中<code>left1 &lt;= left2 &lt;= right &lt;= nums.size()</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/%E6%9B%B42021-07-06-Unity%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/06/%E6%9B%B42021-07-06-Unity%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">unity游戏开发学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/%E6%9B%B42021-07-06-%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/06/%E6%9B%B42021-07-06-%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">剪辑视频自我总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、梳理"><a href="#始、梳理" class="headerlink" title="始、梳理"></a>始、梳理</h3><p>1.视频剪辑用强大的<strong>Premiere</strong></p>
+<p>2.因为目标是上传B站，而B站有CC字幕功能，可以视频和字幕分开做，减少工作量，这里选择：</p>
+<p><a target="_blank" rel="noopener" href="https://jianwai.youdao.com/index/0">网易见外工作台 (youdao.com)</a></p>
+<p>3.语音不想自己配音，使用了<strong>迅捷文字转换语音</strong></p>
+<!---more--->
+
+<hr>
+<h3 id="一、精简入门，了解Pr视频剪辑"><a href="#一、精简入门，了解Pr视频剪辑" class="headerlink" title="一、精简入门，了解Pr视频剪辑"></a>一、精简入门，了解Pr视频剪辑</h3><p>自认为学习新的软件使用不能一开始就看官网手册或完整教学，而是先获得一个大概的认知：</p>
+<p><a href="%5B10%E5%88%86%E9%92%9F%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bpremiere%E5%89%AA%E8%BE%91%EF%BC%81%E4%BB%85%E5%90%AB1%E5%8F%A5%E5%BA%9F%E8%AF%9D%EF%BC%8C%E5%85%A8%E7%A8%8B%E5%B9%B2%E8%B4%A7%E8%BE%93%E5%87%BA%EF%BC%8C%E5%B8%A6%E4%BD%A0%E4%BA%86%E8%A7%A3pr%E5%B7%A5%E4%BD%9C%E9%80%BB%E8%BE%91%EF%BC%8C%E6%96%B0%E4%BA%BA%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E8%A7%86%E9%A2%91%E5%89%AA%E8%BE%91%EF%BC%8C%E7%9C%9F%E7%9A%84%E5%A5%BD%E6%83%B3%E8%AE%A9%E4%BD%A0%E7%9C%8B%E5%88%B0%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%A0%87%E9%A2%98%E5%86%99%E8%BF%99%E4%B9%88%E9%95%BF%E6%9D%A5%E8%A1%A8%E8%BE%BE%E6%BF%80%E5%8A%A8%E7%9A%84%E5%BF%83%E6%83%85_%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9_bilibili%5D(https://www.bilibili.com/video/BV1h7411U7BX?from=search&seid=11730757113337564851)">10分钟快速上手premiere剪辑！</a></p>
+<hr>
+<h3 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/" class="post-title-link" itemprop="url">解决Github无法访问</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、修改host文件"><a href="#一、修改host文件" class="headerlink" title="一、修改host文件"></a>一、修改host文件</h3><p>​    在<strong>C:\Windows\System32\drivers\etc</strong>中打开<strong>host</strong>文件（可以用记事本打开），在该文件中添加如下内容。</p>
+<!---more--->
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># GitHub Start </span><br><span class="line">140.82.114.4 github.com</span><br><span class="line">140.82.114.4 gist.github.com</span><br><span class="line">185.199.108.153 assets-cdn.github.com</span><br><span class="line">151.101.64.133 raw.githubusercontent.com</span><br><span class="line">151.101.108.133 gist.githubusercontent.com</span><br><span class="line">151.101.108.133 cloud.githubusercontent.com</span><br><span class="line">151.101.108.133 camo.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars0.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars1.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars2.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars3.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars4.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars5.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars6.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars7.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars8.githubusercontent.com </span><br><span class="line"># GitHub End</span><br></pre></td></tr></table></figure>
+
+<p>保存文件，再次打开github速度飞快</p>
+<hr>
+<h3 id="二、win10修改文件读写的权限"><a href="#二、win10修改文件读写的权限" class="headerlink" title="二、win10修改文件读写的权限"></a>二、win10修改文件读写的权限</h3><p>​    windows系统可能遇到无法修改系统文件的问题</p>
+<p>​    1.找到要修改的文件</p>
+<p>​    2.右键→属性→安全→编辑→user</p>
+<p>​    3.在允许编辑那一栏打勾</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">搭建个人博客总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
+                </span>
+            </span>
 
           
 
@@ -202,21 +633,14 @@
       
           <h3 id="一、用Hexo在本地生成博客并部署（白嫖）到github"><a href="#一、用Hexo在本地生成博客并部署（白嫖）到github" class="headerlink" title="一、用Hexo在本地生成博客并部署（白嫖）到github"></a>一、用Hexo在本地生成博客并部署（白嫖）到github</h3><p>后半部分个性化博客的教学先不看：</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
-<h3 id="二、将博客的源代码也放到github托管"><a href="#二、将博客的源代码也放到github托管" class="headerlink" title="二、将博客的源代码也放到github托管"></a>二、将博客的源代码也放到github托管</h3><p>文章最后面还有作者引用的原文，两篇文章结合一起看：</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/baab04284923">Hexo | 怎么去备份你的Hexo博客</a></p>
-<h3 id="三、最后就是用我们的Typora来写作啦"><a href="#三、最后就是用我们的Typora来写作啦" class="headerlink" title="三、最后就是用我们的Typora来写作啦"></a>三、最后就是用我们的Typora来写作啦</h3><p>快捷键学不学无所谓，typora工具栏全都有：</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/156915260">Hexo博客写文章及基本操作</a></p>
-<h3 id="四、应用next主题以及个性化"><a href="#四、应用next主题以及个性化" class="headerlink" title="四、应用next主题以及个性化"></a>四、应用next主题以及个性化</h3><p>next和hexo好像还有版本适配的问题，我用旧版的next会把博客变成乱码，最终是这篇文章中的新版本适合我：</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60424755">hexo的next主题个性化配置</a></p>
-<h3 id="终、报错汇总"><a href="#终、报错汇总" class="headerlink" title="终、报错汇总"></a>终、报错汇总</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git g -d  </span><br></pre></td></tr></table></figure>
-
-<p>报错：<strong>fatal:  unable to access ‘h…://github.com/….github.io.git/</strong></p>
-<p>原因是git的代理出现问题？解决方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset git.proxy</span><br></pre></td></tr></table></figure>
-
-
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -297,20 +721,33 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">1</span>
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/NobitaChan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;NobitaChan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2272689905@qq.com" title="E-Mail → mailto:2272689905@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -339,8 +776,6 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Noobita Chan</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
 
         
 

@@ -20,17 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://example.com/tags/index.html">
+  <meta name="description" content="始、STL初识STL(standard template library)标准模板库 广义上分为容器、算法、迭代器（容器和算法之间通过迭代器无缝连接） 六大组件：容器、算法、迭代器、仿函数、适配器、空间配置器 ​    容器：vector、list、deque、set、map等 ​    算法(Algorithms)：sort、find、copy、for_each等 ​    迭代器：扮演容器与算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++STL">
+<meta property="og:url" content="http://example.com/2021/07/09/%E6%9B%B42021-07-09-C++STL/index.html">
 <meta property="og:site_name" content="游戏人生">
+<meta property="og:description" content="始、STL初识STL(standard template library)标准模板库 广义上分为容器、算法、迭代器（容器和算法之间通过迭代器无缝连接） 六大组件：容器、算法、迭代器、仿函数、适配器、空间配置器 ​    容器：vector、list、deque、set、map等 ​    算法(Algorithms)：sort、find、copy、for_each等 ​    迭代器：扮演容器与算">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-05T13:11:11.000Z">
-<meta property="article:modified_time" content="2021-07-05T13:12:45.443Z">
+<meta property="article:published_time" content="2021-07-09T12:53:36.000Z">
+<meta property="article:modified_time" content="2021-07-09T15:28:48.363Z">
 <meta property="article:author" content="Noobita Chan">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="map">
+<meta property="article:tag" content="vector">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/">
+<link rel="canonical" href="http://example.com/2021/07/09/%E6%9B%B42021-07-09-C++STL/">
 
 
 <script id="page-configurations">
@@ -38,13 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签 | 游戏人生
-</title>
+  <title>C++STL | 游戏人生</title>
   
 
 
@@ -147,51 +151,116 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/09/%E6%9B%B42021-07-09-C++STL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++STL
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">标签
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+                </span>
+            </span>
 
-<div class="post-meta">
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="始、STL初识"><a href="#始、STL初识" class="headerlink" title="始、STL初识"></a>始、STL初识</h3><p>STL(standard template library)标准模板库</p>
+<p>广义上分为容器、算法、迭代器（容器和算法之间通过迭代器无缝连接）</p>
+<p>六大组件：容器、算法、迭代器、仿函数、适配器、空间配置器</p>
+<p>​    <strong>容器</strong>：vector、list、deque、set、map等</p>
+<p>​    <strong>算法</strong>(Algorithms)：sort、find、copy、for_each等</p>
+<p>​    <strong>迭代器</strong>：扮演容器与算法之间的胶合剂（每个容器都有自己专属的迭代器），迭代器可以理解成<strong>指针</strong></p>
+<p>​    <strong>仿函数</strong>：类似函数，可作为算法的某种策略</p>
+<!---more--->
+
+<hr>
+<h3 id="一、vector容器"><a href="#一、vector容器" class="headerlink" title="一、vector容器"></a>一、vector容器</h3><p>vector容器可以理解成<strong>数组</strong></p>
+<p>初始化：<code>vector&lt;数据类型&gt; 容器名 (容器大小)</code></p>
+<p>容器输入：<code>容器名. push_back(数据)</code>，尾插法插入数据</p>
+<p>起始迭代器：<code>容器名. begin()</code>，指向第一个元素</p>
+<p>结束迭代器：<code>容器名. end()</code>，指向最后一个元素的下一个位置</p>
+<p>自定义专属迭代器：<code>vector&lt;数据类型&gt; : : iterator 迭代器名</code></p>
+<p>遍历算法：<code>for_each</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for_each(InputIterator beg, InputIterator end, Function f) &#123;</span><br><span class="line">  while(beg != end) </span><br><span class="line">    f(*beg++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="二、map-multimap容器"><a href="#二、map-multimap容器" class="headerlink" title="二、map/multimap容器"></a>二、map/multimap容器</h3><p>map容器可以理解成<strong>哈希表</strong></p>
+<p><strong>map中每个元素都是pair(对组元素)</strong></p>
+<p>pair中第一个元素为key(键值)，第二个元素为value(实值)</p>
+<p>所有元素会根据键值自动排序</p>
+<p>map不允许容器中有重复的key值</p>
+<p>multimap允许容器中有重复的key值</p>
+<p>默认构造：<code>map&lt;key类型, value类型&gt; 容器名</code></p>
+<p>拷贝构造：<code>map&lt;key类型, value类型&gt; 容器名 (拷贝容器名)</code></p>
+<p>赋值：<code>容器名 = 目标容器名</code></p>
+<p>插入数据：<code>容器名. insert(pair&lt;key类型, value类型&gt;(key, value))</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c++</a>
+              <a href="/tags/map/" rel="tag"># map</a>
+              <a href="/tags/vector/" rel="tag"># vector</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/08/2021-07-08-%E5%86%8D%E4%B8%B4Unity/" rel="prev" title="再临Unity">
+      <i class="fa fa-chevron-left"></i> 再临Unity
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              目前共计 15 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/c/" style="font-size: 30px; color: #111">c#</a> <a href="/tags/c/" style="font-size: 30px; color: #111">c++</a> <a href="/tags/git/" style="font-size: 12px; color: #ccc">git</a> <a href="/tags/github/" style="font-size: 30px; color: #111">github</a> <a href="/tags/hexo/" style="font-size: 12px; color: #ccc">hexo</a> <a href="/tags/map/" style="font-size: 12px; color: #ccc">map</a> <a href="/tags/next/" style="font-size: 12px; color: #ccc">next</a> <a href="/tags/pr/" style="font-size: 12px; color: #ccc">pr</a> <a href="/tags/ps/" style="font-size: 12px; color: #ccc">ps</a> <a href="/tags/typora/" style="font-size: 12px; color: #ccc">typora</a> <a href="/tags/unity/" style="font-size: 30px; color: #111">unity</a> <a href="/tags/vector/" style="font-size: 12px; color: #ccc">vector</a> <a href="/tags/windows/" style="font-size: 12px; color: #ccc">windows</a> <a href="/tags/%E5%83%8F%E7%B4%A0/" style="font-size: 12px; color: #ccc">像素</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%B3%95/" style="font-size: 12px; color: #ccc">滑动窗口法</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -242,6 +311,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A7%8B%E3%80%81STL%E5%88%9D%E8%AF%86"><span class="nav-text">始、STL初识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81vector%E5%AE%B9%E5%99%A8"><span class="nav-text">一、vector容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81map-multimap%E5%AE%B9%E5%99%A8"><span class="nav-text">二、map&#x2F;multimap容器</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
