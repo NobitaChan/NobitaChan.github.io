@@ -1,0 +1,37 @@
+body {
+    background:url(/assets/background.png);
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-position:50% 50%;
+    opacity: 0.95;
+    //可选
+    +mobile(){
+      //background-position: 0% -20%;https://i.loli.net/2018/12/29/5c270a0523154.jpg
+      //https://i.loli.net/2018/12/29/5c270fc2bfcad.png
+      background-image: url(https://ziyuan.lruihao.cn/images/bg_cell.png);
+      background-size: cover;
+    }
+}
+
+
+.post {
+   margin-top: 60px;
+   margin-bottom: 60px;
+   padding: 25px;
+   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+}
+
+
+//题头
+.site-meta {
+    background: $black; 
+}
+//主标题颜色
+.brand{
+    color: $white
+}
+//副标题颜色
+.site-subtitle{
+    color: $orange
+}
