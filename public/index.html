@@ -123,7 +123,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -228,6 +228,104 @@
 <p>发布到本地：<code>hexo s</code></p>
 <p>部署到github：<code>hexo clean</code> ， <code>hexo g -d</code></p>
 <p>备份源文件到github：<code>git add .</code> ， <code>git commit -m 备注</code> ，  <code>git push origin hexo</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/13/%E6%9B%B42021-07-13-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="游戏人生">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/13/%E6%9B%B42021-07-13-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">《Speed Down》Unity2d游戏开发（二）</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>上一次已经完成了场景搭建，那么这次的主要任务就是制作跳跃平台</p>
+<!---more--->
+
+<hr>
+<h3 id="一、普通平台"><a href="#一、普通平台" class="headerlink" title="一、普通平台"></a>一、普通平台</h3><p>1.选中pixel adventure 1 → assets → traps → falling platform 设置pixels per unit为16</p>
+<p>2.拖拽第一张图案到场景中，命名为BasePlatform</p>
+<p>3.新建BasePlatform的动画，将四个图案拖拽进动画中并调整采样率</p>
+<p>4.为BasePlatform添加碰撞器box collider 2d 并调整碰撞体积</p>
+<hr>
+<h3 id="二、旋转平台"><a href="#二、旋转平台" class="headerlink" title="二、旋转平台"></a>二、旋转平台</h3><p>1.前面的操作与上述普通平台相同，设置大小，命名，新建动画，添加碰撞器</p>
+<p>2.为了实现平台被碰撞时发生翻转，添加组件hinge joint 2d，可以设置旋转角度和速度等</p>
+<p>自动添加了rigidbody 2d，但是不取消也不会掉下来，为什么呢？</p>
+<p>猜测是joint关节会固定在背景里，超过一定的力才会 “脱臼”</p>
+<hr>
+<h3 id="三、弹跳平台"><a href="#三、弹跳平台" class="headerlink" title="三、弹跳平台"></a>三、弹跳平台</h3><p>1.找到pixel adventure 1 → assets → traps → fan ，设置大小，命名，添加碰撞器</p>
+<p>2.这里新建两个动画，一个是静止时的动画，一个是启动时的动画（弹跳）</p>
+<p>3.新建脚本，实现碰撞时平台切换到弹跳动画：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class FanRun : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Animator animator;</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        animator = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    private void OnCollisionEnter2D(Collision2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Player&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            animator.Play(&quot;Fan_run&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当标签为Player的物体碰撞到此平台时就会切换到启动动画啦</p>
+<hr>
+<h3 id="四、摆动链锤"><a href="#四、摆动链锤" class="headerlink" title="四、摆动链锤"></a>四、摆动链锤</h3><p>1.新建空物体SpikeBall，分别添加两个子物体pixel adventure 1 → assets → traps → spiked ball → 轴心和大锤</p>
+<p>2.调整父子物体的相对位置</p>
+<p>3.给大锤添加组件Distance Joint 2D，给轴心添加rigid body 2d并拖拽到大锤的链接体</p>
+<p>4.给大锤添加碰撞体circle collider 2d</p>
+<hr>
+<h3 id="五、脚本实现平台上升"><a href="#五、脚本实现平台上升" class="headerlink" title="五、脚本实现平台上升"></a>五、脚本实现平台上升</h3><p>新建脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlatformUp : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Vector3 movement;</span><br><span class="line">    public float speed;</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        movement.y = speed;</span><br><span class="line">    &#125;</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        MovePlatform();</span><br><span class="line">    &#125;</span><br><span class="line">    void MovePlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += movement * Time.deltaTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并挂载到所有的平台建筑下，这样就实现了平台的持续上升</p>
+<hr>
+<h3 id="六、设置平台天花板"><a href="#六、设置平台天花板" class="headerlink" title="六、设置平台天花板"></a>六、设置平台天花板</h3><p>平台总不能一直上升，要设置一个天花板，当平台到达天花板时就摧毁物体</p>
+<p>1.新建空物体TopLine移动到上方合适的位置，作为天花板</p>
+<p>2.在平台的上升代码中添加判断到达天花板的检测：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlatformUp : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Vector3 movement;</span><br><span class="line">    public float speed;</span><br><span class="line">    GameObject topLine;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        movement.y = speed;</span><br><span class="line">        topLine = GameObject.Find(&quot;TopLine&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        MovePlatform();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void MovePlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += movement * Time.deltaTime;</span><br><span class="line">        if(transform.position.y &gt; topLine.transform.position.y)</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成！平台到位自动销毁</p>
+<hr>
+<h3 id="终、总结"><a href="#终、总结" class="headerlink" title="终、总结"></a>终、总结</h3><p>平台的制作到这就结束了！用到了几个joint组件，十分有趣</p>
 
       
     </div>
@@ -499,7 +597,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/%E6%9B%B42021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -513,7 +611,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/06/%E6%9B%B42021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">《Speed Down》Unity2d游戏开发（一）</a>
+            <a href="/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">《Speed Down》Unity2d游戏开发（一）</a>
         </h2>
 
         <div class="post-meta">
@@ -872,7 +970,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -885,7 +983,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
