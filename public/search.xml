@@ -15,8 +15,110 @@
       </categories>
   </entry>
   <entry>
+    <title>《Speed Down》Unity2d游戏开发（四）</title>
+    <url>/2021/07/14/%E6%9B%B42021-07-14-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、阶段调整"><a href="#始、阶段调整" class="headerlink" title="始、阶段调整"></a>始、阶段调整</h3><p>这次不做新功能，先停一停把之前的东西调整一下，细节<del>太细了</del></p>
+<!---more--->
+
+<hr>
+<h3 id="一、图案模糊"><a href="#一、图案模糊" class="headerlink" title="一、图案模糊"></a>一、图案模糊</h3><p>顶部尖刺看起来有些模糊</p>
+<p>1.找到尖刺的图案，将Advanced → Filter Mode 修改成Point</p>
+<p>检查所有的图案是否模糊，套用这个方法</p>
+<hr>
+<h3 id="二、修改背景颜色"><a href="#二、修改背景颜色" class="headerlink" title="二、修改背景颜色"></a>二、修改背景颜色</h3><p>1.选择主相机，修改Camera → Background 到喜欢的颜色</p>
+<hr>
+<h3 id="三、给链锤添加链子？"><a href="#三、给链锤添加链子？" class="headerlink" title="三、给链锤添加链子？"></a>三、给链锤添加链子？</h3><p>听起来有点奇怪，但是我的链锤现在确实是没有链子，看起来像是原力驱动</p>
+<p>1.给链锤整体添加组件Line Renderer，选择喜欢材质、颜色、粗细，并把Position → Size改成2</p>
+<p>2.添加脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SpikeBallLine : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    LineRenderer line;</span><br><span class="line">    public Transform begin;</span><br><span class="line">    public Transform end;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        line = GetComponent&lt;LineRenderer&gt;();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        line.SetPosition(0, begin.position);</span><br><span class="line">        line.SetPosition(1, end.position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>挂载到链锤父物体上，注意脚本和线组件是同一级别的</p>
+<hr>
+<h3 id="四、保存预制体"><a href="#四、保存预制体" class="headerlink" title="四、保存预制体"></a>四、保存预制体</h3><p>为了可以持续不断地随机生成平台，需要将平台保存为预制体</p>
+<p>1.创建prefabs文件夹，并把平台和人物添加到其中</p>
+<p><strong>Prefab是什么？</strong></p>
+<p>当制作好了游戏组件（场景中的任意一个gameobject）,我们希望将它制作成一个组件模版，用于批量的套用工作，例如说场景中本质上要重复使用的东西，比如：敌人、士兵、子弹或者一个砖块完全相同的墙体。这里说本质是因为默认生成的prefab其实和模版是一模一样的。就像是克隆体，但生成的位置、角度或者一些属性不同（这个就好像c++里边的类一样）；</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>prefab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Speed Down》Unity2d游戏开发（三）</title>
+    <url>/2021/07/14/2021-07-14-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>背景和障碍物都搭建完毕了，现在来制作我们操作的主角！（洗个衣服先…）</p>
+<!---more--->
+
+<hr>
+<h3 id="一、添加动画及组件"><a href="#一、添加动画及组件" class="headerlink" title="一、添加动画及组件"></a>一、添加动画及组件</h3><p>1.先选中资源中喜欢的角色，修改所有精灵图的ppu为32</p>
+<p>2.制作动画，idle、run、jump、hit</p>
+<p>3.添加组件rigidbody 2d并且勾选constraints → freeze rotation → z 以此锁定z轴，防止碰撞时产生z轴翻转</p>
+<p>4.添加碰撞组件box collider 2d</p>
+<hr>
+<h3 id="二、脚本控制主角"><a href="#二、脚本控制主角" class="headerlink" title="二、脚本控制主角"></a>二、脚本控制主角</h3><p>添加脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerController : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Rigidbody2D rb;</span><br><span class="line">    Animator anim;</span><br><span class="line">    public float speed;</span><br><span class="line">    float xVelocity;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">        anim = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        Movement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Movement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxisRaw(&quot;Horizontal&quot;);</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line"></span><br><span class="line">        if(xVelocity != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            transform.localScale = new Vector3(xVelocity, 1, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>挂载到角色上，就可以用方向键控制左右移动了（wsad也可以）</p>
+<p>并且<code>transform.localScale = new Vector3(xVelocity, 1, 1);</code>还实现了图案的左右翻转（之前我还傻傻地自己画各个方向的图）</p>
+<hr>
+<h3 id="三、切换跑步动画"><a href="#三、切换跑步动画" class="headerlink" title="三、切换跑步动画"></a>三、切换跑步动画</h3><p>1.打开player的Animator界面，相互连接idle和run，新建speed变量，设置idle转换为run的条件为speed大于0.1，run转换为idle的条件为speed小于0.1，同时记得调整转换时间和混合时间等设置（这里全部取消）</p>
+<p>2.在<code>void Movement()</code>中添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">anim.SetFloat(&quot;speed&quot;, Mathf.Abs(rb.velocity.x));</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="四、切换下落动画"><a href="#四、切换下落动画" class="headerlink" title="四、切换下落动画"></a>四、切换下落动画</h3><p>1.动画all和idle相互连接，创建isOnGround变量来检测是否在平台上，把所有平台的Layer都改成新的Platform</p>
+<p>2.添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public bool isOnGround;</span><br><span class="line">public float checkRadius;</span><br><span class="line">public LayerMask layer;</span><br><span class="line">public GameObject groundCheck;</span><br><span class="line"></span><br><span class="line">void Update()</span><br><span class="line">&#123;</span><br><span class="line">    Movement();</span><br><span class="line">    isOnGround = Physics2D.OverlapCircle(groundCheck.transform.position, checkRadius, layer);</span><br><span class="line">    anim.SetBool(&quot;isOnGround&quot;, isOnGround);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>3.在角色物体下方添加子物体CheckPoint并拖拽入角色的检测点位置</p>
+<p>4.修改参数就可以实现踩到平台时触发isOnGround，并且由fall动画转换到idle动画</p>
+<p>但是现在看不见检测范围，只能大致估计，怎么办呢？</p>
+<p>小技巧：添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">private void OnDrawGizmosSelected()</span><br><span class="line">&#123;</span><br><span class="line">    Gizmos.color = Color.green;</span><br><span class="line">    Gizmos.DrawWireSphere(groundCheck.transform.position, checkRadius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码是unity内置的方法，可以把检测范围可视化</p>
+<hr>
+<h3 id="五、切换死亡动画"><a href="#五、切换死亡动画" class="headerlink" title="五、切换死亡动画"></a>五、切换死亡动画</h3><p>1.修改尖刺的tag为新的Spike，状态机新建trigger型变量isDead，将Any State 连接到hit调整转换条件，这样就可以从任何状态转换到死亡状态</p>
+<p>2.添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">private void OnTriggerEnter2D(Collider2D collision)</span><br><span class="line">&#123;</span><br><span class="line">    if (collision.CompareTag(&quot;Spike&quot;))</span><br><span class="line">    &#123;</span><br><span class="line">        anim.SetTrigger(&quot;isDead&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就实现了播放死亡动画，接下来再加一个表示角色死亡的标志</p>
+<p>3.添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public bool playerDead;</span><br><span class="line"></span><br><span class="line">public void PlayerDead()</span><br><span class="line">&#123;</span><br><span class="line">    playerDead = true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.找到玩家死亡的动画效果，在最后一帧添加函数<code>PlayerDead()</code></p>
+<hr>
+<h3 id="六、实现跳跃平台的跳跃效果"><a href="#六、实现跳跃平台的跳跃效果" class="headerlink" title="六、实现跳跃平台的跳跃效果"></a>六、实现跳跃平台的跳跃效果</h3><p>1.设置跳跃平台的tag为新的Fan</p>
+<p>2.添加代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public float bounceH;</span><br><span class="line"></span><br><span class="line">private void OnCollisionEnter2D(Collision2D collision)</span><br><span class="line">&#123;</span><br><span class="line">    if (collision.gameObject.CompareTag(&quot;Fan&quot;))</span><br><span class="line">    &#123;</span><br><span class="line">        rb.velocity = new Vector2(rb.velocity.x, bounceH);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样以来，角色碰到跳跃平台时就会给rigidbody产生向上的大小为bounceH的力（就是被打飞了）</p>
+<p>发现之前说好的跳跃平台碰到角色会转起来现在好像没有转，原来是主角的tag没有设置成Player</p>
+<p>完美！</p>
+<hr>
+<h3 id="终、吐槽"><a href="#终、吐槽" class="headerlink" title="终、吐槽"></a>终、吐槽</h3><p>角色的各种动画转换也太复杂了！难道每次添加一个新的动作就要和所有的动作一起调整吗，天啊！有没有简单的方法啊，快浇浇我吧！</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>collider</tag>
+        <tag>animator</tag>
+        <tag>trigger</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《Speed Down》Unity2d游戏开发（二）</title>
-    <url>/2021/07/13/%E6%9B%B42021-07-13-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <url>/2021/07/13/2021-07-13-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>上一次已经完成了场景搭建，那么这次的主要任务就是制作跳跃平台</p>
 <!---more--->
 
@@ -73,8 +175,9 @@
     <content><![CDATA[<h3 id="始、STL初识"><a href="#始、STL初识" class="headerlink" title="始、STL初识"></a>始、STL初识</h3><p>STL(standard template library)标准模板库</p>
 <p>广义上分为容器、算法、迭代器（容器和算法之间通过迭代器无缝连接）</p>
 <p>六大组件：容器、算法、迭代器、仿函数、适配器、空间配置器</p>
+<p><strong>主要学习以下四个：</strong></p>
 <p>​    <strong>容器</strong>：vector、list、deque、set、map等</p>
-<p>​    <strong>算法</strong>(Algorithms)：sort、find、copy、for_each等</p>
+<p>​    **算法(Algorithms)**：sort、find、copy、for_each等</p>
 <p>​    <strong>迭代器</strong>：扮演容器与算法之间的胶合剂（每个容器都有自己专属的迭代器），迭代器可以理解成<strong>指针</strong></p>
 <p>​    <strong>仿函数</strong>：类似函数，可作为算法的某种策略</p>
 <!---more--->
@@ -86,13 +189,14 @@
 <p>起始迭代器：<code>容器名. begin()</code>，指向第一个元素</p>
 <p>结束迭代器：<code>容器名. end()</code>，指向最后一个元素的下一个位置</p>
 <p>自定义专属迭代器：<code>vector&lt;数据类型&gt; : : iterator 迭代器名</code></p>
-<p>遍历算法：<code>for_each</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for_each(InputIterator beg, InputIterator end, Function f) &#123;</span><br><span class="line">  while(beg != end) </span><br><span class="line">    f(*beg++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二、遍历算法：for-each"><a href="#二、遍历算法：for-each" class="headerlink" title="二、遍历算法：for_each"></a>二、遍历算法：<code>for_each</code></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for_each(InputIterator beg, InputIterator end, Function f) &#123;</span><br><span class="line">  while(beg != end) </span><br><span class="line">    f(*beg++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 
 
 <hr>
-<h3 id="二、map-multimap容器"><a href="#二、map-multimap容器" class="headerlink" title="二、map/multimap容器"></a>二、map/multimap容器</h3><p>map容器可以理解成<strong>哈希表</strong></p>
+<h3 id="三、map-multimap容器"><a href="#三、map-multimap容器" class="headerlink" title="三、map/multimap容器"></a>三、map/multimap容器</h3><p>map容器可以理解成<strong>哈希表</strong></p>
 <p><strong>map中每个元素都是pair(对组元素)</strong></p>
 <p>pair中第一个元素为key(键值)，第二个元素为value(实值)</p>
 <p>所有元素会根据键值自动排序</p>
