@@ -15,10 +15,372 @@
       </categories>
   </entry>
   <entry>
+    <title>《Robbie Swifthand》Unity2d独立游戏学习（二）</title>
+    <url>/2021/07/19/2021-07-19-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="一、添加物理组件"><a href="#一、添加物理组件" class="headerlink" title="一、添加物理组件"></a>一、添加物理组件</h3><p>1.给Platforms 添加Tilemap Collider 2D，勾选Used By Composite，添加Composite Collider 2D</p>
+<p>2.将Platforms自动添加的Rigidbody 2D 选择成Static 模式</p>
+<p>3.给主角添加Rigidbody 2D，把Collision Detection选择成Continuous连续不断地检测碰撞，把Interpolate 设置成Interpolate产生碰撞时会有一个缓冲的效果</p>
+<p>4.添加Box Collider 2D，调整主角碰撞器大小，size - y 最好设置在 2 以下，这样就可以通过两格高的空间</p>
+<p>5.运行，发现在角落处下落会导致角色翻转，需要在主角Rigidbody 2D 中锁定 z 轴</p>
+<p>6.为了避免角色碰到墙壁时会卡进墙体里，给主角Box Collider 2D添加Material 物理材质Teflon（资源包里的，摩擦力和弹力都是0）</p>
+<p>7.新增Layer ，主角设置成Player，Platforms 设置成Ground，以供后面进行碰撞检测</p>
+<hr>
+<h3 id="二、角色移动"><a href="#二、角色移动" class="headerlink" title="二、角色移动"></a>二、角色移动</h3><p>1.在Scripts文件夹新建PlayerMovement脚本，编写代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerMovement : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    private Rigidbody2D rb;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;移动参数&quot;)]</span><br><span class="line">    public float speed = 10f;</span><br><span class="line">    public float crouchSpeedDivisor = 5f;</span><br><span class="line">    private float xVelocity;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()//每帧调用</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void FixedUpdate()//每一段时间调用，默认0.02s</span><br><span class="line">    &#123;</span><br><span class="line">        GroundMovement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void GroundMovement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxis(&quot;Horizontal&quot;);//-1f ~ 1f</span><br><span class="line">        //在FixedUpdate()中调用无需Time.deltatime</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        flipDirection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void flipDirection()</span><br><span class="line">    &#123;</span><br><span class="line">        if (xVelocity &gt; 0) transform.localScale = new Vector2 (1, 1);</span><br><span class="line">        else if (xVelocity &lt; 0) transform.localScale = new Vector2(-1, 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>键盘左右键可以让主角左右移动，并且会改变图案方向</p>
+<hr>
+<h3 id="三、下蹲"><a href="#三、下蹲" class="headerlink" title="三、下蹲"></a>三、下蹲</h3><p>1.打开Edit - Project Settings - Input ，复制Jump 命名为Crouch，Positive Button 改为down，Alt Positive Button 改为 s</p>
+<p>2.修改角色移动代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerMovement : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    private Rigidbody2D rb;</span><br><span class="line">    private BoxCollider2D cd;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;移动参数&quot;)]</span><br><span class="line">    public float speed = 10f;</span><br><span class="line">    public float crouchSpeedFactor = 0.5f;</span><br><span class="line">    private float xVelocity;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;角色状态&quot;)]</span><br><span class="line">    public bool isCrouch;</span><br><span class="line"></span><br><span class="line">    //碰撞体尺寸</span><br><span class="line">    private Vector2 crouchOffset;</span><br><span class="line">    private Vector2 crouchSize;</span><br><span class="line">    private Vector2 standOffset;</span><br><span class="line">    private Vector2 standSize;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">        cd = GetComponent&lt;BoxCollider2D&gt;();</span><br><span class="line"></span><br><span class="line">        standOffset = cd.offset;</span><br><span class="line">        standSize = cd.size;</span><br><span class="line">        crouchOffset = new Vector2(standOffset.x, standOffset.y * 0.5f);</span><br><span class="line">        crouchSize = new Vector2(standSize.x, standSize.y * 0.5f);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void Update()//每帧调用</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private void FixedUpdate()//每一段时间调用，默认0.02s</span><br><span class="line">    &#123;</span><br><span class="line">        GroundMovement();</span><br><span class="line">    &#125;</span><br><span class="line">    void GroundMovement()//移动的各种数值</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxis(&quot;Horizontal&quot;);//-1f ~ 1f</span><br><span class="line">        if (Input.GetButton(&quot;Crouch&quot;)) Crouch();</span><br><span class="line">        else if (isCrouch) StandUp();</span><br><span class="line"></span><br><span class="line">        //在FixedUpdate()中调用无需Time.deltatime</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        flipDirection();</span><br><span class="line">    &#125;</span><br><span class="line">    void flipDirection()//改变角色图案方向</span><br><span class="line">    &#123;</span><br><span class="line">        if (xVelocity &gt; 0) transform.localScale = new Vector2 (1, 1);</span><br><span class="line">        else if (xVelocity &lt; 0) transform.localScale = new Vector2(-1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Crouch()//下蹲时的各种改变</span><br><span class="line">    &#123;</span><br><span class="line">        isCrouch = true;</span><br><span class="line">        xVelocity *= crouchSpeedFactor;</span><br><span class="line">        cd.size = crouchSize;</span><br><span class="line">        cd.offset = crouchOffset;</span><br><span class="line">    &#125;</span><br><span class="line">    void StandUp()//从下蹲转变为站立时各种变化</span><br><span class="line">    &#123;</span><br><span class="line">        isCrouch = false;</span><br><span class="line">        xVelocity /= crouchSpeedFactor;</span><br><span class="line">        cd.size = standSize;</span><br><span class="line">        cd.offset = standOffset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>顺便给每个函数添加了注释</p>
+<p>现在，按下s键或者方向下键就会让角色的碰撞体 “蹲下” （移动速度变慢并且碰撞体高度减半）</p>
+<p>测试一下确实可以通过高度为1的障碍了，但是在经过障碍的途中如果松开下蹲键，就会穿模卡在墙里，因为缺少了在通过障碍时需要持续下蹲的判断，这一部分放到后面再处理</p>
+<hr>
+<h3 id="四、跳跃"><a href="#四、跳跃" class="headerlink" title="四、跳跃"></a>四、跳跃</h3><p>1.打开Edit - Project Setting - Physics 2D，将 y 轴重力改大一点，这里改为-50</p>
+<p>2.先添加与跳跃有关的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;跳跃参数&quot;)]</span><br><span class="line">public float jumpForce = 5f;</span><br><span class="line">public float jumpHoldForce = 3f;</span><br><span class="line">public float jumpHoldDuration = 0.1f;</span><br><span class="line">public float crouchJumpBoost = 3f;</span><br><span class="line">float jumpTime;</span><br></pre></td></tr></table></figure>
+
+<p>其中jumpTime 是允许长按跳跃加高的时间</p>
+<p>3.添加判断各种状态的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;按键状态&quot;)]</span><br><span class="line">public bool jumpPressed;</span><br><span class="line">public bool jumpHeld;</span><br><span class="line">public bool crouchHeld;</span><br><span class="line"></span><br><span class="line">[Header(&quot;角色状态&quot;)]</span><br><span class="line">public bool isCrouch;</span><br><span class="line">public bool isOnGround;</span><br><span class="line">public bool isJump;</span><br><span class="line"></span><br><span class="line">[Header(&quot;环境检测&quot;)]</span><br><span class="line">public LayerMask groundLayer;</span><br></pre></td></tr></table></figure>
+
+<p>同时可以更新一下之前的下蹲判断，用刚刚定义的状态参数</p>
+<p>4.在Update（）中获取按键信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void Update()//每帧调用</span><br><span class="line">&#123;</span><br><span class="line">    //GetButtonDown不能直接等于，FixedUpdate中的函数可能会检测不到Update中的变化</span><br><span class="line">    if (Input.GetButtonDown(&quot;Jump&quot;)) jumpPressed = true;</span><br><span class="line"></span><br><span class="line">    jumpHeld = Input.GetButton(&quot;Jump&quot;);</span><br><span class="line">    crouchHeld = Input.GetButton(&quot;Crouch&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.添加判断是否在地面上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void PhysicsCheck()//检测是否在地面，并修改状态</span><br><span class="line">   &#123;</span><br><span class="line">       isOnGround = cd.IsTouchingLayers(groundLayer);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>记得在FixedUpdate（）中调用，物理性质都推荐放在FixedUpdate中</p>
+<p>6.添加跳跃函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void MidAirMovement()//跳跃移动</span><br><span class="line">&#123;</span><br><span class="line">    if(jumpPressed &amp;&amp; isOnGround &amp;&amp; !isJump)//起跳</span><br><span class="line">    &#123;</span><br><span class="line">        if(crouchHeld)//判断是否要蹲跳</span><br><span class="line">        &#123;</span><br><span class="line">            rb.AddForce(new Vector2(0f, crouchJumpBoost), ForceMode2D.Impulse);</span><br><span class="line">        &#125;</span><br><span class="line">        jumpTime = Time.time + jumpHoldDuration;</span><br><span class="line">        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);</span><br><span class="line">        jumpPressed = false;</span><br><span class="line">        isJump = true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    else if(isJump)</span><br><span class="line">    &#123;</span><br><span class="line">        if (jumpHeld) rb.AddForce(new Vector2(0f, jumpHoldForce), ForceMode2D.Impulse);</span><br><span class="line">        if (jumpTime &lt; Time.time) isJump = false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>精髓就是<code>jumpTime = Time.time + jumpHoldDuration;</code>，<code>if (jumpTime &lt; Time.time) isJump = false;</code> </p>
+<p>这两句代码可以很好地对能否在空中持续加速进行判断</p>
+<hr>
+<h3 id="终、总结"><a href="#终、总结" class="headerlink" title="终、总结"></a>终、总结</h3><p>这次的跳跃代码真的收获不少，Update和FixedUpdate可以理解成完全独立的两个函数</p>
+<p>这一波折腾下来角色控制脚本 PlayerMovement 有点长了，这里先全部放上来记录一下，以便日后回顾</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerMovement : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    //组件</span><br><span class="line">    private Rigidbody2D rb;</span><br><span class="line">    private BoxCollider2D cd;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;移动参数&quot;)]</span><br><span class="line">    public float speed = 10f;</span><br><span class="line">    public float crouchSpeedFactor = 0.5f;</span><br><span class="line">    float xVelocity;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;跳跃参数&quot;)]</span><br><span class="line">    public float jumpForce = 5f;</span><br><span class="line">    public float jumpHoldForce = 3f;</span><br><span class="line">    public float jumpHoldDuration = 0.1f;</span><br><span class="line">    public float crouchJumpBoost = 3f;</span><br><span class="line">    float jumpTime;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;按键状态&quot;)]</span><br><span class="line">    public bool jumpPressed;</span><br><span class="line">    public bool jumpHeld;</span><br><span class="line">    public bool crouchHeld;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;角色状态&quot;)]</span><br><span class="line">    public bool isCrouch;</span><br><span class="line">    public bool isOnGround;</span><br><span class="line">    public bool isJump;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;环境检测&quot;)]</span><br><span class="line">    public LayerMask groundLayer;</span><br><span class="line"></span><br><span class="line">    //碰撞体尺寸</span><br><span class="line">    private Vector2 crouchOffset;</span><br><span class="line">    private Vector2 crouchSize;</span><br><span class="line">    private Vector2 standOffset;</span><br><span class="line">    private Vector2 standSize;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //获取组件</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">        cd = GetComponent&lt;BoxCollider2D&gt;();</span><br><span class="line"></span><br><span class="line">        //初始化</span><br><span class="line">        standOffset = cd.offset;</span><br><span class="line">        standSize = cd.size;</span><br><span class="line">        crouchOffset = new Vector2(standOffset.x, standOffset.y * 0.5f);</span><br><span class="line">        crouchSize = new Vector2(standSize.x, standSize.y * 0.5f);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void Update()//每帧调用</span><br><span class="line">    &#123;</span><br><span class="line">        //GetButtonDown不能直接等于，FixedUpdate中的函数可能会检测不到Update中的变化</span><br><span class="line">        if (Input.GetButtonDown(&quot;Jump&quot;)) jumpPressed = true;</span><br><span class="line"></span><br><span class="line">        jumpHeld = Input.GetButton(&quot;Jump&quot;);</span><br><span class="line">        crouchHeld = Input.GetButton(&quot;Crouch&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private void FixedUpdate()//每一段时间调用，unity默认0.02s</span><br><span class="line">    &#123;</span><br><span class="line">        PhysicsCheck();</span><br><span class="line">        GroundMovement();</span><br><span class="line">        MidAirMovement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void PhysicsCheck()//检测是否在地面，并修改状态</span><br><span class="line">    &#123;</span><br><span class="line">        isOnGround = cd.IsTouchingLayers(groundLayer);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void GroundMovement()//移动的各种数值</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxis(&quot;Horizontal&quot;);//-1f ~ 1f</span><br><span class="line">        if (crouchHeld &amp;&amp; !isCrouch &amp;&amp; isOnGround) Crouch();</span><br><span class="line">        else if ((isCrouch &amp;&amp; !crouchHeld) || isJump) StandUp();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //在FixedUpdate()中调用无需Time.deltatime</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        flipDirection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void MidAirMovement()//跳跃移动</span><br><span class="line">    &#123;</span><br><span class="line">        if(jumpPressed &amp;&amp; isOnGround &amp;&amp; !isJump)//起跳</span><br><span class="line">        &#123;</span><br><span class="line">            if(crouchHeld)//判断是否要蹲跳</span><br><span class="line">            &#123;</span><br><span class="line">                rb.AddForce(new Vector2(0f, crouchJumpBoost), ForceMode2D.Impulse);</span><br><span class="line">            &#125;</span><br><span class="line">            jumpTime = Time.time + jumpHoldDuration;</span><br><span class="line">            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);</span><br><span class="line">            jumpPressed = false;</span><br><span class="line">            isJump = true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        else if(isJump)</span><br><span class="line">        &#123;</span><br><span class="line">            if (jumpHeld) rb.AddForce(new Vector2(0f, jumpHoldForce), ForceMode2D.Impulse);</span><br><span class="line">            if (jumpTime &lt; Time.time) isJump = false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void flipDirection()//改变角色图案方向</span><br><span class="line">    &#123;</span><br><span class="line">        if (xVelocity &gt; 0) transform.localScale = new Vector2 (1, 1);</span><br><span class="line">        else if (xVelocity &lt; 0) transform.localScale = new Vector2(-1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Crouch()//下蹲时的各种改变</span><br><span class="line">    &#123;</span><br><span class="line">        isCrouch = true;</span><br><span class="line">        xVelocity *= crouchSpeedFactor;</span><br><span class="line">        cd.size = crouchSize;</span><br><span class="line">        cd.offset = crouchOffset;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void StandUp()//从下蹲转变为站立时各种变化</span><br><span class="line">    &#123;</span><br><span class="line">        isCrouch = false;</span><br><span class="line">        xVelocity /= crouchSpeedFactor;</span><br><span class="line">        cd.size = standSize;</span><br><span class="line">        cd.offset = standOffset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>update</tag>
+        <tag>time</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Robbie Swifthand》Unity2d独立游戏学习（一）</title>
+    <url>/2021/07/18/2021-07-18-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>继续跟M大学习unity2d开发，这次是《从独立游戏学习开发》系列，我们将从一款已经上架steam的独立游戏《Robbie Swifthand and the Orb of Mysteries》中学习</p>
+<p>版本：</p>
+<p>unity 2021.1.12f1c1</p>
+<p>vs 2019</p>
+<p>unityhub 2.1.14</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、导入资源"><a href="#一、导入资源" class="headerlink" title="一、导入资源"></a>一、导入资源</h3><p>1.资源地址：<a href="https://pan.baidu.com/s/1c0I1pO7Rr8w4s4SGcfscHA">https://pan.baidu.com/s/1c0I1pO7Rr8w4s4SGcfscHA</a></p>
+<p>提取码:   a338</p>
+<p>2.新建2d unity项目，界面左上角工具栏中Assets - import package - custom assets ，导入刚刚下载的资源</p>
+<p>3.导入过程中提示更新API，选择“Yes”</p>
+<p>4.导入完成后发现脚本报错，原因是我的新版unity自带的脚本和资源里的有冲突，需要删除对应的新脚本</p>
+<hr>
+<h3 id="二、整理资源"><a href="#二、整理资源" class="headerlink" title="二、整理资源"></a>二、整理资源</h3><p>导入工作完成后Assets文件夹下出现了大量的文件夹，先看看他们都是些什么</p>
+<p>1._Extended：额外的扩展包，后期需要用到的资源</p>
+<p>2.Addons：插件，新版本unity有自带的，这里需要删掉</p>
+<p>3.Audio：音乐素材</p>
+<p>4.Fonts：字体</p>
+<p>5.Gizmos：小插件，这里包含2D摄像机跟踪</p>
+<p>6.Level：背景前景素材，用于制作透视效果</p>
+<p>7.Props：道具，里面是一些游戏元素的预制体</p>
+<p>8.Robbie：本游戏主角，包含主角的素材、动画等</p>
+<p>9.Scripts：脚本，包含几个简单代码，其他的自己写</p>
+<p>10.Tilemaps：用来存放游戏素材，即项目中正在用的素材（为啥得用他给我的文件夹，我就不）</p>
+<p>11.UI：用户界面用到的素材</p>
+<p>12.VFX：特效</p>
+<hr>
+<h3 id="三、绘制背景准备工作"><a href="#三、绘制背景准备工作" class="headerlink" title="三、绘制背景准备工作"></a>三、绘制背景准备工作</h3><p>1.找到windows - 2D - Tile Palette调出调色板窗口</p>
+<p>2.新建调色板，起名Background，存放到Tilemap文件夹里新建的Palettes文件夹</p>
+<p>3.将Level中的素材BG walls 拖入调色板里，保存到Tilemap - Tile 新建的Background文件夹</p>
+<p>4.重复2~3步骤，制作Platform和Shadow的调色板，同样管理好切割的瓦片</p>
+<p>5.在调色板界面中点击Edit 就可以修改调色板的素材（界面中几个画画工具都玩一下）</p>
+<p>6.在Hierarchy中新建2D Object - Tilemap ，命名为Background</p>
+<p>7.在调色板Active Tilemap 中可以选择要绘制的对象</p>
+<p>8.同样地，在Grid 父物体下新建Tilemap 三个物体，分别命名Background Detailed、Shadow、Platform</p>
+<p>9.设置Sorting Layer，添加四种，分别为Background、Platform、Player、Foreground（Sorting Layer 中越往下排的层级在镜头中越靠前）</p>
+<p>10.分别设置Tilemap的Sorting Layer ，其中Order In Layer 又可以在同Layer 中再排序一次</p>
+<p>（设置都要套娃？）</p>
+<p>11.拖入主角Robbie，设置Sorting Layer 为Player</p>
+<hr>
+<h3 id="四、设置Rule-Tile"><a href="#四、设置Rule-Tile" class="headerlink" title="四、设置Rule Tile"></a>四、设置Rule Tile</h3><p>Rule Tile 是超强的瓦片绘制工具，通过设定瓦片生成规则，实现利用一个瓦片就可以任意拖拽生成各种不规则图案。新版本的unity已经成为内置功能，可以直接创建使用</p>
+<p>1.在Tilemaps - Tile - Backgrounds中新建Rule Tile，命名为BG rule ，默认图片随便选个背景瓦片</p>
+<p>2.添加瓦片，并给每个瓦片设置规则，上面的规则比下面的规则优先。</p>
+<p>规则为：检测九宫格中是否存在其他同样在列表中的瓦片，绿色箭头表示那个方向<strong>必</strong>存在此类瓦片，红色叉叉表示<strong>必</strong>不存在此类瓦片，没有设置的方向就是没要求</p>
+<p>3.设置好每个瓦片后，将BG rule 拖入调色板Palette 中， 这样就可以用这个瓦片随意画图啦！</p>
+<p>4.多设置几个功能瓦片堆积在一起可以变成大瓦片，方便大面积作图</p>
+<p>5.同上，设置Shadows 瓦片的Rule Tile</p>
+<p>6.设置Platforms 瓦片的Rule Tile 时，我们希望平台瓦片随机生成，而不用某种特定规则。在Rule Tile 下添加一个瓦片，在Output中选择Random，Size设置为4，将要随机生成的四种瓦片拖入空格中</p>
+<hr>
+<h3 id="五、绘制地图"><a href="#五、绘制地图" class="headerlink" title="五、绘制地图"></a>五、绘制地图</h3><p>可以随意绘制地图，但是有几个注意点：</p>
+<p>1.在调色板中选取瓦片时，要记得在Active Tilemap 中选择要绘制的对象</p>
+<p>2.瓦片要绘制两层以上，因为各种规则瓦片在只有一层时会非常难看</p>
+<p>3.Shadows 瓦片覆盖在在Platforms 瓦片上面，后面调灯光的时候就会有很美妙的效果</p>
+<p>4.地图记得留一个出口位置</p>
+<hr>
+<h3 id="终、睡觉"><a href="#终、睡觉" class="headerlink" title="终、睡觉"></a>终、睡觉</h3><p>画地图还挺过瘾的，先这样了，洗澡睡觉！</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>tile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【LeetCode.剑指Offer.42】连续子数组的最大和</title>
+    <url>/2021/07/17/2021-07-17-%E3%80%90LeetCode.%E5%89%91%E6%8C%87Offer.42%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/</url>
+    <content><![CDATA[<h3 id="题目：连续子数组的最大和"><a href="#题目：连续子数组的最大和" class="headerlink" title="题目：连续子数组的最大和"></a>题目：连续子数组的最大和</h3><p>输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的<strong>最大值</strong>。</p>
+<p>要求时间复杂度为**O(n)**。</p>
+<p>示例1:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [-2,1,-3,4,-1,2,1,-5,4]</span><br><span class="line">输出: 6</span><br><span class="line">解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>提示：</p>
+<p><code>1 &lt;= arr.length &lt;= 10^5</code><br><code>-100 &lt;= arr[i] &lt;= 100</code></p>
+<hr>
+<h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>我们用<code> f(i)</code>代表以第<code>i</code>个数结尾的「连续子数组的最大和」</p>
+<p>只需要求出每个位置的<code> f(i)</code>，然后返回 <code>f </code>数组中的最大值即可。那么我们如何求<code>f(i)</code>呢？</p>
+<p>我们可以考虑 <code>nums[i] </code>单独成为一段还是加入<code>f(i-1)</code>对应的那一段，这取决于<code>nums[i]</code>和<code>f(i−1) + nums[i] </code>的大小，我们希望获得一个比较大的</p>
+<p>于是可以写出这样的动态规划转移方程：<br><code>f(i) = max&#123; f(i−1) + nums[i], nums[i] &#125;</code></p>
+<hr>
+<h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int maxSubArray(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        int n = nums.size();</span><br><span class="line">        vector&lt;int&gt; f(n);</span><br><span class="line">        f[0] = nums[0];</span><br><span class="line">        int ret = nums[0];</span><br><span class="line"></span><br><span class="line">        for (int i =  1; i &lt; n; i++) &#123;</span><br><span class="line">            f[i] = max(f[i - 1] + nums[i], nums[i]);</span><br><span class="line">            ret = max(f[i], ret);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度O(n)，空间复杂度O(n)</p>
+<hr>
+<h3 id="改进："><a href="#改进：" class="headerlink" title="改进："></a>改进：</h3><p>由于 <code>f[i]</code> 只是与 <code>f[i - 1]</code> 和 <code>nums[i]</code> 有关，且 <code>ret</code> 只与当前的 <code>f[i]</code> 有关，不需要存储整个数组</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int maxSubArray(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        int nowMax = 0;</span><br><span class="line">        int ret = nums[0];</span><br><span class="line">        for (auto x : nums) &#123;</span><br><span class="line">            nowMax = max(nowMax + x, x);</span><br><span class="line">            ret = max(nowMax, ret);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度O(n)，空间复杂度O(1)</p>
+<hr>
+<h3 id="细节："><a href="#细节：" class="headerlink" title="细节："></a>细节：</h3><p>1.只需求出最大值，不用求出最大的子数组</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Speed Down》Unity2d游戏开发（完）</title>
+    <url>/2021/07/16/2021-07-16-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%AE%8C%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>”《Speed Down》Unity2d游戏开发“系列已经完结，这篇文章主要是复盘这次学习中遇到的问题和一些名词的解释，以供未来的我快速回顾，最后还会附上所有的脚本</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、素材"><a href="#一、素材" class="headerlink" title="一、素材"></a>一、素材</h3><p>素材这块完全不用自己制作嘛，光是这个Assetstore就有挺多素材的，而且很多无限制商用的，有空要收集一些可以白嫖的网站</p>
+<hr>
+<h3 id="二、2D-复合碰撞体-Composite-Collider-2D"><a href="#二、2D-复合碰撞体-Composite-Collider-2D" class="headerlink" title="二、2D 复合碰撞体 (Composite Collider 2D)"></a>二、2D 复合碰撞体 (Composite Collider 2D)</h3><p>2D 复合碰撞体组件是用于 2D 物理的碰撞体。与大多数碰撞体不同，此碰撞体没有定义固有的形状。相反，此碰撞体将合并所设置的 2D 盒型碰撞体 (Box Collider 2D) 或 2D 多边形碰撞体 (Polygon Collider 2D) 的形状。2D 复合碰撞体使用所有此类碰撞体的顶点（几何体），并将这些顶点合并为由 2D 复合碰撞体本身控制的新几何体。</p>
+<p>2D 盒型碰撞体和 2D 多边形碰撞体组件具有 Used By Composite 复选框。勾选此复选框即可将这些碰撞体附加到 2D 复合碰撞体。这些碰撞体还与 2D 复合碰撞体附加到同一 2D 刚体。启用 Used by Composite 时，其他属性会从该组件中消失，因为这些属性现在由附加的 2D 复合碰撞体控制。</p>
+<hr>
+<h3 id="三、Pixels-Per-Unit（PPU）"><a href="#三、Pixels-Per-Unit（PPU）" class="headerlink" title="三、Pixels Per Unit（PPU）"></a>三、Pixels Per Unit（PPU）</h3><p>在Inspector面板的图像设置中有一个Pixels Per Unit参数。它代表Unity的一个单位长度包含本图片多少个像素<br> 在Unity中创建的Cube等基本图形默认就是一个Unity单位长度，一个单位长度在unity世界坐标中代表1米<br> 例如默认值为100，则代表一个Unity单位包含本图片中100个像素</p>
+<hr>
+<h3 id="四、关节（joint）"><a href="#四、关节（joint）" class="headerlink" title="四、关节（joint）"></a>四、关节（joint）</h3><p>关节组件可以添加至多个游戏对象中，而添加关节的游戏对象将通过关节连接在一起并且感觉连带的物理效果。需要注意的是：关节必须依赖于刚体组件。所有 2D 关节的名称都以“2D”结尾。名称不以“2D”结尾的关节是 3D 关节。2D 关节用于 2D 游戏对象，而 3D 关节用于 3D 游戏对象。</p>
+<p><strong>3D关节</strong>：</p>
+<p><strong>链条关节（hinge joint）</strong>：将两个物体以链条的形式绑在一起，当力量大于链条的固定力矩时，两个物体就会产生相互的拉力。</p>
+<p><strong>固定关节（fixed joint）</strong>：将两个物体永远以相对的位置固定在一起，即使发生物理改变，它们之间的相对位置也将不变。</p>
+<p><strong>弹簧关节（spring joint）</strong>：将两个物体以弹簧的形式绑定在一起，挤压它们会得到向外的力，拉伸它们将得到向里的力。</p>
+<p><strong>角色关节（character joint）</strong>：可以模拟角色的骨骼关节。</p>
+<p><strong>可配置关节（configurable joint）</strong>：可以模拟任意关节的效果。</p>
+<p><strong>2D关节</strong>：</p>
+<p><strong>2D 距离关节 (Distance Joint 2D)</strong> - 连接由刚体物理组件控制的两个游戏对象，使这两个对象保持一定距离。</p>
+<p><strong>2D 固定关节 (Fixed Joint 2D)</strong> - 将两个对象保持在相对于彼此的位置，确保对象始终以给定位置和角度偏移。例如，对象好像是采用刚性连接方式相连一样：对象不能彼此远离，不能相互靠近，也不能相对于彼此旋转。还可以使用此关节来创建刚度稍低的柔性连接。</p>
+<p><strong>2D 摩擦关节 (Friction Joint 2D)</strong> - 将刚体物理组件控制的两个游戏对象之间的线速度和角速度降低到零（即：此关节使对象减速并停止）。例如，一个平台在旋转但抵抗该运动。</p>
+<p><strong>2D 铰链关节 (Hinge Joint 2D)</strong> - 允许由刚体物理组件控制的游戏对象连接到空间中的一个点，使游戏对象可围绕该点旋转。例如，一把剪刀上的轴心。</p>
+<p><strong>2D 相对关节 (Relative Joint 2D)</strong> - 允许由刚体物理组件控制的两个游戏对象基于彼此的位置来保持相对位置。使用此关节可将两个对象保持相互偏移。例如，在空间射击游戏中，玩家身后有额外的排炮。</p>
+<p><strong>2D 滑动关节 (Slider Joint 2D)</strong> - 允许由刚体物理组件控制的游戏对象沿着空间中的一条线滑动（例如滑门）。</p>
+<p><strong>2D 弹簧关节 (Spring Joint 2D)</strong> - 允许由刚体物理组件控制的两个游戏对象就像通过弹簧连接在一起一样。</p>
+<p><strong>2D 目标关节 (Target Joint 2D)</strong> - 连接到指定目标，而不是像其他关节那样连接到另一个刚体对象。这是一种弹簧式关节，例如可将其用于拾取和移动处于重力作用下的对象。</p>
+<p><strong>2D 车轮关节 (Wheel Joint 2D)</strong> - 模拟车轮和悬架。</p>
+<p>在关节这方面2D的花样比3D多</p>
+<hr>
+<h3 id="五、刚体（Rigidbody），碰撞器（Collider），触发器（Trigger）"><a href="#五、刚体（Rigidbody），碰撞器（Collider），触发器（Trigger）" class="headerlink" title="五、刚体（Rigidbody），碰撞器（Collider），触发器（Trigger）"></a>五、刚体（Rigidbody），碰撞器（Collider），触发器（Trigger）</h3><p>要产生碰撞必须为游戏对象添加刚体（Rigidbody）和碰撞器，刚体可以让物体在物理影响下运动。碰撞体是物理组件的一类，它要与刚体一起添加到游戏对象上才能触发碰撞。如果两个刚体相互撞在一起，除非两个对象有碰撞体时物理引擎才会计算碰撞，在物理模拟中，没有碰撞体的刚体会彼此相互穿过。</p>
+<p><strong>物体发生碰撞的必要条件</strong>：</p>
+<p>两个物体都必须带有碰撞器(Collider)，其中一个物体还必须带有Rigidbody刚体。</p>
+<p>在unity3d中，能检测碰撞发生的方式有两种，一种是利用碰撞器，另一种则是利用触发器。</p>
+<p>碰撞器：一群组件，它包含了很多种类，比如：Box Collider（盒碰撞体），Mesh Collider（网格碰撞体）等，这些碰撞器应用的场合不同，但都必须加到GameObjecet身上。</p>
+<p>触发器：只需要在检视面板中的碰撞器组件中勾选IsTrigger属性选择框。</p>
+<p><strong>触发信息检测</strong>：</p>
+<p>1.MonoBehaviour.OnTriggerEnter(Collider collider)当进入触发器</p>
+<p>2.MonoBehaviour.OnTriggerExit(Collider collider)当退出触发器</p>
+<p>3.MonoBehaviour.OnTriggerStay(Collider collider)当逗留触发器</p>
+<p><strong>碰撞信息检测</strong>：</p>
+<p>1.MonoBehaviour.OnCollisionEnter(Collision collision) 当进入碰撞器</p>
+<p>2.MonoBehaviour.OnCollisionExit(Collision collision) 当退出碰撞器</p>
+<p>3.MonoBehaviour.OnCollisionStay(Collision collision) 当逗留碰撞器</p>
+<p><strong>碰撞器和触发器的区别？</strong></p>
+<p>碰撞器是触发器的载体，而触发器只是碰撞器身上的一个属性</p>
+<p>当Is Trigger=false时，碰撞器根据物理引擎引发碰撞，产生碰撞的效果，可以调用OnCollisionEnter/Stay/Exit函数；</p>
+<p>当Is Trigger=true时，碰撞器被物理引擎所忽略，没有碰撞效果，可以调用OnTriggerEnter/Stay/Exit函数。</p>
+<p>也就是说在一次碰撞中，碰撞函数和触发函数只能二选一</p>
+<hr>
+<h3 id="六、预制体（Prefab）"><a href="#六、预制体（Prefab）" class="headerlink" title="六、预制体（Prefab）"></a>六、预制体（Prefab）</h3><p>什么是预制体：</p>
+<p>在进行一些功能开发的时候, 我们常常将一些能够复用的对象制作成.prefab的预制体，然后将预制体存放到 Resources 目录之下, 使用时再动态加载到场景中并进行实例化. 例如 : 子弹、特效甚至音频等, 都能制作成预制体.</p>
+<p>预制体英文名称即 Prefab 是一种资源类型 —— 存储在项目视图中的一种可重复使用的游戏对象.</p>
+<p>预制体的优点：<br>预制体可以多次放入到多个场景中;<br>当你添加一个预制体到场景中, 就创建了它的一个实例;<br>所有的预制体实例链接到原始预制, 基本上等于就是它的克隆;<br>不管你的项目存在多少实例, 当你对预制体进行任何更改, 你将看到这些更改将应用于所有的实例上;</p>
+<hr>
+<h3 id="七、画布（Canvas）"><a href="#七、画布（Canvas）" class="headerlink" title="七、画布（Canvas）"></a>七、画布（Canvas）</h3><p>Canvas (画布) 是所有 UI 组件的父物体 , 也就是说每一个 UI 组件都必须在 Canvas 下 , 作为 Canvas 的子物体 , 当你创建一个 UI 控件时 , 如果在 Hierarchy 视图没有 Canvas 组件的话 , unity会自动帮你创建一个 Canvas , 并将你想创建的 UI 控件置于 Canvas 下.</p>
+<p>Canvas 的 Render Mode (渲染模式) 有三种 ：</p>
+<p>1.<strong>Screen Space - Overlay</strong></p>
+<p>这种渲染模式表示 Canvas 下的所有的 UI 控件永远位于屏幕的前面 , 不管有没有相机 , UI元素永远在屏幕最前面</p>
+<p>2.<strong>Screen Space - Camera</strong></p>
+<p>这种渲染模式 Canvas 和 摄像机之间有一定的距离 , 可以在摄像机和 Canvas 之间播放一些粒子特效</p>
+<p>3.<strong>World Space</strong></p>
+<p>这种模式下 Canvas 就和普通的 3D 物体一样了 , 可以控制它的大小,旋转,缩放等 , 一般用来做血条</p>
+<hr>
+<h3 id="终、总结"><a href="#终、总结" class="headerlink" title="终、总结"></a>终、总结</h3><p>作为unity回坑第一课收获还是蛮丰富的，以前一直没有做笔记的习惯，东西学了又忘，忘了还没地方复习，以后要养成写学习日记的习惯。</p>
+<p>这次写的脚本都没有写注释，希望未来的我回来看的时候不会头大吧哈哈哈（这么简单的代码应该不至于）</p>
+<hr>
+<h3 id="附录、脚本"><a href="#附录、脚本" class="headerlink" title="附录、脚本"></a>附录、脚本</h3><p>1.角色控制脚本，控制角色移动和检测角色状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerController : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Rigidbody2D rb;</span><br><span class="line">    Animator anim;</span><br><span class="line">    public float speed;</span><br><span class="line">    float xVelocity;</span><br><span class="line"></span><br><span class="line">    public bool isOnGround;</span><br><span class="line">    public float checkRadius;</span><br><span class="line">    public LayerMask layer;</span><br><span class="line">    public GameObject groundCheck;</span><br><span class="line"></span><br><span class="line">    public bool playerDead;</span><br><span class="line"></span><br><span class="line">    public float bounceH;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">        anim = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        Movement();</span><br><span class="line">        isOnGround = Physics2D.OverlapCircle(groundCheck.transform.position, checkRadius, layer);</span><br><span class="line">        anim.SetBool(&quot;isOnGround&quot;, isOnGround);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Movement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxisRaw(&quot;Horizontal&quot;);</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        anim.SetFloat(&quot;speed&quot;, Mathf.Abs(rb.velocity.x));</span><br><span class="line"></span><br><span class="line">        if(xVelocity != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            transform.localScale = new Vector3(xVelocity, 1, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnCollisionEnter2D(Collision2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Fan&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            rb.velocity = new Vector2(rb.velocity.x, bounceH);</span><br><span class="line">        &#125;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Spike&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            anim.SetTrigger(&quot;isDead&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void OnTriggerEnter2D(Collider2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.CompareTag(&quot;Spike&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            anim.SetTrigger(&quot;isDead&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void PlayerDead()</span><br><span class="line">    &#123;</span><br><span class="line">        playerDead = true;</span><br><span class="line">        GameManage.GameOver(playerDead);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnDrawGizmosSelected()</span><br><span class="line">    &#123;</span><br><span class="line">        Gizmos.color = Color.green;</span><br><span class="line">        Gizmos.DrawWireSphere(groundCheck.transform.position, checkRadius);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.游戏管理脚本，涉及游戏重开和退出，以及控制界面：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">using UnityEngine.UI;</span><br><span class="line">using UnityEngine.SceneManagement;</span><br><span class="line"></span><br><span class="line">public class GameManage : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    static GameManage instance;</span><br><span class="line">    public Text score;</span><br><span class="line"></span><br><span class="line">    public GameObject gameOverUI;</span><br><span class="line"></span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if(instance != null)</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">        instance = this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        score.text = Time.timeSinceLevelLoad.ToString(&quot;000&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RestartGame()</span><br><span class="line">    &#123;</span><br><span class="line">        SceneManager.LoadScene(SceneManager.GetActiveScene().name);</span><br><span class="line">        Time.timeScale = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Exit()</span><br><span class="line">    &#123;</span><br><span class="line">        Application.Quit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void GameOver(bool dead)</span><br><span class="line">    &#123;</span><br><span class="line">        if (dead)</span><br><span class="line">        &#123;</span><br><span class="line">            Time.timeScale = 0f;</span><br><span class="line">            instance.gameOverUI.SetActive(true);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.平台生成脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Spawner : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    public List&lt;GameObject&gt; platform = new List&lt;GameObject&gt;();</span><br><span class="line"></span><br><span class="line">    public float spawnTime;</span><br><span class="line">    float countTime;</span><br><span class="line">    Vector3 spawnPosition;</span><br><span class="line"></span><br><span class="line">    int spikeBallNum = 0;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        SpawnPlatform();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void SpawnPlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        countTime += Time.deltaTime;</span><br><span class="line">        spawnPosition = transform.position;</span><br><span class="line">        spawnPosition.x = Random.Range(-3f, 3f);</span><br><span class="line"></span><br><span class="line">        if(countTime &gt; spawnTime)</span><br><span class="line">        &#123;</span><br><span class="line">            CreatePlatform();</span><br><span class="line">            countTime = 0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void CreatePlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        int index = Random.Range(0, platform.Count);</span><br><span class="line"></span><br><span class="line">        if (index == 3)</span><br><span class="line">        &#123;</span><br><span class="line">            spikeBallNum++;</span><br><span class="line">            if(spikeBallNum &gt; 2)</span><br><span class="line">            &#123;</span><br><span class="line">                index = 0;</span><br><span class="line">                spikeBallNum = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        GameObject newPlatform = Instantiate(platform[index], spawnPosition, Quaternion.identity );</span><br><span class="line">        newPlatform.transform.SetParent(transform);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4.平台上升脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlatformUp : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Vector3 movement;</span><br><span class="line">    public float speed;</span><br><span class="line">    GameObject topLine;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        movement.y = speed;</span><br><span class="line">        topLine = GameObject.Find(&quot;TopLine&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        MovePlatform();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void MovePlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += movement * Time.deltaTime;</span><br><span class="line">        if(transform.position.y &gt; topLine.transform.position.y)</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.链锤画线脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SpikeBallLine : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    LineRenderer line;</span><br><span class="line">    public Transform begin;</span><br><span class="line">    public Transform end;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        line = GetComponent&lt;LineRenderer&gt;();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        line.SetPosition(0, begin.position);</span><br><span class="line">        line.SetPosition(1, end.position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6.跳跃平台旋转动画脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class FanRun : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Animator animator;</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        animator = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnCollisionEnter2D(Collision2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Player&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            animator.Play(&quot;Fan_run&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>joint</tag>
+        <tag>collider</tag>
+        <tag>prefab</tag>
+        <tag>trigger</tag>
+        <tag>canvas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Speed Down》Unity2d游戏开发（六）</title>
+    <url>/2021/07/15/2021-07-15-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%85%AD%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>《Speed Down》开发已经接近尾声啦！最后再来完善一下，变成真正能玩的游戏！</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、分数统计"><a href="#一、分数统计" class="headerlink" title="一、分数统计"></a>一、分数统计</h3><p>1.新建UI → Text 物体，发现自动创建了Canvas并将Text作为子物体添加</p>
+<p>2.调整Text的位置大小等参数直到满意</p>
+<p>3.新建空物体命名GameManage，新建脚本也命名GameManage并挂载到空物体GameManage上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">using UnityEngine.UI;</span><br><span class="line">using UnityEngine.SceneManagement;</span><br><span class="line"></span><br><span class="line">public class GameManage : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    static GameManage instance;</span><br><span class="line">    public Text score;</span><br><span class="line"></span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if(instance != null)</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">        instance = this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        score.text = Time.time.ToString(&quot;000&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Awake会在所有的Start之前调用，适合用作游戏的初始化</p>
+<p>返回unity就可以看到随时间增加分数</p>
+<hr>
+<h3 id="二、失败界面"><a href="#二、失败界面" class="headerlink" title="二、失败界面"></a>二、失败界面</h3><p>1.在Canvas下添加Panel并按自己喜欢布置界面，添加两个按钮用作重新开始游戏和退出游戏</p>
+<p>2.在GameManage脚本中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public void RestartGame()</span><br><span class="line">&#123;</span><br><span class="line">    SceneManager.LoadScene(SceneManager.GetActiveScene().name);</span><br><span class="line">    Time.timeScale = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    public void Exit()</span><br><span class="line">&#123;</span><br><span class="line">    Application.Quit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.给两个按钮添加刚刚新建的方法</p>
+<p>按钮的功能已经设置好，其中退出游戏的功能需要在项目build之后才能看到效果。现在我们希望游戏失败界面在失败后出现</p>
+<p>4.取消勾选Panel的标签上面的框，这样就平时就不会显示Panel</p>
+<p>5.在GameManage中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public static void GameOver(bool dead)</span><br><span class="line">&#123;</span><br><span class="line">    if (dead)</span><br><span class="line">    &#123;</span><br><span class="line">        Time.timeScale = 0f;</span><br><span class="line">        instance.gameOverUI.SetActive(true);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：想要在其他脚本中调用方法，需要定义方法成static类型</p>
+<p>6.在PlayerController脚本中修改PlayerDead方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public void PlayerDead()</span><br><span class="line">&#123;</span><br><span class="line">    playerDead = true;</span><br><span class="line">    GameManage.GameOver(playerDead);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当角色死亡时就会弹出失败界面</p>
+<hr>
+<h3 id="终、测试"><a href="#终、测试" class="headerlink" title="终、测试"></a>终、测试</h3><p>最后测试了一下，发现重新开始游戏时不会将分数重置，需要将GameManage脚本中的<code>Time.time.ToString</code>改成<code>Time.timeSinceLevelLoad.ToString</code>，这样一来时间计数就会在场景重置时重置。</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>awake</tag>
+        <tag>canvas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Speed Down》Unity2d游戏开发（五）</title>
+    <url>/2021/07/15/2021-07-15-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%94%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="一、随机生成平台"><a href="#一、随机生成平台" class="headerlink" title="一、随机生成平台"></a>一、随机生成平台</h3><p>1.可以删除其他平台，只留下一个开局的平台</p>
+<p>2.新建一个空物体作为平台出生点，调整大小，添加碰撞体，勾选is trigger，修改标签为spike</p>
+<span id="more"></span>
+
+<p>3.新建脚本挂载到平台出生点：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Spawner : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    public List&lt;GameObject&gt; platform = new List&lt;GameObject&gt;();</span><br><span class="line"></span><br><span class="line">    public float spawnTime;</span><br><span class="line">    float countTime;</span><br><span class="line">    Vector3 spawnPosition;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        SpawnPlatform();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void SpawnPlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        countTime += Time.deltaTime;</span><br><span class="line">        spawnPosition = transform.position;</span><br><span class="line">        spawnPosition.x = Random.Range(-3f, 3f);</span><br><span class="line"></span><br><span class="line">        if(countTime &gt; spawnTime)</span><br><span class="line">        &#123;</span><br><span class="line">            CreatePlatform();</span><br><span class="line">            countTime = 0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void CreatePlatform()</span><br><span class="line">    &#123;</span><br><span class="line">        int index = Random.Range(0, platform.Count);</span><br><span class="line">        Instantiate(platform[index], spawnPosition, Quaternion.identity );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.回到unity设置脚本中平台列表的大小为3并且拖入三种基础平台</p>
+<p>5.设置好生成速度Spawn Time就可以开始玩啦！</p>
+<hr>
+<h3 id="二、细节调整"><a href="#二、细节调整" class="headerlink" title="二、细节调整"></a>二、细节调整</h3><p>1.将链锤的锤子设置标签为spike（不小心删了链锤的预制体，我是sb，以后碰到警告操作不可撤回的要万分小心）</p>
+<p>2.角色检测碰到尖刺死亡的代码是在OnTriggerEnter2D中的，而顶部尖刺是触发器，链锤是碰撞器，需要将死亡代码复制到OnCollisionEnter2D中。注意两个函数接收的变量不同，需要按照提示修改一下</p>
+<p>3.改变平台列表的大小并拖入不同的平台，这样就可以调整游戏难度以及未来新增其他平台或者陷阱</p>
+<p>4.在平台出生点中修改代码，添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GameObject newPlatform = Instantiate(platform[index], spawnPosition, Quaternion.identity );</span><br><span class="line">newPlatform.transform.SetParent(transform);</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以让新生成的平台作为平台出生点的子物体</p>
+<p>5.为了不让链锤连续生成太多以至于游戏难度过大，修改spawn代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int spikeBallNum = 0;</span><br><span class="line"></span><br><span class="line">    public void CreatePlatform()</span><br><span class="line">&#123;</span><br><span class="line">    int index = Random.Range(0, platform.Count);</span><br><span class="line"></span><br><span class="line">    if (index == 3)</span><br><span class="line">    &#123;</span><br><span class="line">        spikeBallNum++;</span><br><span class="line">        if(spikeBallNum &gt; 2)</span><br><span class="line">        &#123;</span><br><span class="line">            index = 0;</span><br><span class="line">            spikeBallNum = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GameObject newPlatform = Instantiate(platform[index], spawnPosition, Quaternion.identity );</span><br><span class="line">    newPlatform.transform.SetParent(transform);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当连续出现链锤时变成普通平台，免得出现必死局</p>
+<hr>
+<h3 id="终、总结"><a href="#终、总结" class="headerlink" title="终、总结"></a>终、总结</h3><p>到此为止主要游戏内容都已经完成啦！最后就是制作一些UI管理游戏</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>trigger</tag>
+        <tag>collision</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《Speed Down》Unity2d游戏开发（四）</title>
-    <url>/2021/07/14/%E6%9B%B42021-07-14-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/</url>
+    <url>/2021/07/14/2021-07-14-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/</url>
     <content><![CDATA[<h3 id="始、阶段调整"><a href="#始、阶段调整" class="headerlink" title="始、阶段调整"></a>始、阶段调整</h3><p>这次不做新功能，先停一停把之前的东西调整一下，细节<del>太细了</del></p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、图案模糊"><a href="#一、图案模糊" class="headerlink" title="一、图案模糊"></a>一、图案模糊</h3><p>顶部尖刺看起来有些模糊</p>
@@ -52,7 +414,7 @@
     <title>《Speed Down》Unity2d游戏开发（三）</title>
     <url>/2021/07/14/2021-07-14-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89/</url>
     <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>背景和障碍物都搭建完毕了，现在来制作我们操作的主角！（洗个衣服先…）</p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、添加动画及组件"><a href="#一、添加动画及组件" class="headerlink" title="一、添加动画及组件"></a>一、添加动画及组件</h3><p>1.先选中资源中喜欢的角色，修改所有精灵图的ppu为32</p>
@@ -120,7 +482,7 @@
     <title>《Speed Down》Unity2d游戏开发（二）</title>
     <url>/2021/07/13/2021-07-13-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>上一次已经完成了场景搭建，那么这次的主要任务就是制作跳跃平台</p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、普通平台"><a href="#一、普通平台" class="headerlink" title="一、普通平台"></a>一、普通平台</h3><p>1.选中pixel adventure 1 → assets → traps → falling platform 设置pixels per unit为16</p>
@@ -180,7 +542,7 @@
 <p>​    **算法(Algorithms)**：sort、find、copy、for_each等</p>
 <p>​    <strong>迭代器</strong>：扮演容器与算法之间的胶合剂（每个容器都有自己专属的迭代器），迭代器可以理解成<strong>指针</strong></p>
 <p>​    <strong>仿函数</strong>：类似函数，可作为算法的某种策略</p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、vector容器"><a href="#一、vector容器" class="headerlink" title="一、vector容器"></a>一、vector容器</h3><p>vector容器可以理解成<strong>数组</strong></p>
@@ -220,7 +582,7 @@
     <title>再临Unity</title>
     <url>/2021/07/08/2021-07-08-%E5%86%8D%E4%B8%B4Unity/</url>
     <content><![CDATA[<h1 id="淦！"><a href="#淦！" class="headerlink" title="淦！"></a>淦！</h1><h3 id="始、整理"><a href="#始、整理" class="headerlink" title="始、整理"></a>始、整理</h3><p>​    闲来无事，想捣鼓一下unity，打开界面一脸懵逼。明明大学玩过一段时间的，这知识咋就不进脑子呢，又得重新学习</p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、Unity快速入门"><a href="#一、Unity快速入门" class="headerlink" title="一、Unity快速入门"></a>一、Unity快速入门</h3><p>​    unity的布局和一些用过的工具多少有些联系，搞懂界面还是不难的，先从常用操作入手吧！正好找到一个最近的精简unity入门视频：</p>
@@ -246,28 +608,23 @@
       </tags>
   </entry>
   <entry>
-    <title>和相同的二元子数组</title>
-    <url>/2021/07/08/2021-07-08-%E5%92%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E4%BA%8C%E5%85%83%E5%AD%90%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h3 id="题目：和相同的二元子数组（力扣）"><a href="#题目：和相同的二元子数组（力扣）" class="headerlink" title="题目：和相同的二元子数组（力扣）"></a>题目：和相同的二元子数组（力扣）</h3><p>​    给你一个二元数组 <code>nums</code> ，和一个整数 <code>goal</code> ，请你统计并返回有多少个和为 <code>goal</code> 的 <strong>非空</strong> 子数组。</p>
+    <title>【LeetCode.930】和相同的二元子数组</title>
+    <url>/2021/07/08/2021-07-08-%E3%80%90LeetCode.930%E3%80%91%E5%92%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E4%BA%8C%E5%85%83%E5%AD%90%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h3 id="题目：和相同的二元子数组"><a href="#题目：和相同的二元子数组" class="headerlink" title="题目：和相同的二元子数组"></a>题目：和相同的二元子数组</h3><p>​    给你一个二元数组 <code>nums</code> ，和一个整数 <code>goal</code> ，请你统计并返回有多少个和为 <code>goal</code> 的 <strong>非空</strong> 子数组。</p>
 <p>​    <strong>子数组</strong> 是数组的一段连续部分。</p>
 <p>示例 1：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：nums = [1,0,1,0,1], goal = 2</span><br><span class="line">输出：4</span><br><span class="line">解释：</span><br><span class="line">有 4 个满足题目要求的子数组：[1,0,1]、[1,0,1,0]、[0,1,0,1]、[1,0,1]</span><br></pre></td></tr></table></figure>
 
-<!---more--->
+<span id="more"></span>
 
 <p>示例 2：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：nums = [0,0,0,0,0], goal = 0</span><br><span class="line">输出：15</span><br></pre></td></tr></table></figure>
 
 
 <p>提示：</p>
-<ul>
-<li><p><code>1 &lt;= nums.length &lt;= 3 * 104</code></p>
-</li>
-<li><p><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></p>
-</li>
-<li><p><code>0 &lt;= goal &lt;= nums.length</code></p>
-</li>
-</ul>
+<p><code>1 &lt;= nums.length &lt;= 3 * 104</code></p>
+<p><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></p>
+<p><code>0 &lt;= goal &lt;= nums.length</code></p>
 <hr>
 <h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    //滑动窗口法</span><br><span class="line">    //右指针逐渐向右，左一指针找到第一个符合的位置，左二指针找到最后一个符合的位置</span><br><span class="line">    int numSubarraysWithSum(vector&lt;int&gt;&amp; nums, int goal) &#123;</span><br><span class="line">        int left1 = 0, left2 = 0;</span><br><span class="line">        int n = nums.size();</span><br><span class="line">        int sum1 = 0, sum2 = 0;</span><br><span class="line">        int ret = 0;</span><br><span class="line"></span><br><span class="line">        for(int right = 0; right &lt; n; right++)&#123;</span><br><span class="line">            sum2 += nums[right];</span><br><span class="line">            sum1 += nums[right];</span><br><span class="line">            while(left2 &lt;= right &amp;&amp; sum2 &gt;= goal)&#123;</span><br><span class="line">                sum2 -= nums[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            while(left1 &lt; left2 &amp;&amp; sum1 &gt; goal)&#123;</span><br><span class="line">                sum1 -= nums[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ret += left2 - left1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -288,10 +645,12 @@
   <entry>
     <title>《Speed Down》Unity2d游戏开发（一）</title>
     <url>/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h3 id="始、版本"><a href="#始、版本" class="headerlink" title="始、版本"></a>始、版本</h3><p>unity 2021.1.12f1c1</p>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>跟随M大学习unity2d游戏开发，先来一个简单的下100层游戏！</p>
+<p>版本：</p>
+<p>unity 2021.1.12f1c1</p>
 <p>unityhub 2.4.13</p>
 <p>vs 2019</p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、导入素材"><a href="#一、导入素材" class="headerlink" title="一、导入素材"></a>一、导入素材</h3><p>1.新建unity2d项目</p>
@@ -350,7 +709,7 @@
 <p>2.因为目标是上传B站，而B站有CC字幕功能，可以视频和字幕分开做，减少工作量，这里选择：</p>
 <p><a href="https://jianwai.youdao.com/index/0">网易见外工作台 (youdao.com)</a></p>
 <p>3.语音不想自己配音，使用了<strong>迅捷文字转换语音</strong></p>
-<!---more--->
+<span id="more"></span>
 
 <hr>
 <h3 id="一、精简入门，了解Pr视频剪辑"><a href="#一、精简入门，了解Pr视频剪辑" class="headerlink" title="一、精简入门，了解Pr视频剪辑"></a>一、精简入门，了解Pr视频剪辑</h3><p>自认为学习新的软件使用不能一开始就看官网手册或完整教学，而是先获得一个大概的认知：</p>
@@ -367,12 +726,12 @@
   <entry>
     <title>解决Github无法访问</title>
     <url>/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</url>
-    <content><![CDATA[<h3 id="一、修改host文件"><a href="#一、修改host文件" class="headerlink" title="一、修改host文件"></a>一、修改host文件</h3><p>​    在<strong>C:\Windows\System32\drivers\etc</strong>中打开<strong>host</strong>文件（可以用记事本打开），在该文件中添加如下内容。</p>
-<!---more--->
-
+    <content><![CDATA[<h3 id="一、修改host文件"><a href="#一、修改host文件" class="headerlink" title="一、修改host文件"></a>一、修改host文件</h3><p>​    在<strong>C:\Windows\System32\drivers\etc</strong>中打开<strong>host</strong>文件（可以用记事本打开），在该文件中添加如下内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># GitHub Start </span><br><span class="line">140.82.114.4 github.com</span><br><span class="line">140.82.114.4 gist.github.com</span><br><span class="line">185.199.108.153 assets-cdn.github.com</span><br><span class="line">151.101.64.133 raw.githubusercontent.com</span><br><span class="line">151.101.108.133 gist.githubusercontent.com</span><br><span class="line">151.101.108.133 cloud.githubusercontent.com</span><br><span class="line">151.101.108.133 camo.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars0.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars1.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars2.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars3.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars4.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars5.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars6.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars7.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars8.githubusercontent.com </span><br><span class="line"># GitHub End</span><br></pre></td></tr></table></figure>
 
 <p>保存文件，再次打开github速度飞快</p>
+<span id="more"></span>
+
 <hr>
 <h3 id="二、win10修改文件读写的权限"><a href="#二、win10修改文件读写的权限" class="headerlink" title="二、win10修改文件读写的权限"></a>二、win10修改文件读写的权限</h3><p>​    windows系统可能遇到无法修改系统文件的问题</p>
 <p>​    1.找到要修改的文件</p>
@@ -390,10 +749,18 @@
   <entry>
     <title>搭建个人博客总结</title>
     <url>/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h3 id="一、用Hexo在本地生成博客并部署（白嫖）到github"><a href="#一、用Hexo在本地生成博客并部署（白嫖）到github" class="headerlink" title="一、用Hexo在本地生成博客并部署（白嫖）到github"></a>一、用Hexo在本地生成博客并部署（白嫖）到github</h3><p>后半部分个性化博客的教学先不看：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
+    <content><![CDATA[<h3 id="始、报错汇总"><a href="#始、报错汇总" class="headerlink" title="始、报错汇总"></a>始、报错汇总</h3><h3 id="终、报错汇总"><a href="#终、报错汇总" class="headerlink" title="终、报错汇总"></a>终、报错汇总</h3><p>1.输入<code>git g -d</code>后报错：<strong>fatal:  unable to access ‘h…://github.com/….github.io.git/</strong></p>
+<p>解决方法1：重置一下git的代理：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset git.proxy</span><br></pre></td></tr></table></figure>
+
+<p>解决方法2：删掉<code>node_modules</code>文件夹</p>
+<p>解决方法3：<code>git g</code> 和 <code>git d</code> 分两步输入</p>
+<p>解决方法4：挂梯子</p>
  <span id="more"></span>
 
+<hr>
+<h3 id="一、用Hexo在本地生成博客并部署（白嫖）到github"><a href="#一、用Hexo在本地生成博客并部署（白嫖）到github" class="headerlink" title="一、用Hexo在本地生成博客并部署（白嫖）到github"></a>一、用Hexo在本地生成博客并部署（白嫖）到github</h3><p>后半部分个性化博客的教学先不看：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
 <hr>
 <h3 id="二、将博客的源代码也放到github托管"><a href="#二、将博客的源代码也放到github托管" class="headerlink" title="二、将博客的源代码也放到github托管"></a>二、将博客的源代码也放到github托管</h3><p>文章最后面还有作者引用的原文，两篇文章结合一起看：</p>
 <p><a href="https://www.jianshu.com/p/baab04284923">Hexo | 怎么去备份你的Hexo博客</a></p>
@@ -404,14 +771,6 @@
 <h3 id="四、应用next主题以及个性化"><a href="#四、应用next主题以及个性化" class="headerlink" title="四、应用next主题以及个性化"></a>四、应用next主题以及个性化</h3><p>next和hexo好像还有版本适配的问题，我用旧版的next会把博客变成乱码，最终是这篇文章中的新版本适合我：</p>
 <p><a href="https://zhuanlan.zhihu.com/p/60424755">hexo的next主题个性化配置</a></p>
 <hr>
-<h3 id="终、报错汇总"><a href="#终、报错汇总" class="headerlink" title="终、报错汇总"></a>终、报错汇总</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git g -d  </span><br></pre></td></tr></table></figure>
-
-<p>报错：<strong>fatal:  unable to access ‘h…://github.com/….github.io.git/</strong></p>
-<p>原因是git的代理出现问题？解决方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset git.proxy</span><br></pre></td></tr></table></figure>
-
-
-
 ]]></content>
       <categories>
         <category>琐碎</category>
