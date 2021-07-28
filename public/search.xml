@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Top</title>
-    <url>/2021/07/09/%E6%9B%B4Top/</url>
+    <url>/2021/07/09/%E7%BD%AE%E9%A1%B6%E9%A1%B5%E9%9D%A2Top/</url>
     <content><![CDATA[<h3 id="版本："><a href="#版本：" class="headerlink" title="版本："></a>版本：</h3><p>hexo 5.4</p>
 <p>next 7.8</p>
 <h3 id="hexo-github-常用指令："><a href="#hexo-github-常用指令：" class="headerlink" title="hexo + github 常用指令："></a>hexo + github 常用指令：</h3><p>新建文章：<code>hexo n 文章名</code></p>
@@ -15,6 +15,237 @@
       </categories>
   </entry>
   <entry>
+    <title>【LeetCode.1143】最长公共子序列</title>
+    <url>/2021/07/26/2021-07-26-%E3%80%90LeetCode.1143%E3%80%91%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[<h3 id="题目：-最长公共子序列"><a href="#题目：-最长公共子序列" class="headerlink" title="题目： 最长公共子序列"></a>题目： 最长公共子序列</h3><p>​    给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长 <strong>公共子序列</strong> 的长度。如果不存在 公共子序列 ，返回 <code>0</code> 。</p>
+<p>​    一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>
+<p>​    例如，<code>&quot;ace&quot;</code> 是 <code>&quot;abcde&quot;</code> 的子序列，但 <code>&quot;aec&quot;</code> 不是 <code>&quot;abcde&quot;</code> 的子序列。<br>​    两个字符串的 <strong>公共子序列</strong> 是这两个字符串所共同拥有的子序列。</p>
+<span id="more"></span>
+
+<p>示例 1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：text1 = &quot;abcde&quot;, text2 = &quot;ace&quot; </span><br><span class="line">输出：3  </span><br><span class="line">解释：最长公共子序列是 &quot;ace&quot; ，它的长度为 3 。</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：text1 = &quot;abc&quot;, text2 = &quot;abc&quot;</span><br><span class="line">输出：3</span><br><span class="line">解释：最长公共子序列是 &quot;abc&quot; ，它的长度为 3 。</span><br></pre></td></tr></table></figure>
+
+<p>示例 3：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：text1 = &quot;abc&quot;, text2 = &quot;def&quot;</span><br><span class="line">输出：0</span><br><span class="line">解释：两个字符串没有公共子序列，返回 0 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>提示：</p>
+<p><code>1 &lt;= text1.length, text2.length &lt;= 1000</code><br><code>text1 和 text2 仅由小写英文字符组成。</code></p>
+<hr>
+<h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>定义 <code>dp[i][j]</code> 表示 <code>text1[0:i]</code> 和 <code>text2[0:j]</code> 的最长公共子序列，其中 <code>text1[0:i]</code> 表示数组中从<code>0</code>到<code>i</code>长度为 <code>i + 1</code>的子数组</p>
+<p>当 <code>text1[i - 1] == text2[j - 1]</code> 时，说明两个子字符串的最后一位相等，所以最长公共子序列又增加了 <code>1</code>，所以 <code>dp[i][j] = dp[i - 1][j - 1] + 1</code>；举个例子，比如对于 <code>ac</code> 和 <code>bc</code> 而言，他们的最长公共子序列的长度等于 <code>a</code> 和 <code>b</code> 的最长公共子序列长度 <code>0 + 1 = 1</code>。<br>当 <code>text1[i - 1] != text2[j - 1]</code> 时，说明两个子字符串的最后一位不相等，那么此时的状态 <code>dp[i][j]</code> 应该是 <code>dp[i - 1][j]</code> 和 <code>dp[i][j - 1]</code> 的最大值。举个例子，比如对于 <code>ace</code> 和 <code>bc</code> 而言，他们的最长公共子序列的长度等于 ① <code>ace</code> 和 <code>b</code> 的最长公共子序列长度<code>0</code> 与 ② <code>ac</code> 和 <code>bc</code> 的最长公共子序列长度<code>1</code> 的最大值，即 <code>1</code>。</p>
+<p>综上状态转移方程为：</p>
+<p><code>dp[i][j] = dp[i - 1][j - 1] + 1, 当 text1[i - 1] == text2[j - 1];text1[i−1]==text2[j−1];</code><br><code>dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]), 当 text1[i - 1] != text2[j - 1]text1[i−1]!=text2[j−1]</code></p>
+<hr>
+<h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">	//动态规划</span><br><span class="line">    int longestCommonSubsequence(string text1, string text2) &#123;</span><br><span class="line">        int n = text1.size(), m = text2.size();</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt; dp(n + 1, vector&lt;int&gt;(m + 1));</span><br><span class="line">        //逐渐将text1[i - 1]和text2[j - 1]纳入考虑，更新dp数组</span><br><span class="line">        for(int i = 1; i &lt;= n; i++)&#123;</span><br><span class="line">            char c1 = text1[i - 1];</span><br><span class="line">            for(int j = 1; j &lt;= m; j++)&#123;</span><br><span class="line">                char c2 = text2[j - 1];</span><br><span class="line">                if(c1 == c2) dp[i][j] = dp[i - 1][j - 1] + 1;</span><br><span class="line">                else dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return dp[n][m];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>遇到考查动态规划的题也算有点头绪了，我的感悟是这是一种从无到有的思想：一步一步将单个信息纳入考虑范围，然后按照条件更新已知的情报。其中的难点在于<code>dp</code>数组的定义，怎么样的定义才能有效快捷地达成目的呢？</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>数组</tag>
+        <tag>动态规划</tag>
+        <tag>vector</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Robbie Swifthand》Unity2d独立游戏学习（四）</title>
+    <url>/2021/07/23/2021-07-23-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>接下来做一些视觉上的东西，首先是然镜头跟随主角移动，还有场景的灯光效果</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、摄像机"><a href="#一、摄像机" class="headerlink" title="一、摄像机"></a>一、摄像机</h3><p>1.可以选择Camera 修改背景颜色</p>
+<p>2.将摄像机的Projection 修改为Perspective，这样就设置成了透视模式，可以通过修改图层深度来产生景深效果</p>
+<p>3.为了产生景深效果，将Grid 中的Background 的Transform → Position → z 设置为 1， 同样地，将Background Details 设置为0.99，Platforms 不变， Shadow 为 - 0.1</p>
+<p>4.在unity界面Window → Package Manager 中添加 Cinemachine</p>
+<p>5.创建2D Camera物体，将主角拖拽到相机的Follow中，摄像机会跟随角色移动</p>
+<p>6.可以设置Camera Distance 到一个合适的位置，这个选项会影响游戏画面的远近</p>
+<p>7.选择2D Camera → Extensions → Add Extension 添加一个CinemachineConfiner</p>
+<p>8.新建空项目，添加多边形碰撞体，设置成触发器，拖拽到2D摄像机的Confiner中。这样就可以通过调整多边形的形状来限制摄像机的移动范围啦</p>
+<p>完成，调试</p>
+<p>发现阴影没有遮挡角色，要把Shadow 的Sorting Layer 修改成Foreground</p>
+<hr>
+<h3 id="二、2D灯光效果"><a href="#二、2D灯光效果" class="headerlink" title="二、2D灯光效果"></a>二、2D灯光效果</h3><p>1.在Props 中找到墙灯，打开预制体修改父物体和子物体的Sorting Layer为Background（粒子效果又是一个大坑）</p>
+<p>2.拖入场景之前添加点光源，设置光源的z 轴为 -0.2 ，这样就可以在所有背景的前面照亮它们（更靠近摄像机），还可以修改颜色的照明距离等</p>
+<p>拖入火炬后为什么场景没有被照亮呢？因为场景中的物体都还没添加法线贴图</p>
+<p>3.打开Level 文件夹，将Platform 和Background 的材质球拖入对应的场景物体中（材质会自动对应瓦片）</p>
+<p>4.打开Props 添加另外一种灯：悬挂蓝灯，蓝灯会左右摇摆，因为它有一个动画效果修改z 轴旋转</p>
+<p>5.调整场景的整体灯光，打开Window → Rendering → Lighting，在Environment Lighting 中可以调整颜色和亮度</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>camera</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【LeetCode.138】 复制带随机指针的链表</title>
+    <url>/2021/07/22/2021-07-22-%E3%80%90LeetCode.138%E3%80%91%20%E5%A4%8D%E5%88%B6%E5%B8%A6%E9%9A%8F%E6%9C%BA%E6%8C%87%E9%92%88%E7%9A%84%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h3 id="题目：复制带随机指针的链表"><a href="#题目：复制带随机指针的链表" class="headerlink" title="题目：复制带随机指针的链表"></a>题目：复制带随机指针的链表</h3><p>​    给你一个长度为 <code>n</code> 的链表，每个节点包含一个额外增加的随机指针 <code>random</code> ，该指针可以指向链表中的任何节点或空节点。</p>
+<p>​    构造这个链表的 <strong>深拷贝</strong>。 深拷贝应该正好由 <code>n</code> 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 <code>next</code> 指针和 <code>random</code> 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。</p>
+<p>​    例如，如果原链表中有 <code>X</code> 和 <code>Y</code> 两个节点，其中 <code>X.random --&gt; Y</code> 。那么在复制链表中对应的两个节点 x 和 <code>y</code> ，同样有 <code>x.random --&gt; y</code> 。</p>
+<p>​    返回复制链表的头节点。</p>
+<p>​    用一个由 <code>n</code> 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 <code>[val, random_index]</code> 表示：</p>
+<p><strong>val</strong>：一个表示 <code>Node.val</code> 的整数。<br><strong>random_index</strong>：随机指针指向的节点索引（范围从 <code>0</code> 到 <code>n-1</code>）；如果不指向任何节点，则为  <code>null</code> 。<br>    你的代码 只 接受原链表的头节点 <code>head</code> 作为传入参数。</p>
+ <span id="more"></span>
+
+<p>示例 1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]</span><br><span class="line">输出：[[7,null],[13,0],[11,4],[10,2],[1,0]]</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [[1,1],[2,1]]</span><br><span class="line">输出：[[1,1],[2,1]]</span><br></pre></td></tr></table></figure>
+
+<p>示例 3：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [[3,null],[3,0],[3,null]]</span><br><span class="line">输出：[[3,null],[3,0],[3,null]]</span><br></pre></td></tr></table></figure>
+
+<p>示例 4：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = []</span><br><span class="line">输出：[]</span><br><span class="line">解释：给定的链表为空（空指针），因此返回 null。</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<p><code>0 &lt;= n &lt;= 1000</code><br><code>-10000 &lt;= Node.val &lt;= 10000</code><br><code>Node.random 为空（null）或指向链表中的节点。</code></p>
+<hr>
+<h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>​    首先将该链表中每一个节点拆分为两个相连的节点，例如对于链表 <code>A→B→C</code>，我们可以将其拆分为 <code>A→A ′ →B→B ′ →C→C ′</code> 。对于任意一个原节点 <code>S</code>，其拷贝节点 <code>S ′</code> 即为其后继节点。</p>
+<p>​    这样，我们可以直接找到每一个拷贝节点 <code>S ′</code> 的随机指针应当指向的节点，即为其原节点 <code>S</code> 的随机指针指向的节点 <code>T</code> 的后继节点 <code>T ′</code> 。需要注意原节点的随机指针可能为空，我们需要特别判断这种情况。</p>
+<p>当我们完成了拷贝节点的随机指针的赋值，我们只需要将这个链表按照原节点与拷贝节点的种类进行拆分即可，只需要遍历一次。同样需要注意最后一个拷贝节点的后继节点为空，我们需要特别判断这种情况。</p>
+<hr>
+<h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    Node* copyRandomList(Node* head) &#123;</span><br><span class="line">        if(!head) return NULL;</span><br><span class="line">        Node * ret = head;</span><br><span class="line">        </span><br><span class="line">        // 将A→B→C，拆分为 A→A ′ →B→B ′ →C→C ′</span><br><span class="line">        while(ret)&#123;</span><br><span class="line">            Node *q = new Node(ret-&gt;val);</span><br><span class="line">            q-&gt;next = ret-&gt;next;   </span><br><span class="line">            ret-&gt;next = q;      </span><br><span class="line">            ret = q-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        ret = head;</span><br><span class="line">        </span><br><span class="line">        // S ′ 指向其原节点 S 的随机指针指向的节点 T 的后继节点 T ′</span><br><span class="line">        while(ret)&#123;</span><br><span class="line">            Node* pre = ret;</span><br><span class="line">            ret = ret-&gt;next;</span><br><span class="line">            if(pre-&gt;random) ret-&gt;random = pre-&gt;random-&gt;next;</span><br><span class="line">            else ret-&gt;random = NULL;            </span><br><span class="line">            ret = ret-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        ret = head-&gt;next;</span><br><span class="line">        Node* p = head;</span><br><span class="line">        Node * q = ret;</span><br><span class="line">        Node * now = ret;</span><br><span class="line">        </span><br><span class="line">        //拆分原数组和拷贝数组</span><br><span class="line">        while(p-&gt;next)&#123;</span><br><span class="line">            now = now-&gt;next;</span><br><span class="line">            q = p-&gt;next;</span><br><span class="line">            p-&gt;next = now;          </span><br><span class="line">            p = q;</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>原地算法</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Robbie Swifthand》Unity2d独立游戏学习（三）</title>
+    <url>/2021/07/20/2021-07-20-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>简单的角色移动已经完成了，这次来学习用Raycast 射线检测的方法让角色的状态检测变得更细致</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、Physics2D-Raycast-脚本API"><a href="#一、Physics2D-Raycast-脚本API" class="headerlink" title="一、Physics2D.Raycast 脚本API"></a>一、Physics2D.Raycast 脚本API</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public static RaycastHit2D Raycast (Vector2 origin, Vector2 direction, float distance= Mathf.Infinity, int layerMask= DefaultRaycastLayers, float minDepth= -Mathf.Infinity, float maxDepth= Mathf.Infinity);</span><br></pre></td></tr></table></figure>
+
+<p>参数</p>
+<table>
+<thead>
+<tr>
+<th>origin</th>
+<th>射线在 2D 空间中的起点。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>direction</td>
+<td>表示射线方向的矢量。</td>
+</tr>
+<tr>
+<td>distance</td>
+<td>射线的最大投射距离。</td>
+</tr>
+<tr>
+<td>layerMask</td>
+<td>过滤器，用于仅在特定层上检测碰撞体。</td>
+</tr>
+<tr>
+<td>minDepth</td>
+<td>仅包括 Z 坐标（深度）大于或等于该值的对象。</td>
+</tr>
+<tr>
+<td>maxDepth</td>
+<td>仅包括 Z 坐标（深度）小于或等于该值的对象。</td>
+</tr>
+</tbody></table>
+<p>返回**<code>RaycastHit2D</code>** 返回的投射数量。</p>
+<p>描述：</p>
+<p>向场景中的碰撞体投射射线。</p>
+<p>从概念上说，<em>射线投射</em> 类似于从空间中的某个点朝特定方向发射一条光束。在该过程中，可以检测并报告与光束接触的任何对象。</p>
+<p>函数返回一个 <code>RaycastHit</code> 对象，该对象引用了射线命中的碰撞体（如果未命中任何对象，则结果的碰撞体属性将为 NULL）。*<code>layerMask</code>* 可用于仅在特定层上有选择地检测对象（例如，这让您能够仅将检测应用于敌人角色）。</p>
+<p>使用 <code>contactFilter</code> 的此方法重载可以按 <code>ContactFilter2D</code> 中提供的选项筛选结果。</p>
+<p>对于确定视线、炮火击中的目标以及游戏中的许多其他目的来说，射线投射很有用。</p>
+<p>此外，这还将检测位于射线起点的碰撞体。在这种情况下，射线从碰撞体内部开始，并且不与碰撞体表面交叠。这意味着无法计算碰撞法线，在这种情况下，返回的碰撞法线设置为正在测试的射线向量的倒数。这可轻松检测到，因为此类结果始终是 <code>RaycastHit2D</code> 分数为零。</p>
+<hr>
+<h3 id="二、脚部、头顶碰撞"><a href="#二、脚部、头顶碰撞" class="headerlink" title="二、脚部、头顶碰撞"></a>二、脚部、头顶碰撞</h3><ol>
+<li>在<code>[Header(&quot;环境检测&quot;)]</code>新建几个需要用到的变量</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;环境检测&quot;)]</span><br><span class="line">public LayerMask groundLayer;</span><br><span class="line">public float footOffset = 0.35f;</span><br><span class="line">public float headClearance = 0.5f;</span><br><span class="line">public float groundDistance = 0.2f;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.重写一个射线检测的方法，包含射线可视化</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RaycastHit2D Raycast(Vector2 offset, Vector2 rayDirection, float length, LayerMask layer)//自己封装的射线检测方法</span><br><span class="line">&#123;</span><br><span class="line">    Vector2 pos = transform.position;</span><br><span class="line">    RaycastHit2D hit = Physics2D.Raycast(pos + offset, rayDirection, length, layer);</span><br><span class="line">    Debug.DrawRay(pos + offset, rayDirection, hit ? Color.red : Color.green);</span><br><span class="line">    return hit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.更改地面检测函数<code>PhysicsCheck()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void PhysicsCheck()//检测是否在地面，并修改状态</span><br><span class="line">&#123;</span><br><span class="line">    RaycastHit2D leftCheck = Raycast(new Vector2(-footOffset, 0.2f), Vector2.down, groundDistance, groundLayer);</span><br><span class="line">    RaycastHit2D rightCheck = Raycast(new Vector2(footOffset, 0.2f), Vector2.down, groundDistance, groundLayer);</span><br><span class="line">    isOnGround = leftCheck || rightCheck;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存回到unity，运行</p>
+<p>角色碰撞体左右脚下方都出现了射线，并且会按照射线方向检测是否碰撞到地面，以此改变<code>isOnGround</code>，可以调整参数让检测距离更 “舒服”</p>
+<p>下面来增加头顶的检测</p>
+<p>4.在<code>[Header(&quot;角色状态&quot;)]</code>中增加头顶状态 <code>public bool isHeadBlocked;</code></p>
+<p>5.修改<code>PhysicsCheck()</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void PhysicsCheck()//检测是否在地面，并修改状态</span><br><span class="line">&#123;</span><br><span class="line">    RaycastHit2D leftCheck = Raycast(new Vector2(-footOffset, 0.2f), Vector2.down, groundDistance, groundLayer);</span><br><span class="line">    RaycastHit2D rightCheck = Raycast(new Vector2(footOffset, 0.2f), Vector2.down, groundDistance, groundLayer);</span><br><span class="line">    isOnGround = leftCheck || rightCheck;</span><br><span class="line"></span><br><span class="line">    RaycastHit2D headCheck = Raycast(new Vector2(0f, cd.size.y), Vector2.up, headClearance, groundLayer);</span><br><span class="line">    isHeadBlocked = headCheck;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样，修改<code>public</code>参数就可以调整检测距离（注意射线的长度不等于检测距离）</p>
+<hr>
+<h3 id="三、悬挂检测"><a href="#三、悬挂检测" class="headerlink" title="三、悬挂检测"></a>三、悬挂检测</h3><p>判断悬挂需要三条射线，分别是头顶射线，眼部射线，垂直射线。</p>
+<p>悬挂在边缘的条件：头顶射线<strong>无</strong>碰撞，眼部射线有碰撞，垂直射线<strong>有</strong>碰撞</p>
+<p>1.在<code>[Header(&quot;环境检测&quot;)]</code>添加变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;环境检测&quot;)]</span><br><span class="line">//悬挂</span><br><span class="line">public float playerHeight = 2f;</span><br><span class="line">public float playerEyeHeight = 1.5f;</span><br><span class="line">public float grabDistance = 0.2f;</span><br><span class="line">public float reachOffset = 0.5f;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.在<code>[Header(&quot;角色状态&quot;)]</code>添加状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;角色状态&quot;)]</span><br><span class="line">   public bool isHanging;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.在<code>PhysicsCheck()</code>中添加悬挂的各种射线生成以及悬挂状态判断：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void PhysicsCheck()//物理检测，并修改状态</span><br><span class="line">&#123;</span><br><span class="line">    //悬挂系列射线</span><br><span class="line">    float direction = transform.localScale.x;</span><br><span class="line">    Vector2 grabDirection = new Vector2(direction, 0f);</span><br><span class="line">    RaycastHit2D blockedCheck = Raycast(new Vector2(direction * footOffset, playerHeight), grabDirection, grabDistance, groundLayer);</span><br><span class="line">    RaycastHit2D wallCheck = Raycast(new Vector2(direction * footOffset, playerEyeHeight), grabDirection, grabDistance, groundLayer);</span><br><span class="line">    RaycastHit2D ledgeCheck = Raycast(new Vector2(direction * reachOffset, playerHeight), Vector2.down, grabDistance, groundLayer);</span><br><span class="line">    if (!isOnGround &amp;&amp; !blockedCheck &amp;&amp; wallCheck &amp;&amp; ledgeCheck &amp;&amp; rb.velocity.y &lt; 0f)</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3 pos = transform.position;</span><br><span class="line">        pos.x += (wallCheck.distance - 0.05f) * direction;</span><br><span class="line">        pos.y -= ledgeCheck.distance;</span><br><span class="line">        transform.position = pos; </span><br><span class="line">        rb.bodyType = RigidbodyType2D.Static;</span><br><span class="line">        isHanging = true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>pos.x += (wallCheck.distance - 0.05f) * direction;</code>稍微调整一下悬挂的位置，可以按照图案的位置来调整</p>
+<p>4.悬挂状态已经设置好了，现在我们希望在悬挂时按跳跃键会有一个固定的跳跃高度，并且会取消刚体的锁定</p>
+<p>在<code>[Header(&quot;跳跃参数&quot;)]</code>中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Header(&quot;跳跃参数&quot;)]</span><br><span class="line">   public float hangingJumpForce = 15f;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.在<code>MidAirMovement()</code>添加悬挂跳跃：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void MidAirMovement()//空中移动</span><br><span class="line">&#123;</span><br><span class="line">    if (isHanging)//悬挂时两种选择</span><br><span class="line">    &#123;</span><br><span class="line">        if (jumpPressed)</span><br><span class="line">        &#123;</span><br><span class="line">            rb.bodyType = RigidbodyType2D.Dynamic;</span><br><span class="line">            rb.AddForce(new Vector2(0f, hangingJumpForce), ForceMode2D.Impulse);</span><br><span class="line">            //rb.velocity = new Vector2(rb.velocity.x, hangingJumpForce);</span><br><span class="line">            isHanging = false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (crouchPressed)</span><br><span class="line">        &#123;</span><br><span class="line">            rb.bodyType = RigidbodyType2D.Dynamic;</span><br><span class="line">            crouchPressed = false;</span><br><span class="line">            isHanging = false;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>crouchPressed</code>要在<code>[Header(&quot;按键状态&quot;)]</code>中设置好，并且在<code>Update()</code>中赋值，以此来和<code>crouchHeld</code>分开</p>
+<hr>
+<h3 id="终、阶段总结"><a href="#终、阶段总结" class="headerlink" title="终、阶段总结"></a>终、阶段总结</h3><p>到此为止，已经完成了各种基础运动的逻辑</p>
+<p>自我感觉有些状态的判断没有很好的归类，比如悬挂状态，应该和下蹲&amp;站立一样新建一个悬挂的函数，在悬挂函数中完成悬挂的各种处理，最后使<code>isHanging = true</code>，这样代码应该会比较 ”整齐”</p>
+]]></content>
+      <categories>
+        <category>unity</category>
+      </categories>
+      <tags>
+        <tag>unity</tag>
+        <tag>c#</tag>
+        <tag>raycast</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《Robbie Swifthand》Unity2d独立游戏学习（二）</title>
     <url>/2021/07/19/2021-07-19-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h3 id="一、添加物理组件"><a href="#一、添加物理组件" class="headerlink" title="一、添加物理组件"></a>一、添加物理组件</h3><p>1.给Platforms 添加Tilemap Collider 2D，勾选Used By Composite，添加Composite Collider 2D</p>
@@ -24,6 +255,10 @@
 <p>5.运行，发现在角落处下落会导致角色翻转，需要在主角Rigidbody 2D 中锁定 z 轴</p>
 <p>6.为了避免角色碰到墙壁时会卡进墙体里，给主角Box Collider 2D添加Material 物理材质Teflon（资源包里的，摩擦力和弹力都是0）</p>
 <p>7.新增Layer ，主角设置成Player，Platforms 设置成Ground，以供后面进行碰撞检测</p>
+<span id="more"></span>
+
+
+
 <hr>
 <h3 id="二、角色移动"><a href="#二、角色移动" class="headerlink" title="二、角色移动"></a>二、角色移动</h3><p>1.在Scripts文件夹新建PlayerMovement脚本，编写代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerMovement : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    private Rigidbody2D rb;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;移动参数&quot;)]</span><br><span class="line">    public float speed = 10f;</span><br><span class="line">    public float crouchSpeedDivisor = 5f;</span><br><span class="line">    private float xVelocity;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()//每帧调用</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void FixedUpdate()//每一段时间调用，默认0.02s</span><br><span class="line">    &#123;</span><br><span class="line">        GroundMovement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void GroundMovement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxis(&quot;Horizontal&quot;);//-1f ~ 1f</span><br><span class="line">        //在FixedUpdate()中调用无需Time.deltatime</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        flipDirection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void flipDirection()</span><br><span class="line">    &#123;</span><br><span class="line">        if (xVelocity &gt; 0) transform.localScale = new Vector2 (1, 1);</span><br><span class="line">        else if (xVelocity &lt; 0) transform.localScale = new Vector2(-1, 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -181,6 +416,7 @@
       </categories>
       <tags>
         <tag>c++</tag>
+        <tag>数组</tag>
         <tag>动态规划</tag>
       </tags>
   </entry>
@@ -291,8 +527,8 @@
         <tag>c#</tag>
         <tag>joint</tag>
         <tag>collider</tag>
-        <tag>prefab</tag>
         <tag>trigger</tag>
+        <tag>prefab</tag>
         <tag>canvas</tag>
       </tags>
   </entry>
@@ -574,8 +810,8 @@
       </categories>
       <tags>
         <tag>c++</tag>
-        <tag>map</tag>
         <tag>vector</tag>
+        <tag>map</tag>
       </tags>
   </entry>
   <entry>
@@ -640,6 +876,7 @@
       <tags>
         <tag>c++</tag>
         <tag>滑动窗口法</tag>
+        <tag>数组</tag>
       </tags>
   </entry>
   <entry>

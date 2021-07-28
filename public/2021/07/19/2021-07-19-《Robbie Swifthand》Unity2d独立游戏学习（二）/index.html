@@ -29,7 +29,7 @@
 <meta property="og:description" content="一、添加物理组件1.给Platforms 添加Tilemap Collider 2D，勾选Used By Composite，添加Composite Collider 2D 2.将Platforms自动添加的Rigidbody 2D 选择成Static 模式 3.给主角添加Rigidbody 2D，把Collision Detection选择成Continuous连续不断地检测碰撞，把Interp">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-19T07:23:30.000Z">
-<meta property="article:modified_time" content="2021-07-19T14:03:26.346Z">
+<meta property="article:modified_time" content="2021-07-19T14:38:51.417Z">
 <meta property="article:author" content="Noobita Chan">
 <meta property="article:tag" content="unity">
 <meta property="article:tag" content="c#">
@@ -131,7 +131,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">29</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">34</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -233,6 +233,10 @@
 <p>5.运行，发现在角落处下落会导致角色翻转，需要在主角Rigidbody 2D 中锁定 z 轴</p>
 <p>6.为了避免角色碰到墙壁时会卡进墙体里，给主角Box Collider 2D添加Material 物理材质Teflon（资源包里的，摩擦力和弹力都是0）</p>
 <p>7.新增Layer ，主角设置成Player，Platforms 设置成Ground，以供后面进行碰撞检测</p>
+<span id="more"></span>
+
+
+
 <hr>
 <h3 id="二、角色移动"><a href="#二、角色移动" class="headerlink" title="二、角色移动"></a>二、角色移动</h3><p>1.在Scripts文件夹新建PlayerMovement脚本，编写代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerMovement : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    private Rigidbody2D rb;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;移动参数&quot;)]</span><br><span class="line">    public float speed = 10f;</span><br><span class="line">    public float crouchSpeedDivisor = 5f;</span><br><span class="line">    private float xVelocity;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()//每帧调用</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void FixedUpdate()//每一段时间调用，默认0.02s</span><br><span class="line">    &#123;</span><br><span class="line">        GroundMovement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void GroundMovement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxis(&quot;Horizontal&quot;);//-1f ~ 1f</span><br><span class="line">        //在FixedUpdate()中调用无需Time.deltatime</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        flipDirection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void flipDirection()</span><br><span class="line">    &#123;</span><br><span class="line">        if (xVelocity &gt; 0) transform.localScale = new Vector2 (1, 1);</span><br><span class="line">        else if (xVelocity &lt; 0) transform.localScale = new Vector2(-1, 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -299,7 +303,10 @@
     <a href="/2021/07/18/2021-07-18-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" rel="prev" title="《Robbie Swifthand》Unity2d独立游戏学习（一）">
       <i class="fa fa-chevron-left"></i> 《Robbie Swifthand》Unity2d独立游戏学习（一）
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/20/2021-07-20-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89/" rel="next" title="《Robbie Swifthand》Unity2d独立游戏学习（三）">
+      《Robbie Swifthand》Unity2d独立游戏学习（三） <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -373,7 +380,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -386,7 +393,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
