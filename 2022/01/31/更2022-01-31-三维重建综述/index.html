@@ -28,10 +28,8 @@
 <meta property="og:site_name" content="只差一点点">
 <meta property="og:description" content="始、前言">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-9542f99293ed80f3a3f05d023eacd517_720w.jpg">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-60b965826defb4d73fbe6d95535db1fa_720w.jpg">
-<meta property="og:image" content="https://pic2.zhimg.com/80/v2-c491517c947d61365271ca586bb48f4d_720w.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-619cd97b69cf003f02cb3206f61cb700_720w.jpg">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-b1617ed03da04f9156f0c1e2c8d328fa_720w.jpg">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-1abad42abdcb3e69d249d10951a58bbe_720w.jpg">
@@ -80,14 +78,14 @@
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-9d4606f115f51721fe32e73d70bc23cd_720w.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-290390c2892e260a838f32ca8bf6e9f8_720w.jpg">
 <meta property="article:published_time" content="2022-01-31T14:13:34.000Z">
-<meta property="article:modified_time" content="2022-07-02T09:09:42.135Z">
+<meta property="article:modified_time" content="2022-07-02T12:54:39.452Z">
 <meta property="article:author" content="Changeed">
 <meta property="article:tag" content="三维点云">
 <meta property="article:tag" content="3d">
 <meta property="article:tag" content="kinect">
 <meta property="article:tag" content="三维重建">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-9542f99293ed80f3a3f05d023eacd517_720w.jpg">
 
 <link rel="canonical" href="http://example.com/2022/01/31/%E6%9B%B42022-01-31-%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%BB%BC%E8%BF%B0/">
 
@@ -183,7 +181,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">53</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">56</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -281,11 +279,10 @@
         <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><span id="more"></span>
 
 <hr>
-<p><strong>到这里，很多小伙伴可能会问“基于RGB-D相机的三维重建”和传统的SFM和SLAM算法有什么区别？</strong></p>
+<p><strong>基于RGB-D相机的三维重建”和传统的SFM和SLAM算法有什么区别？</strong></p>
 <p><strong>首先，输入数据流不同</strong>。在基于RGB-D相机的三维重建中，输入有深度信息和彩色信息，并且深度信息起主导作用，而在SLAM和SFM算法中输入的是主要是彩色信息，个别工作也有结合深度信息。</p>
 <p><strong>其次，侧重点不同</strong>。SLAM框架类算法中，<strong>定位还是主体</strong>。我们通常需要定位能实时响应，而稠密地图的构建通常规模和计算量都较大，因此地图的构建却不一定需要实时。当然，地图比较稀疏时，也能实时建图，但并不满足实际需求。另一种思路是<strong>以建图为主体</strong>，定位次之，旨在构建稠密准确的高质量地图，这种高质量地图可以提供给SLAM算法定位使用，而基于RGB-D相机的三维重建”便是满足上述需求的一种方法。</p>
 <p>“基于RGB-D相机的三维重建”以及“基于深度相机的三维重建“和“基于fusion系列方法的三维重建”其实是三种等价的说法。由于该领域发表的大多数工作都在标题里带有“fusion”，业内也简称这些相关工作为“基于fusion系列方法”，所以本文中也使用“基于fusion系列方法”来描述<strong>。</strong></p>
-<p><img data-src="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png" alt="img"></p>
 <p>基于fusion系列的三维重建其实可以大体分为两种，一种是对于静态场景的三维重建，以KinectFusion为典型代表，一种是对于动态场景的三维重建，以<strong>DynamicFusion为典型代表</strong>。而不论是静态场景亦或是动态场景的fusion系列重建，最大特点就是使用了<strong>TSDF</strong>模型（截断符号距离函数模型），当然也有个别工作使用了<strong>面元</strong>（Surfel）的表示方法（面元简单来讲就是<strong>点，法线，颜色，权重，半径以及时间戳</strong>等属性的集合）。<strong>值得一提的是，基于动态场景的三维重建的难度远大于基于静态场景的三维重建</strong>，当然，对于拓扑不会发生变化的重建（比如驱动一个三维网格模板模型），难度会下降很多。</p>
 <p>为了更好的理解fusion系列方法，这里在介绍下TSDF模型。TSDF全称是Truncated Signed Distance Function缩写，译为<strong>截断符号距离函数</strong>。通常我们先选定要建模的三维空间，比如2m×2m×2m那么大，然后将这个三维空间分割成许多小块，分辨率通常为256×256×256或是128×128×128，每一个小块被称为<strong>体素</strong>。</p>
 <p><strong>TSDF模型中每个体素存储的是该小块与其最近的物体表面的距离。</strong>如果该小块在该物体表面的的前面，则它存储一个正值；如果该小块位于物体表面之后，那么就存储一个负值。进一步，通常认为物体表面是有厚度的，所以把值太大和值太小的都置为1或是-1，这样就得到了截断之后的距离，也就是所谓的TSDF模型。最后按照定义，<strong>TSDF为0的地方就是重建表面所在</strong>。换种说法就是TSDF数值由负数过渡到正数的地方。如下图中人脸就出现在TSDF值改变符号，即TSDF值为0的地方，如下图。</p>
@@ -301,7 +298,6 @@
 <li>半径，即由当前表面到相机光心的距离决定，距离越大，半径越大</li>
 <li>时间戳</li>
 </ul>
-<p><img data-src="https://pic2.zhimg.com/80/v2-c491517c947d61365271ca586bb48f4d_720w.jpg" alt="img"></p>
 <h2 id="基于静态场景的三维重建"><a href="#基于静态场景的三维重建" class="headerlink" title="基于静态场景的三维重建"></a><strong>基于静态场景的三维重建</strong></h2><p><strong>1.KinectFusion</strong></p>
 <p>Newcombe的经典之作</p>
 <p><img data-src="https://pic1.zhimg.com/80/v2-619cd97b69cf003f02cb3206f61cb700_720w.jpg" alt="img"></p>
@@ -551,7 +547,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -564,7 +560,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
