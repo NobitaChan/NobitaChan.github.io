@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="始、前言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三维重建简述">
+<meta property="og:url" content="http://example.com/2022/01/31/%E6%9B%B42022-01-31-%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%BB%BC%E8%BF%B0/index.html">
+<meta property="og:site_name" content="只差一点点">
+<meta property="og:description" content="始、前言">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-9542f99293ed80f3a3f05d023eacd517_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-60b965826defb4d73fbe6d95535db1fa_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-c491517c947d61365271ca586bb48f4d_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-619cd97b69cf003f02cb3206f61cb700_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-b1617ed03da04f9156f0c1e2c8d328fa_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-1abad42abdcb3e69d249d10951a58bbe_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-79cd571b10b43eb22c2497f7a82ed7cb_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-1cca3a2e5d0c4f945b0202b6ab55fd09_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-8a714b5587bbbbfd3be334777ee09184_ipico.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-5465c1c5f0ac5d38cfe9c9c9ad742654_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-f523cae44fe1e964cae9b1bda9983e78_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-abacf0e0bd9f2bacad0e7bc6f43ca34a_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-c47b89784256afde2a4578ec1f8d448c_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-8a714b5587bbbbfd3be334777ee09184_ipico.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-b51c35810774995f3496fcf8c90a004e_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-5041edda607db5009dd6e4ed5942ad60_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-773100250df48f58f670615e77f7f7e6_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-5fa7073e912e00a315244af54a571062_ipico.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-26004796e70c577d97a562fa6e5adb3c_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-e0e69c760c335b9ee1f8ef58070734ae_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-10854bf25ca385e8086852e53f2e3d7a_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-96b0422e0f0ed576d1599186f414ee14_720w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/v2-30d16c7a432c57530cf4b0066bcc0527_ipico.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-0d7c726ed2f74b84246d3f80b1050108_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-6b1d5d3464ba3e38bff89f2a3f1e44f2_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-8543226a82013230a17b61f5d8576f99_720w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-cee4b5b21e97e1091a1c0510f41bd4e7_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-0a0a221397857409844c6097df0a6f12_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-96c43c20ae8e4be5c9223019e892e149_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-03054fef6494f52d0685ea48be02ecb7_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-6412cb80de82beacc35ace75d0a8722f_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-073bb2cb52b044ab4c5958668338acf1_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-b40ee37a1fc167b2ab129dcbbfef453b_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-c427780b5e638801891de34e861eb4f6_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-be4fb906c3c64e6704ddac03253f35e2_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-d5166bcbed84e2ef62c988c511d7301c_720w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-e82be7fc57bc0b7b7780249a85c37413_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-91e5e42f4199d02ac5d3f0c2b9d9c419_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-e93307eb56f5a80b3af86e60ca7b1d70_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-c5e2de7641b09a40a642ebc5c6cbd676_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-caa8bba14205b491d96b6ea428a56519_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-70af628ca0bb461bcaa80195a46e4802_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-8413ee52a1a7eb690d1443eee43603e2_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-6b2c2a78879c7e1aadb6d8cb64f66ed5_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-1595f8e62c848bbbea2ae884a3e0ea7d_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-2fb8f03e5c62cf5cac8327abf46c843e_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-74f7fb911749c57d9e2d64ba8e8e3dea_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-6ed4e9c6f1cca6799f2719f304e160df_r.jpg?source=2231c908">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-9d4606f115f51721fe32e73d70bc23cd_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-290390c2892e260a838f32ca8bf6e9f8_720w.jpg">
+<meta property="article:published_time" content="2022-01-31T14:13:34.000Z">
+<meta property="article:modified_time" content="2022-07-02T09:09:42.135Z">
+<meta property="article:author" content="Changeed">
+<meta property="article:tag" content="三维点云">
+<meta property="article:tag" content="3d">
+<meta property="article:tag" content="kinect">
+<meta property="article:tag" content="三维重建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png">
+
+<link rel="canonical" href="http://example.com/2022/01/31/%E6%9B%B42022-01-31-%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%BB%BC%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>三维重建简述 | 只差一点点</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">只差一点点</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">这就是最好的时代</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">53</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/NobitaChan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/31/%E6%9B%B42022-01-31-%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%BB%BC%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Changeed">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差一点点">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          三维重建简述
+        </h1>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><span id="more"></span>
+
+<hr>
+<p><strong>到这里，很多小伙伴可能会问“基于RGB-D相机的三维重建”和传统的SFM和SLAM算法有什么区别？</strong></p>
+<p><strong>首先，输入数据流不同</strong>。在基于RGB-D相机的三维重建中，输入有深度信息和彩色信息，并且深度信息起主导作用，而在SLAM和SFM算法中输入的是主要是彩色信息，个别工作也有结合深度信息。</p>
+<p><strong>其次，侧重点不同</strong>。SLAM框架类算法中，<strong>定位还是主体</strong>。我们通常需要定位能实时响应，而稠密地图的构建通常规模和计算量都较大，因此地图的构建却不一定需要实时。当然，地图比较稀疏时，也能实时建图，但并不满足实际需求。另一种思路是<strong>以建图为主体</strong>，定位次之，旨在构建稠密准确的高质量地图，这种高质量地图可以提供给SLAM算法定位使用，而基于RGB-D相机的三维重建”便是满足上述需求的一种方法。</p>
+<p>“基于RGB-D相机的三维重建”以及“基于深度相机的三维重建“和“基于fusion系列方法的三维重建”其实是三种等价的说法。由于该领域发表的大多数工作都在标题里带有“fusion”，业内也简称这些相关工作为“基于fusion系列方法”，所以本文中也使用“基于fusion系列方法”来描述<strong>。</strong></p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-1480857d70ff8e2688defd0b8f7670bb_720w.png" alt="img"></p>
+<p>基于fusion系列的三维重建其实可以大体分为两种，一种是对于静态场景的三维重建，以KinectFusion为典型代表，一种是对于动态场景的三维重建，以<strong>DynamicFusion为典型代表</strong>。而不论是静态场景亦或是动态场景的fusion系列重建，最大特点就是使用了<strong>TSDF</strong>模型（截断符号距离函数模型），当然也有个别工作使用了<strong>面元</strong>（Surfel）的表示方法（面元简单来讲就是<strong>点，法线，颜色，权重，半径以及时间戳</strong>等属性的集合）。<strong>值得一提的是，基于动态场景的三维重建的难度远大于基于静态场景的三维重建</strong>，当然，对于拓扑不会发生变化的重建（比如驱动一个三维网格模板模型），难度会下降很多。</p>
+<p>为了更好的理解fusion系列方法，这里在介绍下TSDF模型。TSDF全称是Truncated Signed Distance Function缩写，译为<strong>截断符号距离函数</strong>。通常我们先选定要建模的三维空间，比如2m×2m×2m那么大，然后将这个三维空间分割成许多小块，分辨率通常为256×256×256或是128×128×128，每一个小块被称为<strong>体素</strong>。</p>
+<p><strong>TSDF模型中每个体素存储的是该小块与其最近的物体表面的距离。</strong>如果该小块在该物体表面的的前面，则它存储一个正值；如果该小块位于物体表面之后，那么就存储一个负值。进一步，通常认为物体表面是有厚度的，所以把值太大和值太小的都置为1或是-1，这样就得到了截断之后的距离，也就是所谓的TSDF模型。最后按照定义，<strong>TSDF为0的地方就是重建表面所在</strong>。换种说法就是TSDF数值由负数过渡到正数的地方。如下图中人脸就出现在TSDF值改变符号，即TSDF值为0的地方，如下图。</p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-9542f99293ed80f3a3f05d023eacd517_720w.jpg" alt="img"></p>
+<p>再来说说Surfel，如下图。</p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-60b965826defb4d73fbe6d95535db1fa_720w.jpg" alt="img"></p>
+<p>Surfel这种表示方法最早于2000年提出用于模型渲染，如下图所示，每一个Surfel可以理解成一个小面片，包含以下要素：</p>
+<ul>
+<li>空间点坐标，即面片位置；</li>
+<li>空间法向量，即面片方向；</li>
+<li>颜色；</li>
+<li>权重，即根据当前点到相机的距离进行初始化，距离越远，权重越小</li>
+<li>半径，即由当前表面到相机光心的距离决定，距离越大，半径越大</li>
+<li>时间戳</li>
+</ul>
+<p><img data-src="https://pic2.zhimg.com/80/v2-c491517c947d61365271ca586bb48f4d_720w.jpg" alt="img"></p>
+<h2 id="基于静态场景的三维重建"><a href="#基于静态场景的三维重建" class="headerlink" title="基于静态场景的三维重建"></a><strong>基于静态场景的三维重建</strong></h2><p><strong>1.KinectFusion</strong></p>
+<p>Newcombe的经典之作</p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-619cd97b69cf003f02cb3206f61cb700_720w.jpg" alt="img"></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-b1617ed03da04f9156f0c1e2c8d328fa_720w.jpg" alt="img"></p>
+<p>KinectFusion是Richard A. Newcombe的经典之作。该系统仅需要一个移动的低成本深度相机，便可以重建任意并且较为复杂的室内场景。其核心思想将Kinect传感器采集的深度数据流实时融入到（fusion into）一个当前场景对应的全局的隐式表面模型（TSDF模型）中，并使用一个由粗到精的迭代最近点（ICP）算法跟踪当前采集的深度帧数据与上文的全局的隐式表面模型之间的相对关系，从而获得Kinect传感器的位姿变化。</p>
+<p>同时这个系统也有着不足之处，该系统只能重建小于7立方米的体空间。主要原因有两点：由于该系统采用稠密的体积表示方式，因此需要消耗大量内存；另外在重建较大建筑时不断累积的误差会造成“飘移”现象。以上两点原因使得Kinectfusion无法重建较大建筑。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ismar2011.pdf">https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ismar2011.pdfwww.microsoft.com/en-us/research/wp-content/uploads/2016/02/ismar2011.pdf</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/ParikaGoel/KinectFusion">https://github.com/ParikaGoel/KinectFusiongithub.com/ParikaGoel/KinectFusion</a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-1abad42abdcb3e69d249d10951a58bbe_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312756015705174016">KinectFusion668 播放 · 0 赞同视频<img data-src="https://pic2.zhimg.com/v2-79cd571b10b43eb22c2497f7a82ed7cb_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>2.Kintinuous</strong></p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-1cca3a2e5d0c4f945b0202b6ab55fd09_720w.jpg" alt="img"></p>
+<p>上述 KinectFusion 算法使用固定体积的网格模型（如256<em>256</em>256）表示重建的三维场景，从而使得只能重建固定大小的场景；另外当重建体积较大，或者网格的空间分辨率较高时很消耗显存。而且 KinectFusion 算法没有回环检测和回环优化，这也造成当相机移动距离大时，不可避免的会有累积误差。这个算法是比较完善的三维重建系统，融合了回环检测和回环优化，还在实时三维刚体重建中使用了deformation graph做非刚体变换，根据回环优化的结果，更新点的坐标，使得回环的地方两次重建的可以对齐。该算法适合大场景的三维重建。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://www.thomaswhelan.ie/Whelan12rssw.pdf">http://www.thomaswhelan.ie/Whelan12rssw.pdfwww.thomaswhelan.ie/Whelan12rssw.pdf</a></p>
+<p><strong>code：</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/mp3guy/Kintinuous">mp3guy/Kintinuousgithub.com/mp3guy/Kintinuous<img data-src="https://pic1.zhimg.com/v2-8a714b5587bbbbfd3be334777ee09184_ipico.jpg" alt="img"></a></p>
+<p><strong>demo：</strong></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-5465c1c5f0ac5d38cfe9c9c9ad742654_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312754191023460352">Kintinuous1662 播放 · 1 赞同视频<img data-src="https://pic2.zhimg.com/v2-f523cae44fe1e964cae9b1bda9983e78_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>3.ElasticFusion</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-abacf0e0bd9f2bacad0e7bc6f43ca34a_720w.png" alt="img"></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-c47b89784256afde2a4578ec1f8d448c_720w.jpg" alt="img"></p>
+<p>该算法的作者同时也是Kintinuous的作者，不同于Kintinuous的是，ElasticFusion使用了面元（Surfel）的表示方法，并且是用于小场景重建。该工作的主要贡献有两点：将许多“model-to-model”的<strong>局部闭环</strong>和较大规模的<strong>全局闭环</strong>结合在一起。因此可以保证重建地图的分布的尽可能相近，并且保证了重建结果的<strong>全局一致性</strong>；另外该算法对探测<strong>离散的多点光源环境</strong>比较高效，也能在该条件下获得较好的重建结果。</p>
+<p>另外该算法也面临巨大的挑战，如何解决整个房间以外的<strong>地图可扩展性</strong>问题以及如何随着时间变化，保证重建地图的全局一致的稳定性。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://roboticsproceedings.org/rss11/p01.pdf">http://roboticsproceedings.org/rss11/p01.pdfroboticsproceedings.org/rss11/p01.pdf</a></p>
+<p><a href="https://link.zhihu.com/?target=http://www.thomaswhelan.ie/Whelan16ijrr.pdf">http://www.thomaswhelan.ie/Whelan16ijrr.pdfwww.thomaswhelan.ie/Whelan16ijrr.pdf</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/mp3guy/ElasticFusion">mp3guy/ElasticFusiongithub.com/mp3guy/ElasticFusion<img data-src="https://pic1.zhimg.com/v2-8a714b5587bbbbfd3be334777ee09184_ipico.jpg" alt="img"></a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-b51c35810774995f3496fcf8c90a004e_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312758997905575936">ElasticFusion431 播放 · 0 赞同视频<img data-src="https://pic2.zhimg.com/v2-5041edda607db5009dd6e4ed5942ad60_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>4.ElasticReconstruction</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-773100250df48f58f670615e77f7f7e6_720w.jpg" alt="img"></p>
+<p>该工作提供一种从RGB-D视频重建室内场景重建的方法，其核心思想在于将场景片段的几何配准和全局优化相结合。场景片段是通过将输入RGB-D视频流分割成若干帧为一组的场景片段得到的。这种以场景片段为单位进行深度信息的融合可以有效地去除深度图的噪声，从而获得更加准确的表面法向信息以及重建结果。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://vladlen.info/papers/indoor.pdf">http://vladlen.info/papers/indoor.pdfvladlen.info/papers/indoor.pdf</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/qianyizh/ElasticReconstruction">qianyizh/ElasticReconstructiongithub.com/qianyizh/ElasticReconstruction<img data-src="https://pic3.zhimg.com/v2-5fa7073e912e00a315244af54a571062_ipico.jpg" alt="img"></a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-26004796e70c577d97a562fa6e5adb3c_720w.jpg" alt="img"></p>
+<p><strong>5.InfiniTAM</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-e0e69c760c335b9ee1f8ef58070734ae_720w.jpg" alt="img"></p>
+<p>InfiniTAM是一个开源、跨平台、实时的大范围深度信息融合与跟踪技术框架。该算法有好几个版本，有很大的借鉴意义。值得一提的是，InfiniTAM能够比KinectFusion重建更加大范围的3D环境，其关键因素在于InfiniTAM采用了<strong>哈希表</strong>的方式来存储隐式的体积表示，极大地节省了内存空间的消耗。</p>
+<p><strong>paper：</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://arxiv.org/abs/1708.00783">InfiniTAM v3: A Framework for Large-Scale 3D Reconstruction with Loop Closurearxiv.org/abs/1708.00783</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/victorprad/InfiniTAM">https://github.com/victorprad/InfiniTAMgithub.com/victorprad/InfiniTAM</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312759319193030656">InfiniTAM1541 播放 · 0 赞同视频<img data-src="https://pic2.zhimg.com/v2-10854bf25ca385e8086852e53f2e3d7a_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>6.BundleFusion</strong></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-96b0422e0f0ed576d1599186f414ee14_720w.jpg" alt="img"></p>
+<p>Bundlefusion应该是目前静态场景重建效果最佳的方案了。该方法提出一个并行化的优化框架，充分利用了基于<strong>稀疏特征</strong>以及<strong>稠密几何</strong>和<strong>光度匹配</strong>提取的对应关系，实时地估计了BA优化的姿态，并具有从追踪失败中恢复（即<strong>重定位</strong>）的鲁棒追踪能力。</p>
+<p><strong>paper：</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://arxiv.org/pdf/1604.01093.pdf">https://arxiv.org/pdf/1604.01093.pdfarxiv.org/pdf/1604.01093.pdf</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/niessner/BundleFusion">niessner/BundleFusiongithub.com/niessner/BundleFusion<img data-src="https://pic4.zhimg.com/v2-30d16c7a432c57530cf4b0066bcc0527_ipico.jpg" alt="img"></a></p>
+<p><strong>demo:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=keIirXrRb1k&ab_channel=MatthiasNiessner">https://www.youtube.com/watch?v=keIirXrRb1k&amp;ab_channel=MatthiasNiessnerwww.youtube.com/watch?v=keIirXrRb1k&amp;ab_channel=MatthiasNiessner</a></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-0d7c726ed2f74b84246d3f80b1050108_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312763867630620672">BundleFusion808 播放 · 0 赞同视频<img data-src="https://pic2.zhimg.com/v2-6b1d5d3464ba3e38bff89f2a3f1e44f2_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<hr>
+<h2 id="基于动态场景的三维重建"><a href="#基于动态场景的三维重建" class="headerlink" title="基于动态场景的三维重建"></a><strong>基于动态场景的三维重建</strong></h2><p><strong>1.DynamicFusion</strong></p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-8543226a82013230a17b61f5d8576f99_720w.jpg" alt="img"></p>
+<p>DynamicFusion获得了2015年CVPR的<strong>Best Paper Award</strong>，其作者是Newcombe，和KinectFusion是一个作者。DynamicFusion是<strong>不基于任何模板先验信息</strong>的动态重建算法，可是说是<strong>实时动态重建</strong>的开山之作。DynamicFusion系统在重建场景的<strong>几何</strong>的同时也在估计稠密体积表示的<strong>6D形变域</strong>。类似KinectFusion，该系统能随着深度数据的采集，而获得一个<strong>逐渐去噪，保留细节并且较为完整</strong>的重建结果。</p>
+<p>但同时由于DynamicFusion没有采用任何先验信息使得该算法对于帧间<strong>较大的运动</strong>以及<strong>遮挡区域的运动</strong>都不具备鲁棒性；此外DynamicFusion可以较好得处理封闭拓扑的表面重建，对于<strong>拓扑发生变化</strong>就无能为力了。例如我们嘴一开始闭着，后面再打开的情况就没法处理；另外由于追踪的累积误差，使得<strong>回环闭合失败</strong>。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://rse-lab.cs.washington.edu/papers/dynamic-fusion-cvpr-2015.pdf">https://rse-lab.cs.washington.edu/papers/dynamic-fusion-cvpr-2015.pdfrse-lab.cs.washington.edu/papers/dynamic-fusion-cvpr-2015.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-cee4b5b21e97e1091a1c0510f41bd4e7_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312754544720715776">dynamicFusion1381 播放 · 4 赞同视频<img data-src="https://pic3.zhimg.com/v2-0a0a221397857409844c6097df0a6f12_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>2.volumeDeform</strong></p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-96c43c20ae8e4be5c9223019e892e149_720w.jpg" alt="img"></p>
+<p>volumeDeform算法和dynamicFusion类似，都无需预先定义的模板，同样采用体积表示（volumetric representation）的方法来<strong>参数化重建模型的几何以及运动</strong>。该算法的运动追踪基于提取的<strong>全局稀疏彩色特征</strong>（如SIFT算子）以及<strong>稠密的深度</strong>图两者的结合，增强了特征匹配点寻找准确的鲁棒性，进而极大地减小了重建模型的累积误差以及漂移现象 。</p>
+<p>该算法的不足之处在于尽管全局SITF特征算子的匹配提高了系统的鲁棒性，减小了对齐的误差，但<strong>漂移</strong>现象仍然不能完全消除；另外由于<strong>正则项</strong>的设置使得极度弯曲的物体的重建结果在运动上会显得平滑，变得不那么弯曲。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://graphics.stanford.edu/~niessner/papers/2016/5volumeDeform/innmann2016deform.pdf">https://graphics.stanford.edu/<del>niessner/papers/2016/5volumeDeform/innmann2016deform.pdfgraphics.stanford.edu/</del>niessner/papers/2016/5volumeDeform/innmann2016deform.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312761662470922240">VolumeDeform930 播放 · 0 赞同视频<img data-src="https://pic1.zhimg.com/v2-03054fef6494f52d0685ea48be02ecb7_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>3.BodyFusion</strong></p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-6412cb80de82beacc35ace75d0a8722f_720w.jpg" alt="img"></p>
+<p>从BodyFusion开始就变得更有意思了。BodyFusion使用<strong>人体骨架</strong>作为先验信息，实现鲁棒了的人体动态重建。人体骨架的引入减少了重建表面图节点的<strong>非刚性形变参数化的歧义性</strong>，也是在一定程度上缩小了解空间。</p>
+<p>不足之处在于所使用的人体骨骼所包含的<strong>关节点太过稀疏</strong>，并且运动较快时，会在深度图上出现<strong>运动模糊</strong>的情况，从而造成重建方法受限。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://www.liuyebin.com/bodyfusion/bodyfusion_files/BdyFu_ICCV17.pdf">http://www.liuyebin.com/bodyfusion/bodyfusion_files/BdyFu_ICCV17.pdfwww.liuyebin.com/bodyfusion/bodyfusion_files/BdyFu_ICCV17.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312763630241042432">BodyFusion994 播放 · 5 赞同视频<img data-src="https://pic2.zhimg.com/v2-073bb2cb52b044ab4c5958668338acf1_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>4.DoubleFusion</strong></p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-b40ee37a1fc167b2ab129dcbbfef453b_720w.jpg" alt="img"></p>
+<p>DoubleFusion非常惊艳，该系统将<strong>数字驱动的模板</strong>（SMPL模型）以及实时重建的稠密<strong>几何</strong>、<strong>非刚性运动</strong>以及<strong>内层人体形状</strong>充分结合在一起。该系统的关键贡献之一在于提出了<strong>双层表面</strong>的表示，这里的两层主要是指里层的<strong>参数化模型表面</strong>（inner body），也就是SMPL模型的shape，以及外层通过<strong>深度融合得到的表面</strong>（outer surface）。该算法的另一个关键贡献在于提出了一个基于双层表面表示的<strong>联合运动追踪</strong>，使得整个系统可以在快速运动的情况下仍然具有鲁棒性。</p>
+<p>不足之处在于当用户穿着比较肥大的时候，估计的人体也偏胖;并且无法处理外层表面发生分离的情况，以及无法处理<strong>人和物体交互</strong>的情况。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://www.liuyebin.com/doublefusion/doublefusion_files/doublefusion.pdf">http://www.liuyebin.com/doublefusion/doublefusion_files/doublefusion.pdfwww.liuyebin.com/doublefusion/doublefusion_files/doublefusion.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-c427780b5e638801891de34e861eb4f6_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312763353522077696">DoubleFusion1156 播放 · 3 赞同视频<img data-src="https://pic2.zhimg.com/v2-be4fb906c3c64e6704ddac03253f35e2_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>5.UnstructuredFusion</strong></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-d5166bcbed84e2ef62c988c511d7301c_720w.jpg" alt="img"></p>
+<p>通常多相机系统需要一些特殊设计的相机以及预先精细的相机标定操作，但UnstructuredFusion算法可以使用<strong>未经预先标定以及同步</strong>的三个深度相机以一种互补并灵活的方式覆盖整个人体，从而实现实时，高质量，完整的动态人体重建。</p>
+<p>该算法也有不足之处。由于输入深度图分辨率受限，该算法无法重建目标非常细小的部分，比如人的脸部区域；该算法也无法处理<strong>网格拓扑分离</strong>的情况；该算法也无法处理人-物交互情况。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8708933&tag=1">UnstructuredFusion: Realtime 4D Geometry and Texture Reconstruction Using Commercial RGBD Camerasieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=8708933&amp;tag=1</a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-e82be7fc57bc0b7b7780249a85c37413_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312762042022281216">UnstructuredFusion746 播放 · 1 赞同视频<img data-src="https://pic1.zhimg.com/v2-91e5e42f4199d02ac5d3f0c2b9d9c419_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>6.RobustFusion</strong></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-e93307eb56f5a80b3af86e60ca7b1d70_720w.jpg" alt="img"></p>
+<p>诚如算法名字所示，该算法使用了各种数据驱动的视觉线索提高动态重建算法的鲁棒性。</p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-c5e2de7641b09a40a642ebc5c6cbd676_720w.jpg" alt="img"></p>
+<p>诚如算法名字RobustFusion所示，该算法使用了各种<strong>数据驱动的视觉线索</strong>提高动态重建算法的鲁棒性。这些数据驱动的视觉线索具体包括Occupancy Network，Pose&amp;Shape Network以及Semantic Network。 该算法充分利用了上述数据驱动的视觉线索，避免了预先扫描模板的使用，具备了重新初始化的能力，使得该系统能够处理极具挑战性的运动和几何的重建。</p>
+<p>该系统的不足之处有：该系统无法实时运行；不能处理重建<strong>网格拓扑发生分离</strong>的情况，比如脱掉衣服；不能实现<strong>人和物的交互</strong>；当一些极端运动姿态在上述网络训练时没有出现过，那上述数据驱动的视觉线索就不能很好地提供先验信息。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123490239.pdf">https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123490239.pdfwww.ecva.net/papers/eccv_2020/papers_ECCV/papers/123490239.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312762970301034496">RobustFusion1123 播放 · 1 赞同视频<img data-src="https://pic1.zhimg.com/v2-caa8bba14205b491d96b6ea428a56519_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>7.KillingFusion</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-70af628ca0bb461bcaa80195a46e4802_720w.jpg" alt="img"></p>
+<p>KillFusion是基于Killing Vector Fields提出的实时三维重建方法，也是不需要任何预先扫描的模板信息以或是形状先验。KillingFusion<strong>不需要显式地进行对应匹配点的搜索</strong>，当给定感兴趣区域的一对SDF（signed distance fields）,该算法可以估计出一个稠密形变域来对齐给定的SDF。具体的，该算法定义一个和SDF相同分辨率的位移向量域（displacement vector field）,并通过最优化迭代求解。</p>
+<p>该算法的不足之处也是由于其优点造成，<strong>不显式地寻找对应点也使得该算法在某些需要显式的对应点的操作上无法应用</strong>，比如<strong>纹理映射</strong>就需要显式的对应点。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=http://campar.in.tum.de/pub/slavcheva2017cvpr/slavcheva2017cvpr.pdf">http://campar.in.tum.de/pub/slavcheva2017cvpr/slavcheva2017cvpr.pdfcampar.in.tum.de/pub/slavcheva2017cvpr/slavcheva2017cvpr.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-8413ee52a1a7eb690d1443eee43603e2_720w.jpg" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312760841906405376">KillingFusion353 播放 · 1 赞同视频<img data-src="https://pic1.zhimg.com/v2-6b2c2a78879c7e1aadb6d8cb64f66ed5_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>8.SurfelWarp</strong></p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-1595f8e62c848bbbea2ae884a3e0ea7d_720w.jpg" alt="img"></p>
+<p>SurfelWarp是三维动态重建方案中为数不多的基于面元的算法。类似的，该算法输入一个深度图序列，对非刚性场景进行实时重建，无需任何模板或是先验信息。与现有的方法相比，该算法<strong>无需维持体积数据结构</strong>，比如TSDF模型，该系统采用面元（surfel）的几何表示，极大地增强了拓扑发生改变时的追踪能力，从而获得一致的重建结果。</p>
+<p>该算法的不足之处在于，模型重初始化可以极大地提高系统的鲁棒性，然而清除错误的面元会<strong>破坏模型的完整性</strong>。</p>
+<p><strong>paper:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://arxiv.org/pdf/1904.13073.pdf">https://arxiv.org/pdf/1904.13073.pdfarxiv.org/pdf/1904.13073.pdf</a></p>
+<p><strong>code:</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/weigao95/surfelwarp">https://github.com/weigao95/surfelwarpgithub.com/weigao95/surfelwarp</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312762272759042048">SurfelWarp1306 播放 · 0 赞同视频<img data-src="https://pic2.zhimg.com/v2-2fb8f03e5c62cf5cac8327abf46c843e_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><strong>9.Fusion4D</strong></p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-74f7fb911749c57d9e2d64ba8e8e3dea_720w.jpg" alt="img"></p>
+<p>Fusion4D的重建结果也非常惊艳。该算法是基于<strong>多视角</strong>方案，没有使用任何先验信息，因此理论上可以重建任何场景或是物体。如视频所示，除了对人体动态重建，还能对狗子动态重建。该算法很重要的一点贡献是引入了<strong>key volume</strong>,因此对于<strong>较大的帧间运动</strong>以及<strong>网格拓扑发生改变</strong>时都有很强的鲁棒性；另外Fusion4D还引入了<strong>体素碰撞检测</strong>，从而得到正确的TSDF模型。</p>
+<p>该系统不足之处在于当RGBD输入流<strong>帧率过低或者帧间运动过大</strong>时，会使帧间对应匹配点估计不准确，造成非刚性对齐过程无法收敛。</p>
+<p><strong>paper：</strong></p>
+<p><a href="https://link.zhihu.com/?target=https://www.microsoft.com/en-us/research/wp-content/uploads/2016/11/a114-dou.pdf">https://www.microsoft.com/en-us/research/wp-content/uploads/2016/11/a114-dou.pdfwww.microsoft.com/en-us/research/wp-content/uploads/2016/11/a114-dou.pdf</a></p>
+<p><strong>demo:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1312762543794958336">Fusion4D818 播放 · 2 赞同视频<img data-src="https://pic3.zhimg.com/v2-6ed4e9c6f1cca6799f2719f304e160df_r.jpg?source=2231c908" alt="点击可播放视频"></a></p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-9d4606f115f51721fe32e73d70bc23cd_720w.jpg" alt="img"></p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-290390c2892e260a838f32ca8bf6e9f8_720w.jpg" alt="img"></p>
+<h2 id="总结不易，喜欢的话就点个赞呗～"><a href="#总结不易，喜欢的话就点个赞呗～" class="headerlink" title="总结不易，喜欢的话就点个赞呗～"></a><strong>总结不易，喜欢的话就点个赞呗～</strong></h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%89%E7%BB%B4%E7%82%B9%E4%BA%91/" rel="tag"># 三维点云</a>
+              <a href="/tags/3d/" rel="tag"># 3d</a>
+              <a href="/tags/kinect/" rel="tag"># kinect</a>
+              <a href="/tags/%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA/" rel="tag"># 三维重建</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/21/2022-01-21-%E7%AE%97%E6%B3%95%E9%A2%98%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%95%B0%E7%BB%84%E5%9F%BA%E7%A1%80%EF%BC%89/" rel="prev" title="算法题方法总结（数组基础）">
+      <i class="fa fa-chevron-left"></i> 算法题方法总结（数组基础）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/03/%E6%9B%B42022-02-03-%E7%AE%97%E6%B3%95%E9%A2%98%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%EF%BC%88%E9%93%BE%E8%A1%A8%E5%9F%BA%E7%A1%80%EF%BC%89/" rel="next" title="算法题方法总结（链表基础）">
+      算法题方法总结（链表基础） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A7%8B%E3%80%81%E5%89%8D%E8%A8%80"><span class="nav-text">始、前言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E9%9D%99%E6%80%81%E5%9C%BA%E6%99%AF%E7%9A%84%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA"><span class="nav-text">基于静态场景的三维重建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E5%9C%BA%E6%99%AF%E7%9A%84%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA"><span class="nav-text">基于动态场景的三维重建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8D%E6%98%93%EF%BC%8C%E5%96%9C%E6%AC%A2%E7%9A%84%E8%AF%9D%E5%B0%B1%E7%82%B9%E4%B8%AA%E8%B5%9E%E5%91%97%EF%BD%9E"><span class="nav-text">总结不易，喜欢的话就点个赞呗～</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Changeed"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Changeed</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/NobitaChan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;NobitaChan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2272689905@qq.com" title="E-Mail → mailto:2272689905@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changeed</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

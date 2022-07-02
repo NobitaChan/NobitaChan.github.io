@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="始、前言一个小知识，预制体放入场景中后，如果在场景中的物体修改完想同步到预制体，需要选择场景中物体的 Inspector → Prefab → Overrides → Apply All">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Robbie Swifthand》Unity2d独立游戏学习（五）">
+<meta property="og:url" content="http://example.com/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/index.html">
+<meta property="og:site_name" content="只差一点点">
+<meta property="og:description" content="始、前言一个小知识，预制体放入场景中后，如果在场景中的物体修改完想同步到预制体，需要选择场景中物体的 Inspector → Prefab → Overrides → Apply All">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-30T12:37:14.000Z">
+<meta property="article:modified_time" content="2022-07-02T08:33:50.042Z">
+<meta property="article:author" content="Changeed">
+<meta property="article:tag" content="unity">
+<meta property="article:tag" content="c#">
+<meta property="article:tag" content="animator">
+<meta property="article:tag" content="audio">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>《Robbie Swifthand》Unity2d独立游戏学习（五） | 只差一点点</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">只差一点点</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">这就是最好的时代</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">53</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/NobitaChan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Changeed">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差一点点">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《Robbie Swifthand》Unity2d独立游戏学习（五）
+        </h1>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>一个小知识，预制体放入场景中后，如果在场景中的物体修改完想同步到预制体，需要选择场景中物体的 Inspector → Prefab → Overrides → Apply All</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="一、角色动画"><a href="#一、角色动画" class="headerlink" title="一、角色动画"></a>一、角色动画</h3><p>1.打开Robbie 文件夹将资源里的材质拖拽到场景中主角的子物体中，并关闭原父物体的Render</p>
+<p>2.发现新加的body 里骨骼的Sorting Layer 全是Default ，直接修改Sorting Layer 的顺序好了，把Default 移动到背景的下方，这样就会显示在背景的前面</p>
+<p>3.打开body的Animator 看看，已经有几个变量和连接好的状态机</p>
+<p>4.新建脚本PlayerAnimation 挂到body上 ，先获取组件和变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Animator anim;</span><br><span class="line">   PlayerMovement movement;</span><br><span class="line">   Rigidbody2D rb;</span><br><span class="line">   </span><br><span class="line">   void Start()</span><br><span class="line">   &#123;</span><br><span class="line">       anim = GetComponent&lt;Animator&gt;();</span><br><span class="line">       movement = GetComponentInParent&lt;PlayerMovement&gt;();</span><br><span class="line">       rb = GetComponentInParent&lt;Rigidbody2D&gt;();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>GetComponentInParent可以获取父级的组件</p>
+<p>状态机中已经添加了很多动画效果，但是跳跃的还没有，那现在就来自己添加跳跃的动画效果</p>
+<p>5.打开混合树Mid Air，同时打开资源中动画资源的MId Air文件夹，给混合树添加7个MId Air的动画资源，设置参考变量为verticalVelocity，然后按照动作设置好各自的值（值的大小就参照跳跃时Rigidbody的Velocity.y 的值）</p>
+<p>6..获取角色移动代码PlayerMovement中的变量，记得先改成Public类型。然后用编号法给动画变量赋值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//动画状态编号</span><br><span class="line">int groundID;</span><br><span class="line">int speedID;</span><br><span class="line">int crouchID;</span><br><span class="line">int hangingID;</span><br><span class="line">int fallID;</span><br><span class="line"></span><br><span class="line">void Start()</span><br><span class="line">&#123;</span><br><span class="line">    groundID = Animator.StringToHash(&quot;isOnGround&quot;);</span><br><span class="line">    speedID = Animator.StringToHash(&quot;speed&quot;);</span><br><span class="line">    hangingID = Animator.StringToHash(&quot;isHanging&quot;);</span><br><span class="line">    crouchID = Animator.StringToHash(&quot;isCrouching&quot;);</span><br><span class="line">    fallID = Animator.StringToHash(&quot;verticalVelocity&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Update()</span><br><span class="line">&#123;</span><br><span class="line">    anim.SetFloat(speedID, Mathf.Abs(movement.xVelocity));//撞墙也会继续跑</span><br><span class="line">    /*anim.SetFloat(speedID, Mathf.Abs(rb.velocity.x));*/ //撞墙停下</span><br><span class="line">    anim.SetBool(groundID, movement.isOnGround);</span><br><span class="line">    anim.SetBool(crouchID, movement.isCrouch);</span><br><span class="line">    anim.SetBool(hangingID, movement.isHanging);</span><br><span class="line">    anim.SetFloat(fallID, rb.velocity.y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Animator.StringToHash() 可以获取变量在变量列表中的编号</p>
+<p>为什么官方推荐用编号来赋值呢？给出的解释是这样可以避免移动端可能产生的一些错误</p>
+<hr>
+<h3 id="二、音效控制"><a href="#二、音效控制" class="headerlink" title="二、音效控制"></a>二、音效控制</h3><p>在角色的走路和下蹲走路的动画中都插入了一些音效，模拟脚步的声音，现在就来补上这些音效</p>
+<p>1.在PlayerAnimation 脚本中添加对应的发声函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public void StepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    AudioManager.PlayFootstepAudio();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void CrouchStepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    AudioManager.PlayCrouchFootstepAudio();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>名字不同的话记得修改动画中调用的函数</p>
+<p>2.将Audios文件夹中的预制体Audio Manager加入场景中</p>
+<p>3.新建AudioManager脚本挂在Audio Manager物体中（绕口令？），先新建一些变量来存放音效资源：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static AudioManager current;</span><br><span class="line"></span><br><span class="line">[Header(&quot;环境声音&quot;)]</span><br><span class="line">public AudioClip ambientClip;</span><br><span class="line">public AudioClip musicClip;</span><br><span class="line"></span><br><span class="line">[Header(&quot;主角音效&quot;)]</span><br><span class="line">public AudioClip[] walkStepClips;</span><br><span class="line">public AudioClip[] crouchStepClips;</span><br><span class="line">public AudioClip jumpClip;</span><br><span class="line">public AudioClip jumpVoiceClip;</span><br></pre></td></tr></table></figure>
+
+<p>然后将资源里的音效资源拖拽到相应的变量位置，这样就可以在代码中控制音效播放</p>
+<p>4.我们需要在游戏一开始就处理好音效的事情，所以用Awake函数来进行各种设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private void Awake()</span><br><span class="line">&#123;</span><br><span class="line">    current = this;</span><br><span class="line"></span><br><span class="line">    //切换场景也不会销毁这个物体</span><br><span class="line">    DontDestroyOnLoad(gameObject);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.为了避免在属性界面中处理太多的组件，选择在代码中添加组件，这样有助于同一管理并且减少失误的发生：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//声音播放组件</span><br><span class="line">AudioSource ambientSource;</span><br><span class="line">AudioSource musicSource;</span><br><span class="line">AudioSource fxSource;</span><br><span class="line">AudioSource playerSource;</span><br><span class="line">AudioSource voiceSource;</span><br><span class="line"></span><br><span class="line">private void Awake()</span><br><span class="line">&#123;</span><br><span class="line">    ambientSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">    musicSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">    fxSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">    playerSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">    voiceSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6.编写背景声音的发声函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void StartLevelAudio()</span><br><span class="line">&#123;</span><br><span class="line">    current.ambientSource.clip = current.ambientClip;</span><br><span class="line">    current.ambientSource.loop = true;</span><br><span class="line">    current.ambientSource.Play();</span><br><span class="line"></span><br><span class="line">    current.musicSource.clip = current.musicClip;</span><br><span class="line">    current.musicSource.loop = true;</span><br><span class="line">    current.musicSource.Play();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在本脚本Awake()调用，一开始运行游戏就有背景声音</p>
+<p>7.编写脚步声音的两种发声函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void PlayFootstepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    int index = Random.Range(0, current.walkStepClips.Length);</span><br><span class="line"></span><br><span class="line">    current.playerSource.clip = current.walkStepClips[index];</span><br><span class="line">    current.playerSource.Play();</span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">public static void PlayCrouchFootstepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    int index = Random.Range(0, current.crouchStepClips.Length);</span><br><span class="line"></span><br><span class="line">    current.playerSource.clip = current.crouchStepClips[index];</span><br><span class="line">    current.playerSource.Play();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在PlayerAnimation脚本中调用，因为这是在动画中调用的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public void StepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    AudioManager.PlayFootstepAudio();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void CrouchStepAudio()</span><br><span class="line">&#123;</span><br><span class="line">    AudioManager.PlayCrouchFootstepAudio();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>8.编写跳跃声音的发声函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void PlayJumpAudio()</span><br><span class="line">&#123;</span><br><span class="line">    current.playerSource.clip = current.jumpClip;</span><br><span class="line">    current.playerSource.Play();</span><br><span class="line"></span><br><span class="line">    current.voiceSource.clip = current.jumpVoiceClip;</span><br><span class="line">    current.voiceSource.Play();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中包括了起跳的脚步声和人物声，在PlayerMovement脚本中的跳跃函数中的起跳部分调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   void MidAirMovement()//空中移动</span><br><span class="line">   &#123;</span><br><span class="line">       if(jumpPressed &amp;&amp; isOnGround &amp;&amp; !isJump &amp;&amp; !isHeadBlocked)//起跳</span><br><span class="line">       &#123;</span><br><span class="line">           AudioManager.PlayJumpAudio();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="终、本节总结"><a href="#终、本节总结" class="headerlink" title="终、本节总结"></a>终、本节总结</h3><p>测试游戏，移动时发现主角的反光情况有些不对劲，原因是角色移动时图案的翻转代码中用的是二维的向量，这样就会使得z 轴大小变为0 ，即厚度没了人物瘪了光也反不了了，要改成三维向量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void flipDirection()//改变角色图案方向</span><br><span class="line">&#123;</span><br><span class="line">    if (xVelocity &gt; 0) transform.localScale = new Vector3 (1, 1, 1);</span><br><span class="line">    else if (xVelocity &lt; 0) transform.localScale = new Vector3(-1, 1, 1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>下面记录一下这次新增的两个脚本内容：</p>
+<p>PlayerAnimation脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerAnimation : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    Animator anim;</span><br><span class="line">    PlayerMovement movement;</span><br><span class="line">    Rigidbody2D rb;</span><br><span class="line"></span><br><span class="line">    //动画状态编号</span><br><span class="line">    int groundID;</span><br><span class="line">    int speedID;</span><br><span class="line">    int crouchID;</span><br><span class="line">    int hangingID;</span><br><span class="line">    int fallID;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        anim = GetComponent&lt;Animator&gt;();</span><br><span class="line">        movement = GetComponentInParent&lt;PlayerMovement&gt;();</span><br><span class="line">        rb = GetComponentInParent&lt;Rigidbody2D&gt;();</span><br><span class="line"></span><br><span class="line">        groundID = Animator.StringToHash(&quot;isOnGround&quot;);</span><br><span class="line">        speedID = Animator.StringToHash(&quot;speed&quot;);</span><br><span class="line">        hangingID = Animator.StringToHash(&quot;isHanging&quot;);</span><br><span class="line">        crouchID = Animator.StringToHash(&quot;isCrouching&quot;);</span><br><span class="line">        fallID = Animator.StringToHash(&quot;verticalVelocity&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        anim.SetFloat(speedID, Mathf.Abs(movement.xVelocity));//撞墙也会继续跑</span><br><span class="line">        /*anim.SetFloat(speedID, rb.velocity.x);*/ //撞墙停下</span><br><span class="line">        anim.SetBool(groundID, movement.isOnGround);</span><br><span class="line">        anim.SetBool(crouchID, movement.isCrouch);</span><br><span class="line">        anim.SetBool(hangingID, movement.isHanging);</span><br><span class="line">        anim.SetFloat(fallID, rb.velocity.y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void StepAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        AudioManager.PlayFootstepAudio();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void CrouchStepAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        AudioManager.PlayCrouchFootstepAudio();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>AudioManager脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">using UnityEngine.Audio;</span><br><span class="line"></span><br><span class="line">public class AudioManager : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    static AudioManager current;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;环境声音&quot;)]</span><br><span class="line">    public AudioClip ambientClip;</span><br><span class="line">    public AudioClip musicClip;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;主角音效&quot;)]</span><br><span class="line">    public AudioClip[] walkStepClips;</span><br><span class="line">    public AudioClip[] crouchStepClips;</span><br><span class="line">    public AudioClip jumpClip;</span><br><span class="line">    public AudioClip jumpVoiceClip;</span><br><span class="line"></span><br><span class="line">    //声音播放组件</span><br><span class="line">    AudioSource ambientSource;</span><br><span class="line">    AudioSource musicSource;</span><br><span class="line">    AudioSource fxSource;</span><br><span class="line">    AudioSource playerSource;</span><br><span class="line">    AudioSource voiceSource;</span><br><span class="line"></span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        current = this;</span><br><span class="line"></span><br><span class="line">        //切换场景也不会销毁这个物体</span><br><span class="line">        DontDestroyOnLoad(gameObject);</span><br><span class="line"></span><br><span class="line">        ambientSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">        musicSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">        fxSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">        playerSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">        voiceSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line"></span><br><span class="line">        StartLevelAudio();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void StartLevelAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        current.ambientSource.clip = current.ambientClip;</span><br><span class="line">        current.ambientSource.loop = true;</span><br><span class="line">        current.ambientSource.Play();</span><br><span class="line"></span><br><span class="line">        current.musicSource.clip = current.musicClip;</span><br><span class="line">        current.musicSource.loop = true;</span><br><span class="line">        current.musicSource.Play();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void PlayFootstepAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        int index = Random.Range(0, current.walkStepClips.Length);</span><br><span class="line"></span><br><span class="line">        current.playerSource.clip = current.walkStepClips[index];</span><br><span class="line">        current.playerSource.Play();</span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    public static void PlayCrouchFootstepAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        int index = Random.Range(0, current.crouchStepClips.Length);</span><br><span class="line"></span><br><span class="line">        current.playerSource.clip = current.crouchStepClips[index];</span><br><span class="line">        current.playerSource.Play();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void PlayJumpAudio()</span><br><span class="line">    &#123;</span><br><span class="line">        current.playerSource.clip = current.jumpClip;</span><br><span class="line">        current.playerSource.Play();</span><br><span class="line"></span><br><span class="line">        current.voiceSource.clip = current.jumpVoiceClip;</span><br><span class="line">        current.voiceSource.Play();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/unity/" rel="tag"># unity</a>
+              <a href="/tags/c/" rel="tag"># c#</a>
+              <a href="/tags/animator/" rel="tag"># animator</a>
+              <a href="/tags/audio/" rel="tag"># audio</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/26/2021-07-26-%E3%80%90LeetCode.1143%E3%80%91%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" rel="prev" title="【LeetCode.1143】最长公共子序列">
+      <i class="fa fa-chevron-left"></i> 【LeetCode.1143】最长公共子序列
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/04/2021-08-04-%E3%80%90LeetCode.611%E3%80%91%E6%9C%89%E6%95%88%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E4%B8%AA%E6%95%B0/" rel="next" title="【LeetCode.611】有效三角形的个数">
+      【LeetCode.611】有效三角形的个数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A7%8B%E3%80%81%E5%89%8D%E8%A8%80"><span class="nav-text">始、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB"><span class="nav-text">一、角色动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%9F%B3%E6%95%88%E6%8E%A7%E5%88%B6"><span class="nav-text">二、音效控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%88%E3%80%81%E6%9C%AC%E8%8A%82%E6%80%BB%E7%BB%93"><span class="nav-text">终、本节总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Changeed"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Changeed</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/NobitaChan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;NobitaChan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2272689905@qq.com" title="E-Mail → mailto:2272689905@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changeed</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
