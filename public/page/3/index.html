@@ -22,9 +22,9 @@
   </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="游戏人生">
+<meta property="og:title" content="只差亿点点">
 <meta property="og:url" content="http://example.com/page/3/index.html">
-<meta property="og:site_name" content="游戏人生">
+<meta property="og:site_name" content="只差亿点点">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Noobita Chan">
 <meta name="twitter:card" content="summary">
@@ -42,7 +42,7 @@
   };
 </script>
 
-  <title>游戏人生</title>
+  <title>只差亿点点</title>
   
 
 
@@ -93,7 +93,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">游戏人生</h1>
+      <h1 class="site-title">只差亿点点</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">这就是最好的时代</p>
@@ -118,12 +118,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">37</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">50</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -178,7 +178,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/11/2021-08-11-%E3%80%90LeetCode.446%E3%80%91%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97%E5%88%92%E5%88%86%20II%20-%20%E5%AD%90%E5%BA%8F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -187,12 +187,221 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="游戏人生">
+      <meta itemprop="name" content="只差亿点点">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">《Speed Down》Unity2d游戏开发（一）</a>
+            <a href="/2021/08/11/2021-08-11-%E3%80%90LeetCode.446%E3%80%91%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97%E5%88%92%E5%88%86%20II%20-%20%E5%AD%90%E5%BA%8F%E5%88%97/" class="post-title-link" itemprop="url">【LeetCode.446】等差数列划分 II - 子序列</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：等差数列划分-II-子序列"><a href="#题目：等差数列划分-II-子序列" class="headerlink" title="题目：等差数列划分 II - 子序列"></a>题目：等差数列划分 II - 子序列</h3><p>给你一个整数数组 <code>nums</code> ，返回 nums 中所有 等差子序列 的数目。</p>
+<p>如果一个序列中 至少有三个元素 ，并且任意两个相邻元素之差相同，则称该序列为等差序列。</p>
+<p>例如，[1, 3, 5, 7, 9]、[7, 7, 7, 7] 和 [3, -1, -5, -9] 都是等差序列。<br>再例如，[1, 1, 2, 5, 7] 不是等差序列。<br>数组中的子序列是从数组中删除一些元素（也可能不删除）得到的一个序列。</p>
+<p>例如，[2,5,10] 是 [1,2,1,2,4,1,5,10] 的一个子序列。<br>题目数据保证答案是一个 32-bit 整数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/11/2021-08-11-%E3%80%90LeetCode.446%E3%80%91%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97%E5%88%92%E5%88%86%20II%20-%20%E5%AD%90%E5%BA%8F%E5%88%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/08/2021-08-08-%E3%80%90LeetCode.457%E3%80%91%E7%8E%AF%E5%BD%A2%E6%95%B0%E7%BB%84%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/08/2021-08-08-%E3%80%90LeetCode.457%E3%80%91%E7%8E%AF%E5%BD%A2%E6%95%B0%E7%BB%84%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">【LeetCode.457】环形数组是否存在循环</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：环形数组是否存在循环"><a href="#题目：环形数组是否存在循环" class="headerlink" title="题目：环形数组是否存在循环"></a>题目：环形数组是否存在循环</h3><p>存在一个不含 0 的 环形 数组 <code>nums</code> ，每个 <code>nums[i]</code> 都表示位于下标 i 的角色应该向前或向后移动的下标个数：</p>
+<p>如果 <code>nums[i]</code> 是<strong>正数</strong>，向前 移动 <code>nums[i]</code> 步<br>如果 <code>nums[i]</code> 是<strong>负数</strong>，向后 移动 <code>nums[i]</code> 步<br>因为数组是 环形 的，所以可以假设从最后一个元素向前移动一步会到达第一个元素，而第一个元素向后移动一步会到达最后一个元素。</p>
+<p>数组中的 循环 由长度为 k 的下标序列 <code>seq</code> ：</p>
+<p>遵循上述移动规则将导致重复下标序列 <code>seq[0] -&gt; seq[1] -&gt; ... -&gt; seq[k - 1] -&gt; seq[0] -&gt; ...</code><br>所有 <code>nums[seq[j]]</code> 应当不是 <strong>全正</strong> 就是 <strong>全负</strong><br>k &gt; 1<br>如果 <code>nums</code> 中存在循环，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/08/2021-08-08-%E3%80%90LeetCode.457%E3%80%91%E7%8E%AF%E5%BD%A2%E6%95%B0%E7%BB%84%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%BE%AA%E7%8E%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/04/2021-08-04-%E3%80%90LeetCode.611%E3%80%91%E6%9C%89%E6%95%88%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E4%B8%AA%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/04/2021-08-04-%E3%80%90LeetCode.611%E3%80%91%E6%9C%89%E6%95%88%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E4%B8%AA%E6%95%B0/" class="post-title-link" itemprop="url">【LeetCode.611】有效三角形的个数</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：有效三角形的个数"><a href="#题目：有效三角形的个数" class="headerlink" title="题目：有效三角形的个数"></a>题目：有效三角形的个数</h3><p>给定一个包含非负整数的数组，你的任务是统计其中可以组成三角形三条边的三元组个数。</p>
+<p>示例 1:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,2,3,4]</span><br><span class="line">输出: 3</span><br><span class="line">解释:</span><br><span class="line">有效的组合是: </span><br><span class="line">2,3,4 (使用第一个 2)</span><br><span class="line">2,3,4 (使用第二个 2)</span><br><span class="line">2,2,3</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/04/2021-08-04-%E3%80%90LeetCode.611%E3%80%91%E6%9C%89%E6%95%88%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E4%B8%AA%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/" class="post-title-link" itemprop="url">《Robbie Swifthand》Unity2d独立游戏学习（五）</a>
         </h2>
 
         <div class="post-meta">
@@ -218,227 +427,429 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>跟随M大学习unity2d游戏开发，先来一个简单的下100层游戏！</p>
+          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>一个小知识，预制体放入场景中后，如果在场景中的物体修改完想同步到预制体，需要选择场景中物体的 Inspector → Prefab → Overrides → Apply All</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/30/2021-07-30-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/26/2021-07-26-%E3%80%90LeetCode.1143%E3%80%91%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/26/2021-07-26-%E3%80%90LeetCode.1143%E3%80%91%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" class="post-title-link" itemprop="url">【LeetCode.1143】最长公共子序列</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：-最长公共子序列"><a href="#题目：-最长公共子序列" class="headerlink" title="题目： 最长公共子序列"></a>题目： 最长公共子序列</h3><p>​    给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长 <strong>公共子序列</strong> 的长度。如果不存在 公共子序列 ，返回 <code>0</code> 。</p>
+<p>​    一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>
+<p>​    例如，<code>&quot;ace&quot;</code> 是 <code>&quot;abcde&quot;</code> 的子序列，但 <code>&quot;aec&quot;</code> 不是 <code>&quot;abcde&quot;</code> 的子序列。<br>​    两个字符串的 <strong>公共子序列</strong> 是这两个字符串所共同拥有的子序列。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/26/2021-07-26-%E3%80%90LeetCode.1143%E3%80%91%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/23/2021-07-23-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/23/2021-07-23-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89/" class="post-title-link" itemprop="url">《Robbie Swifthand》Unity2d独立游戏学习（四）</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>接下来做一些视觉上的东西，首先是让镜头跟随主角移动，还有场景的灯光效果</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/23/2021-07-23-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/22/2021-07-22-%E3%80%90LeetCode.138%E3%80%91%20%E5%A4%8D%E5%88%B6%E5%B8%A6%E9%9A%8F%E6%9C%BA%E6%8C%87%E9%92%88%E7%9A%84%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/22/2021-07-22-%E3%80%90LeetCode.138%E3%80%91%20%E5%A4%8D%E5%88%B6%E5%B8%A6%E9%9A%8F%E6%9C%BA%E6%8C%87%E9%92%88%E7%9A%84%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">【LeetCode.138】 复制带随机指针的链表</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目：复制带随机指针的链表"><a href="#题目：复制带随机指针的链表" class="headerlink" title="题目：复制带随机指针的链表"></a>题目：复制带随机指针的链表</h3><p>​    给你一个长度为 <code>n</code> 的链表，每个节点包含一个额外增加的随机指针 <code>random</code> ，该指针可以指向链表中的任何节点或空节点。</p>
+<p>​    构造这个链表的 <strong>深拷贝</strong>。 深拷贝应该正好由 <code>n</code> 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 <code>next</code> 指针和 <code>random</code> 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。</p>
+<p>​    例如，如果原链表中有 <code>X</code> 和 <code>Y</code> 两个节点，其中 <code>X.random --&gt; Y</code> 。那么在复制链表中对应的两个节点 x 和 <code>y</code> ，同样有 <code>x.random --&gt; y</code> 。</p>
+<p>​    返回复制链表的头节点。</p>
+<p>​    用一个由 <code>n</code> 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 <code>[val, random_index]</code> 表示：</p>
+<p><strong>val</strong>：一个表示 <code>Node.val</code> 的整数。<br><strong>random_index</strong>：随机指针指向的节点索引（范围从 <code>0</code> 到 <code>n-1</code>）；如果不指向任何节点，则为  <code>null</code> 。<br>    你的代码 只 接受原链表的头节点 <code>head</code> 作为传入参数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/22/2021-07-22-%E3%80%90LeetCode.138%E3%80%91%20%E5%A4%8D%E5%88%B6%E5%B8%A6%E9%9A%8F%E6%9C%BA%E6%8C%87%E9%92%88%E7%9A%84%E9%93%BE%E8%A1%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/20/2021-07-20-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/20/2021-07-20-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89/" class="post-title-link" itemprop="url">《Robbie Swifthand》Unity2d独立游戏学习（三）</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>简单的角色移动已经完成了，这次来学习用Raycast 射线检测的方法让角色的状态检测变得更细致</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/20/2021-07-20-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/19/2021-07-19-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/19/2021-07-19-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">《Robbie Swifthand》Unity2d独立游戏学习（二）</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、添加物理组件"><a href="#一、添加物理组件" class="headerlink" title="一、添加物理组件"></a>一、添加物理组件</h3><p>1.给Platforms 添加Tilemap Collider 2D，勾选Used By Composite，添加Composite Collider 2D</p>
+<p>2.将Platforms自动添加的Rigidbody 2D 选择成Static 模式</p>
+<p>3.给主角添加Rigidbody 2D，把Collision Detection选择成Continuous连续不断地检测碰撞，把Interpolate 设置成Interpolate产生碰撞时会有一个缓冲的效果</p>
+<p>4.添加Box Collider 2D，调整主角碰撞器大小，size - y 最好设置在 2 以下，这样就可以通过两格高的空间</p>
+<p>5.运行，发现在角落处下落会导致角色翻转，需要在主角Rigidbody 2D 中锁定 z 轴</p>
+<p>6.为了避免角色碰到墙壁时会卡进墙体里，给主角Box Collider 2D添加Material 物理材质Teflon（资源包里的，摩擦力和弹力都是0）</p>
+<p>7.新增Layer ，主角设置成Player，Platforms 设置成Ground，以供后面进行碰撞检测</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/19/2021-07-19-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/18/2021-07-18-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Noobita Chan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="只差亿点点">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/18/2021-07-18-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">《Robbie Swifthand》Unity2d独立游戏学习（一）</a>
+        </h2>
+
+        <div class="post-meta">
+
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>继续跟M大学习unity2d开发，这次是《从独立游戏学习开发》系列，我们将从一款已经上架steam的独立游戏《Robbie Swifthand and the Orb of Mysteries》中学习</p>
 <p>版本：</p>
 <p>unity 2021.1.12f1c1</p>
-<p>unityhub 2.4.13</p>
 <p>vs 2019</p>
+<p>unityhub 2.1.14</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/07/06/2021-07-06-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/%E6%9B%B42021-07-06-%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Noobita Chan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="游戏人生">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/06/%E6%9B%B42021-07-06-%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">剪辑视频自我总结</a>
-        </h2>
-
-        <div class="post-meta">
-
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="始、梳理"><a href="#始、梳理" class="headerlink" title="始、梳理"></a>始、梳理</h3><p>1.视频剪辑用强大的<strong>Premiere</strong></p>
-<p>2.因为目标是上传B站，而B站有CC字幕功能，可以视频和字幕分开做，减少工作量，这里选择：</p>
-<p><a target="_blank" rel="noopener" href="https://jianwai.youdao.com/index/0">网易见外工作台 (youdao.com)</a></p>
-<p>3.语音不想自己配音，使用了<strong>迅捷文字转换语音</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/06/%E6%9B%B42021-07-06-%E5%89%AA%E8%BE%91%E8%A7%86%E9%A2%91%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Noobita Chan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="游戏人生">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/" class="post-title-link" itemprop="url">解决Github无法访问</a>
-        </h2>
-
-        <div class="post-meta">
-
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一、修改host文件"><a href="#一、修改host文件" class="headerlink" title="一、修改host文件"></a>一、修改host文件</h3><p>​    在<strong>C:\Windows\System32\drivers\etc</strong>中打开<strong>host</strong>文件（可以用记事本打开），在该文件中添加如下内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># GitHub Start </span><br><span class="line">140.82.114.4 github.com</span><br><span class="line">140.82.114.4 gist.github.com</span><br><span class="line">185.199.108.153 assets-cdn.github.com</span><br><span class="line">151.101.64.133 raw.githubusercontent.com</span><br><span class="line">151.101.108.133 gist.githubusercontent.com</span><br><span class="line">151.101.108.133 cloud.githubusercontent.com</span><br><span class="line">151.101.108.133 camo.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars0.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars1.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars2.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars3.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars4.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars5.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars6.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars7.githubusercontent.com</span><br><span class="line">151.101.108.133 avatars8.githubusercontent.com </span><br><span class="line"># GitHub End</span><br></pre></td></tr></table></figure>
-
-<p>保存文件，再次打开github速度飞快</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/06/2021-07-06-%E8%A7%A3%E5%86%B3Github%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Noobita Chan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="游戏人生">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">搭建个人博客总结</a>
-        </h2>
-
-        <div class="post-meta">
-
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%90%90%E7%A2%8E/" itemprop="url" rel="index"><span itemprop="name">琐碎</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="始、报错汇总"><a href="#始、报错汇总" class="headerlink" title="始、报错汇总"></a>始、报错汇总</h3><h3 id="终、报错汇总"><a href="#终、报错汇总" class="headerlink" title="终、报错汇总"></a>终、报错汇总</h3><p>1.输入<code>git g -d</code>后报错：<strong>fatal:  unable to access ‘h…://github.com/….github.io.git/</strong></p>
-<p>解决方法1：重置一下git的代理：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset git.proxy</span><br></pre></td></tr></table></figure>
-
-<p>解决方法2：删掉<code>node_modules</code>文件夹</p>
-<p>解决方法3：<code>git g</code> 和 <code>git d</code> 分两步输入</p>
-<p>解决方法4：挂梯子</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/04/2021-07-04-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/#more" rel="contents">
+              <a class="btn" href="/2021/07/18/2021-07-18-%E3%80%8ARobbie%20Swifthand%E3%80%8BUnity2d%E7%8B%AC%E7%AB%8B%E6%B8%B8%E6%88%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -461,7 +872,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -528,20 +939,20 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -580,7 +991,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

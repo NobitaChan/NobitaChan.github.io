@@ -25,19 +25,19 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Speed Down》Unity2d游戏开发（完）">
 <meta property="og:url" content="http://example.com/2021/07/16/2021-07-16-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%AE%8C%EF%BC%89/index.html">
-<meta property="og:site_name" content="游戏人生">
+<meta property="og:site_name" content="只差亿点点">
 <meta property="og:description" content="始、前言”《Speed Down》Unity2d游戏开发“系列已经完结，这篇文章主要是复盘这次学习中遇到的问题和一些名词的解释，以供未来的我快速回顾，最后还会附上所有的脚本">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-16T10:02:46.000Z">
-<meta property="article:modified_time" content="2021-07-16T15:54:37.431Z">
+<meta property="article:modified_time" content="2021-09-19T06:17:04.993Z">
 <meta property="article:author" content="Noobita Chan">
 <meta property="article:tag" content="unity">
 <meta property="article:tag" content="c#">
-<meta property="article:tag" content="joint">
-<meta property="article:tag" content="collider">
-<meta property="article:tag" content="trigger">
 <meta property="article:tag" content="prefab">
+<meta property="article:tag" content="trigger">
+<meta property="article:tag" content="collider">
 <meta property="article:tag" content="canvas">
+<meta property="article:tag" content="joint">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/2021/07/16/2021-07-16-%E3%80%8ASpeed%20Down%E3%80%8BUnity2d%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%EF%BC%88%E5%AE%8C%EF%BC%89/">
@@ -53,7 +53,7 @@
   };
 </script>
 
-  <title>《Speed Down》Unity2d游戏开发（完） | 游戏人生</title>
+  <title>《Speed Down》Unity2d游戏开发（完） | 只差亿点点</title>
   
 
 
@@ -104,7 +104,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">游戏人生</h1>
+      <h1 class="site-title">只差亿点点</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">这就是最好的时代</p>
@@ -129,12 +129,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">37</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">50</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -199,7 +199,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="游戏人生">
+      <meta itemprop="name" content="只差亿点点">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -294,7 +294,7 @@
 <p>这种模式下 Canvas 就和普通的 3D 物体一样了 , 可以控制它的大小,旋转,缩放等 , 一般用来做血条</p>
 <hr>
 <h3 id="终、总结"><a href="#终、总结" class="headerlink" title="终、总结"></a>终、总结</h3><p>作为unity回坑第一课收获还是蛮丰富的，以前一直没有做笔记的习惯，东西学了又忘，忘了还没地方复习，以后要养成写学习日记的习惯。</p>
-<p>这次写的脚本都没有写注释，希望未来的我回来看的时候不会头大吧哈哈哈（这么简单的代码应该不至于）</p>
+<p>这次写的脚本都没有写注释，希望未来的我回来看的时候不会头大吧哈哈哈（这么简单的代码应该不至于吧吧吧吧🐷）</p>
 <hr>
 <h3 id="附录、脚本"><a href="#附录、脚本" class="headerlink" title="附录、脚本"></a>附录、脚本</h3><p>1.角色控制脚本，控制角色移动和检测角色状态：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerController : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    Rigidbody2D rb;</span><br><span class="line">    Animator anim;</span><br><span class="line">    public float speed;</span><br><span class="line">    float xVelocity;</span><br><span class="line"></span><br><span class="line">    public bool isOnGround;</span><br><span class="line">    public float checkRadius;</span><br><span class="line">    public LayerMask layer;</span><br><span class="line">    public GameObject groundCheck;</span><br><span class="line"></span><br><span class="line">    public bool playerDead;</span><br><span class="line"></span><br><span class="line">    public float bounceH;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        rb = GetComponent&lt;Rigidbody2D&gt;();</span><br><span class="line">        anim = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        Movement();</span><br><span class="line">        isOnGround = Physics2D.OverlapCircle(groundCheck.transform.position, checkRadius, layer);</span><br><span class="line">        anim.SetBool(&quot;isOnGround&quot;, isOnGround);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Movement()</span><br><span class="line">    &#123;</span><br><span class="line">        xVelocity = Input.GetAxisRaw(&quot;Horizontal&quot;);</span><br><span class="line">        rb.velocity = new Vector2(xVelocity * speed, rb.velocity.y);</span><br><span class="line">        anim.SetFloat(&quot;speed&quot;, Mathf.Abs(rb.velocity.x));</span><br><span class="line"></span><br><span class="line">        if(xVelocity != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            transform.localScale = new Vector3(xVelocity, 1, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnCollisionEnter2D(Collision2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Fan&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            rb.velocity = new Vector2(rb.velocity.x, bounceH);</span><br><span class="line">        &#125;</span><br><span class="line">        if (collision.gameObject.CompareTag(&quot;Spike&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            anim.SetTrigger(&quot;isDead&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void OnTriggerEnter2D(Collider2D collision)</span><br><span class="line">    &#123;</span><br><span class="line">        if (collision.CompareTag(&quot;Spike&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            anim.SetTrigger(&quot;isDead&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void PlayerDead()</span><br><span class="line">    &#123;</span><br><span class="line">        playerDead = true;</span><br><span class="line">        GameManage.GameOver(playerDead);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnDrawGizmosSelected()</span><br><span class="line">    &#123;</span><br><span class="line">        Gizmos.color = Color.green;</span><br><span class="line">        Gizmos.DrawWireSphere(groundCheck.transform.position, checkRadius);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -335,11 +335,11 @@
           <div class="post-tags">
               <a href="/tags/unity/" rel="tag"># unity</a>
               <a href="/tags/c/" rel="tag"># c#</a>
-              <a href="/tags/joint/" rel="tag"># joint</a>
-              <a href="/tags/collider/" rel="tag"># collider</a>
-              <a href="/tags/trigger/" rel="tag"># trigger</a>
               <a href="/tags/prefab/" rel="tag"># prefab</a>
+              <a href="/tags/trigger/" rel="tag"># trigger</a>
+              <a href="/tags/collider/" rel="tag"># collider</a>
               <a href="/tags/canvas/" rel="tag"># canvas</a>
+              <a href="/tags/joint/" rel="tag"># joint</a>
           </div>
 
         
@@ -428,20 +428,20 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -480,7 +480,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

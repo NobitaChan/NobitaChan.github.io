@@ -5,7 +5,7 @@ categories: unity
 tags:
   - unity
   - c#
-  - tile
+  - tilemap
 ---
 
 
