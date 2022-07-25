@@ -4,7 +4,7 @@
     <title>Top</title>
     <url>/2021/07/09/%E7%BD%AE%E9%A1%B6%E9%A1%B5%E9%9D%A2Top/</url>
     <content><![CDATA[<h1 id="备忘"><a href="#备忘" class="headerlink" title="备忘"></a><center>备忘</center></h1><p>​    <span id="more"></span></p>
-<h3 id="大坏蛋，-爱偷看"><a href="#大坏蛋，-爱偷看" class="headerlink" title="大坏蛋，.爱偷看"></a><center>大坏蛋，.爱偷看</center></h3><h3 id="版本："><a href="#版本：" class="headerlink" title="版本："></a>版本：</h3><p><code>hexo 5.4</code></p>
+<h3 id="大坏蛋，爱偷看"><a href="#大坏蛋，爱偷看" class="headerlink" title="大坏蛋，爱偷看"></a><center>大坏蛋，爱偷看</center></h3><h3 id="版本："><a href="#版本：" class="headerlink" title="版本："></a>版本：</h3><p><code>hexo 5.4</code></p>
 <p><code>next 7.8</code></p>
 <h3 id="hexo-github-常用指令及个性化步骤："><a href="#hexo-github-常用指令及个性化步骤：" class="headerlink" title="hexo + github 常用指令及个性化步骤："></a>hexo + github 常用指令及个性化步骤：</h3><p>新建文章：<code>hexo n 文章名</code></p>
 <p>发布到本地：<code>hexo s</code></p>
@@ -17,10 +17,31 @@
       </categories>
   </entry>
   <entry>
+    <title>VSCode-Markdown插件写博客</title>
+    <url>/2022/07/16/%E6%9B%B42022-07-16-%E4%BD%BF%E7%94%A8vscode%E5%86%99%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="0、Markdown刺客Typora"><a href="#0、Markdown刺客Typora" class="headerlink" title="0、Markdown刺客Typora"></a>0、Markdown刺客Typora</h3><p>Typora：一款 Markdown 编辑器，主打“所见即所得”</p>
+<p>我从创建个人博客开始就一直使用Typora写文章，确实如软件所介绍的所见即所得，无需接触Markdown复杂繁多的语句就可以制作出干净整洁的文章。</p>
+<p>如今Typora推出正式版，收费十四点九九刀乐！</p>
+<p>于是贫穷驱使我找到了VSCode</p>
+<span id="more"></span>
+
+<hr>
+<p>VSCode中的</p>
+<p>很多人以为 Typora 收费后就不能用了，其实不是的，只是正式版开始收费，但还保留了 beta 版本下载路径，可以正常使用。<br><img data-src="https://cdn.jsdelivr.net/gh/NobitaChan/picBed/img/20220716194622.png"></p>
+]]></content>
+      <categories>
+        <category>琐碎</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>搭建免费个人图床</title>
     <url>/2022/07/02/2022-07-02-%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/</url>
     <content><![CDATA[<h3 id="始、前言"><a href="#始、前言" class="headerlink" title="始、前言"></a>始、前言</h3><p>创建我的个人博客已经一年了，想要找点新东西改变一下现在的模式</p>
-<p>第一个想到的就是文章中的图片问题，之前是秉承能用文字描述就用文字，现在果然还是超想加图片的呢</p>
+<p>第一个想到的就是文章中的图片问题，之前是秉承能用文字描述就用文字的理念，现在果然还是超想加图片的呢</p>
 <p>尝试过将图片放入博客源文件中，用绝对路径展示图片，但是这种方法会让源文件越来越大，后面每次部署和备份博客都要上传大量数据</p>
 <p>直到我找到了它：PicGo + Github 的永久免费个人图床！方便，稳定，个人专属。</p>
 <span id="more"></span>
@@ -72,7 +93,7 @@
 <p>建议开启上传前重命名功能，因为有时候可能因为某些图片是中文的，导致错误，打开后可以把图片设置为数字时间格式，这样方便很多。</p>
 <p><img data-src="https://cdn.jsdelivr.net/gh/NobitaChan/picBed/img/20220702222347.png"></p>
 <p><strong>小知识：</strong></p>
-<p>1）CDN(Content Delivery Network)是指内容分发网络，也称为内容传送网络，这个概念始于1996年，是美国麻省理工学院的一个研究小组为改善互联网的服务质量而提出的。为了能在传统IP网上发布丰富的宽带媒体内容，他们提出在现有互联网基础上建立一个内容分发平台专门为网站提供服务，并于1999年成立了专门的CDN服务公司，为Yahoo提供专业服务。由于CDN是为加快网络访问速度而被优化的网络覆盖层，因此被形象地称为“网络加速器”。 </p>
+<p>1）CDN(Content Delivery Network)是指内容分发网络，也称为内容传送网络，这个概念始于1996年，是美国麻省理工学院的一个研究小组为改善互联网的服务质量而提出的。为了能在传统IP网上发布丰富的宽带媒体内容，他们提出在现有互联网基础上建立一个内容分发平台专门为网站提供服务，并于1999年成立了专门的CDN服务公司，为Yahoo提供专业服务。由于CDN是为加快网络访问速度而被优化的网络覆盖层，因此被形象地称为“网络加速器”。 CDN是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。</p>
 <p>2）jsDelivr是在中国大陆唯一有 license 的公有 CDN</p>
 ]]></content>
       <categories>
@@ -816,8 +837,8 @@
         <category>琐碎</category>
       </categories>
       <tags>
-        <tag>pytorch</tag>
         <tag>python</tag>
+        <tag>pytorch</tag>
         <tag>anaconda</tag>
       </tags>
   </entry>
@@ -1956,8 +1977,8 @@
       <tags>
         <tag>unity</tag>
         <tag>c#</tag>
-        <tag>canvas</tag>
         <tag>awake</tag>
+        <tag>canvas</tag>
       </tags>
   </entry>
   <entry>
